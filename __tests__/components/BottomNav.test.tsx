@@ -169,7 +169,7 @@ describe('BottomNav Component', () => {
       })
     })
 
-    it('should support keyboard navigation with Tab key', () => {
+    it('should support keyboard navigation with Tab key', async () => {
       // Act
       render(<BottomNav />)
       const diaryButton = screen.getByRole('button', { name: /일기/i })
@@ -180,7 +180,7 @@ describe('BottomNav Component', () => {
       expect(diaryButton).toHaveFocus()
 
       // Tab to next button
-      userEvent.tab()
+      await userEvent.tab()
       expect(settingsButton).toHaveFocus()
     })
 

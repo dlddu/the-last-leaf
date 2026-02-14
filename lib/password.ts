@@ -38,6 +38,11 @@ export async function comparePassword(password: string, hash: string): Promise<b
     return false;
   }
 
+  // Validate hash format (bcrypt hashes start with $2a$, $2b$, or $2y$ and have specific length)
+  if (!hash || !hash.match(/^\$2[aby]\$\d{2}\$.{53}$/)) {
+    throw new Error('Invalid hash format');
+  }
+
   try {
     // Compare password with hash
     const isMatch = await bcrypt.compare(password, hash);
