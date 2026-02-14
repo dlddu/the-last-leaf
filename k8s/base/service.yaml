@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: the-last-leaf
+  labels:
+    app: the-last-leaf
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: the-last-leaf
