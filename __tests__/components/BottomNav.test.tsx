@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom'
 import { describe, it, expect, beforeEach } from '@jest/globals'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

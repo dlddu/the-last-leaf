@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals'
 import { signToken, verifyToken } from '@/lib/auth'
 
@@ -98,10 +102,10 @@ describe('JWT Authentication Utilities', () => {
     it('should throw error when token is expired', async () => {
       // Arrange
       const payload = { userId: 'expired-user', email: 'expired@example.com' }
-      const token = await signToken(payload, '1ms') // Expire immediately
+      const token = await signToken(payload, '1s') // Expire in 1 second
 
       // Wait for token to expire
-      await new Promise(resolve => setTimeout(resolve, 10))
+      await new Promise(resolve => setTimeout(resolve, 1100)) // Wait 1.1 seconds
 
       // Act & Assert
       await expect(verifyToken(token)).rejects.toThrow()

@@ -1,9 +1,10 @@
 import { SignJWT, jwtVerify } from 'jose';
+import { createSecretKey, KeyObject } from 'crypto';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret-key-for-testing-purposes-only';
 
-// Convert secret string to Uint8Array
-const getSecretKey = () => new TextEncoder().encode(JWT_SECRET);
+// Create secret key using Node.js crypto module (recommended for jose in Node.js)
+const getSecretKey = (): KeyObject => createSecretKey(Buffer.from(JWT_SECRET, 'utf-8'));
 
 /**
  * Sign a JWT token with the given payload
@@ -12,7 +13,7 @@ const getSecretKey = () => new TextEncoder().encode(JWT_SECRET);
  * @returns A signed JWT token string
  * @throws Error if payload is empty
  */
-export async function signToken(payload: any, expiresIn: string = '1d'): Promise<string> {
+export async function signToken(payload: Record<string, unknown>, expiresIn: string = '1d'): Promise<string> {
   // Validate payload is not empty
   if (!payload || Object.keys(payload).length === 0) {
     throw new Error('Payload cannot be empty');
@@ -35,7 +36,7 @@ export async function signToken(payload: any, expiresIn: string = '1d'): Promise
  * @returns The decoded payload
  * @throws Error if token is invalid, expired, or malformed
  */
-export async function verifyToken(token: string): Promise<any> {
+export async function verifyToken(token: string): Promise<Record<string, unknown>> {
   try {
     const secret = getSecretKey();
 
