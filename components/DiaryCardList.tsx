@@ -53,26 +53,24 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
   }, [hasMore, onLoadMore]);
 
   return (
-    <ul data-testid="diary-list" className="space-y-3">
+    <div data-testid="diary-list" className="grid grid-cols-1 gap-4">
       {diaries.map((diary) => (
-        <li key={diary.diary_id}>
+        <div key={diary.diary_id}>
           <DiaryCard diary={diary} />
-        </li>
+        </div>
       ))}
 
       {hasMore && (
-        <li>
-          <div
-            ref={loadingRef}
-            data-testid="loading-indicator"
-            role="status"
-            aria-live="polite"
-            className="flex justify-center py-4"
-          >
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          </div>
-        </li>
+        <div
+          ref={loadingRef}
+          data-testid="loading-indicator"
+          role="status"
+          aria-live="polite"
+          className="flex justify-center py-4"
+        >
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
       )}
-    </ul>
+    </div>
   );
 }

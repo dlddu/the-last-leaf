@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 interface DiaryCardProps {
   diary: {
     diary_id: string;
@@ -11,6 +13,8 @@ interface DiaryCardProps {
 }
 
 export default function DiaryCard({ diary }: DiaryCardProps) {
+  const router = useRouter();
+
   const formatDate = (date: Date) => {
     const d = new Date(date);
     const year = d.getFullYear();
@@ -29,10 +33,15 @@ export default function DiaryCard({ diary }: DiaryCardProps) {
     return `${period} ${displayHours}:${displayMinutes}`;
   };
 
+  const handleClick = () => {
+    router.push(`/diary/${diary.diary_id}`);
+  };
+
   return (
     <button
       data-testid="diary-card"
-      className="w-full text-left p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+      onClick={handleClick}
+      className="w-full text-left p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
     >
       <div className="flex gap-2 mb-2 text-sm text-gray-500">
         <span data-testid="diary-date">{formatDate(diary.created_at)}</span>

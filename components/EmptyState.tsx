@@ -34,7 +34,7 @@ export default function EmptyState() {
         </svg>
       </div>
       <p className="text-gray-600 mb-6 text-center">
-        아직 작성된 일기가 없습니다.<br />
+        아직 작성한 일기가 없어요.<br />
         첫 번째 일기를 작성해보세요!
       </p>
       <Link

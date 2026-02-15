@@ -69,6 +69,34 @@ export async function authenticateAsTestUser(page: Page): Promise<void> {
 }
 
 /**
+ * Get user by email
+ */
+export async function getUserByEmail(email: string): Promise<TestUser> {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    throw new Error(`User with email ${email} not found.`);
+  }
+
+  return {
+    user_id: user.user_id,
+    email: user.email,
+    nickname: user.nickname,
+  };
+}
+
+/**
+ * Authenticate as specific user by email
+ */
+export async function authenticateAsUser(page: Page, email: string): Promise<void> {
+  const user = await getUserByEmail(email);
+  const token = await generateAuthToken(user);
+  await setAuthCookie(page, token);
+}
+
+/**
  * Clear authentication cookies
  */
 export async function clearAuth(page: Page): Promise<void> {

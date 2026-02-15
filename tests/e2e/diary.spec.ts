@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
+import { authenticateAsTestUser, authenticateAsUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
 test.describe('Diary Page - Authentication Guard', () => {
@@ -292,8 +292,7 @@ test.describe('Diary Page - Empty State', () => {
 
   test('should display EmptyState when user has no diaries', async ({ page }) => {
     // Arrange - Authenticate as user with no diaries
-    // Note: This requires a helper function to authenticate as specific user
-    // For now, we'll test the UI component existence
+    await authenticateAsUser(page, 'emptyuser@example.com');
 
     // Act
     await page.goto('/diary');
@@ -304,6 +303,9 @@ test.describe('Diary Page - Empty State', () => {
   });
 
   test('should display "첫 일기 쓰기" CTA button in EmptyState', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -313,6 +315,9 @@ test.describe('Diary Page - Empty State', () => {
   });
 
   test('should navigate to /diary/new when clicking "첫 일기 쓰기" button', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -325,6 +330,9 @@ test.describe('Diary Page - Empty State', () => {
   });
 
   test('should display empty state illustration or icon', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -338,6 +346,9 @@ test.describe('Diary Page - Empty State', () => {
   });
 
   test('should not display diary cards when in empty state', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
