@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: the-last-leaf-config
-data:
-  app-url: "https://the-last-leaf.example.com"
