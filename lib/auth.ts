@@ -1,10 +1,9 @@
 import { SignJWT, jwtVerify } from 'jose';
-import { createSecretKey, KeyObject } from 'crypto';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret-key-for-testing-purposes-only';
 
-// Create secret key using Node.js crypto module (recommended for jose in Node.js)
-const getSecretKey = (): KeyObject => createSecretKey(Buffer.from(JWT_SECRET, 'utf-8'));
+// Create secret key using TextEncoder for Edge Runtime compatibility
+const getSecretKey = (): Uint8Array => new TextEncoder().encode(JWT_SECRET);
 
 /**
  * Sign a JWT token with the given payload
