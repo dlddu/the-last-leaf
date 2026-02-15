@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: the-last-leaf
+  namespace: production
   labels:
     app: the-last-leaf
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: the-last-leaf
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: the-last-leaf
-        image: the-last-leaf:latest
+        image: ghcr.io/dlddu/the-last-leaf:latest
         ports:
         - containerPort: 3000
           name: http
@@ -41,11 +42,11 @@ spec:
               key: app-url
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
             memory: "512Mi"
-            cpu: "500m"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
         livenessProbe:
           httpGet:
             path: /api/health

@@ -2,6 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: the-last-leaf
+  namespace: production
   labels:
     app: the-last-leaf
 spec:
