@@ -56,6 +56,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              data-testid="email-input"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={isLoading}
             />
@@ -71,13 +72,18 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              data-testid="password-input"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={isLoading}
             />
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm" role="alert">
+            <div
+              className="text-red-500 text-sm"
+              role="alert"
+              data-testid="error-message"
+            >
               {error}
             </div>
           )}
@@ -85,6 +91,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
+            data-testid="submit-button"
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Logging in...' : 'Login'}
