@@ -111,18 +111,11 @@ describe('EmptyState Component', () => {
   describe('CTA Button', () => {
     it('should navigate to diary creation page when clicked', async () => {
       // Arrange
-      const { useRouter } = require('next/navigation')
-      const mockPush = jest.fn()
-      useRouter.mockReturnValue({ push: mockPush })
-
       render(<EmptyState />)
       const button = screen.getByRole('button', { name: /첫 일기|일기 쓰기|작성/i })
 
-      // Act
-      await userEvent.click(button)
-
-      // Assert
-      expect(mockPush).toHaveBeenCalledWith('/diary/new')
+      // Assert - Link should have correct href
+      expect(button).toHaveAttribute('href', '/diary/new')
     })
 
     it('should have clear call-to-action text', () => {
@@ -146,19 +139,13 @@ describe('EmptyState Component', () => {
 
     it('should support keyboard activation', async () => {
       // Arrange
-      const { useRouter } = require('next/navigation')
-      const mockPush = jest.fn()
-      useRouter.mockReturnValue({ push: mockPush })
-
       render(<EmptyState />)
       const button = screen.getByRole('button', { name: /첫 일기|일기 쓰기|작성/i })
 
-      // Act
+      // Act & Assert - Link should be focusable and accessible
       button.focus()
-      await userEvent.keyboard('{Enter}')
-
-      // Assert
-      expect(mockPush).toHaveBeenCalledWith('/diary/new')
+      expect(button).toHaveFocus()
+      expect(button).toHaveAttribute('href', '/diary/new')
     })
   })
 
@@ -270,18 +257,14 @@ describe('EmptyState Component', () => {
   describe('Edge Cases', () => {
     it('should handle rapid button clicks gracefully', async () => {
       // Arrange
-      const { useRouter } = require('next/navigation')
-      const mockPush = jest.fn()
-      useRouter.mockReturnValue({ push: mockPush })
-
       render(<EmptyState />)
       const button = screen.getByRole('button', { name: /첫 일기|일기 쓰기|작성/i })
 
-      // Act
+      // Act - Link handles clicks natively
       await userEvent.tripleClick(button)
 
-      // Assert
-      expect(mockPush).toHaveBeenCalled()
+      // Assert - Link should remain functional
+      expect(button).toHaveAttribute('href', '/diary/new')
     })
 
     it('should not break layout with long text', () => {

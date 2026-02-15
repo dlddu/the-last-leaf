@@ -1,14 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function EmptyState() {
-  const router = useRouter();
-
-  const handleCreateDiary = () => {
-    router.push('/diary/new');
-  };
-
   return (
     <div
       data-testid="empty-state"
@@ -43,12 +37,13 @@ export default function EmptyState() {
         아직 작성된 일기가 없습니다.<br />
         첫 번째 일기를 작성해보세요!
       </p>
-      <button
-        onClick={handleCreateDiary}
+      <Link
+        href="/diary/new"
+        role="button"
         className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
       >
         첫 일기 쓰기
-      </button>
+      </Link>
     </div>
   );
 }

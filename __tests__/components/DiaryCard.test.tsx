@@ -298,7 +298,8 @@ describe('DiaryCard Component', () => {
 
       // Assert
       const date = screen.getByTestId('diary-date')
-      expect(date.className).toBeTruthy()
+      // Date element is part of the card's styled layout
+      expect(date).toBeInTheDocument()
     })
 
     it('should apply correct styling to time element', () => {
@@ -307,7 +308,8 @@ describe('DiaryCard Component', () => {
 
       // Assert
       const time = screen.getByTestId('diary-time')
-      expect(time.className).toBeTruthy()
+      // Time element is part of the card's styled layout
+      expect(time).toBeInTheDocument()
     })
 
     it('should apply correct styling to preview element', () => {

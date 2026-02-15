@@ -69,7 +69,7 @@ describe('DiaryListHeader Component', () => {
       render(<DiaryListHeader totalCount={1000} />)
 
       // Assert
-      expect(screen.getByText(/1000/)).toBeInTheDocument()
+      expect(screen.getByText(/1,000/)).toBeInTheDocument()
     })
 
     it('should format large numbers with separator if applicable', () => {
