@@ -59,11 +59,12 @@ describe('FAB Component', () => {
       const mockPush = jest.fn()
       useRouter.mockReturnValue({ push: mockPush })
 
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
       // Act
-      await userEvent.click(button)
+      await user.click(button)
 
       // Assert
       expect(mockPush).toHaveBeenCalledWith('/diary/new')
@@ -75,12 +76,13 @@ describe('FAB Component', () => {
       const mockPush = jest.fn()
       useRouter.mockReturnValue({ push: mockPush })
 
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
       // Act
       button.focus()
-      await userEvent.keyboard('{Enter}')
+      await user.keyboard('{Enter}')
 
       // Assert
       expect(mockPush).toHaveBeenCalledWith('/diary/new')
@@ -92,12 +94,13 @@ describe('FAB Component', () => {
       const mockPush = jest.fn()
       useRouter.mockReturnValue({ push: mockPush })
 
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
       // Act
       button.focus()
-      await userEvent.keyboard(' ')
+      await user.keyboard(' ')
 
       // Assert
       expect(mockPush).toHaveBeenCalledWith('/diary/new')
@@ -234,10 +237,11 @@ describe('FAB Component', () => {
   describe('Interactions', () => {
     it('should show hover effect on mouse over', async () => {
       // Act
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
-      await userEvent.hover(button)
+      await user.hover(button)
 
       // Assert
       expect(button).toBeInTheDocument()
@@ -260,11 +264,12 @@ describe('FAB Component', () => {
       const mockPush = jest.fn()
       useRouter.mockReturnValue({ push: mockPush })
 
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
       // Act
-      await userEvent.tripleClick(button)
+      await user.tripleClick(button)
 
       // Assert
       expect(mockPush).toHaveBeenCalled()
@@ -294,13 +299,22 @@ describe('FAB Component', () => {
       expect(() => unmount()).not.toThrow()
     })
 
-    it('should handle missing router gracefully', () => {
+    it('should handle missing router gracefully', async () => {
       // Arrange
       const { useRouter } = require('next/navigation')
       useRouter.mockReturnValue(null)
 
-      // Act & Assert
-      expect(() => render(<FAB />)).not.toThrow()
+      // Act & Assert - Should render without crashing
+      const { container } = render(<FAB />)
+      expect(container.querySelector('button')).toBeInTheDocument()
+
+      // Clicking should not crash
+      const button = screen.getByRole('button')
+      const user = userEvent.setup()
+      await user.click(button)
+
+      // Should not navigate (gracefully handle null router)
+      expect(button).toBeInTheDocument()
     })
   })
 
@@ -351,11 +365,12 @@ describe('FAB Component', () => {
       const mockPush = jest.fn()
       useRouter.mockReturnValue({ push: mockPush })
 
+      const user = userEvent.setup()
       render(<FAB />)
       const button = screen.getByRole('button')
 
       // Act
-      await userEvent.click(button)
+      await user.click(button)
 
       // Assert
       expect(mockPush).toHaveBeenCalledWith('/diary/new')

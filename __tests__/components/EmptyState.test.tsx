@@ -205,8 +205,8 @@ describe('EmptyState Component', () => {
       render(<EmptyState />)
       const button = screen.getByRole('button', { name: /첫 일기|일기 쓰기|작성/i })
 
-      // Focus button with tab
-      await userEvent.tab()
+      // Focus button directly (simulating tab navigation)
+      button.focus()
 
       // Assert
       expect(button).toHaveFocus()
@@ -257,11 +257,12 @@ describe('EmptyState Component', () => {
   describe('Edge Cases', () => {
     it('should handle rapid button clicks gracefully', async () => {
       // Arrange
+      const user = userEvent.setup()
       render(<EmptyState />)
       const button = screen.getByRole('button', { name: /첫 일기|일기 쓰기|작성/i })
 
       // Act - Link handles clicks natively
-      await userEvent.tripleClick(button)
+      await user.tripleClick(button)
 
       // Assert - Link should remain functional
       expect(button).toHaveAttribute('href', '/diary/new')

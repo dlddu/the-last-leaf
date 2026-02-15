@@ -6,7 +6,9 @@ export default function FAB() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/diary/new');
+    if (router) {
+      router.push('/diary/new');
+    }
   };
 
   return (
