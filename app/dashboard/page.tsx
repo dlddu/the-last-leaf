@@ -1,6 +1,7 @@
 import { requireAuth } from '@/lib/auth-server';
 import { PrismaClient } from '@prisma/client';
 import LogoutButton from '@/components/LogoutButton';
+import Link from 'next/link';
 
 const prisma = new PrismaClient();
 
@@ -46,21 +47,21 @@ export default async function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <a
+          <Link
             href="/diary"
             className="bg-blue-500 text-white p-6 rounded-lg hover:bg-blue-600 transition"
           >
             <h3 className="text-xl font-semibold mb-2">Diary</h3>
             <p className="text-sm">Write and manage your diary entries</p>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="/settings"
             className="bg-green-500 text-white p-6 rounded-lg hover:bg-green-600 transition"
           >
             <h3 className="text-xl font-semibold mb-2">Settings</h3>
             <p className="text-sm">Manage your account settings</p>
-          </a>
+          </Link>
 
           <div className="bg-purple-500 text-white p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">Safety Timer</h3>
