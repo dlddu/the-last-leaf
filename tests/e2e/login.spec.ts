@@ -254,16 +254,16 @@ test.describe('Login API - Error Scenarios', () => {
 
 // TODO: Activate when DLD-364 is implemented
 test.describe('Login Page - Authentication Guard', () => {
-  test('should redirect to /dashboard when authenticated user accesses /login', async ({ page }) => {
+  test('should redirect to /diary when authenticated user accesses /login', async ({ page }) => {
     // Arrange - Authenticate as test user
     await authenticateAsTestUser(page);
 
     // Act
     await page.goto('/login');
 
-    // Assert
-    await page.waitForURL(/\/dashboard/);
-    await expect(page).toHaveURL(/\/dashboard/);
+    // Assert - Middleware redirects authenticated users from /login to /diary
+    await page.waitForURL(/\/diary/);
+    await expect(page).toHaveURL(/\/diary/);
   });
 
   test('should allow direct access to /login for unauthenticated users', async ({ page }) => {
