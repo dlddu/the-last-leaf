@@ -40,11 +40,6 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
-  // Global setup environment
-  env: {
-    PLAYWRIGHT_TEST_MODE: 'true',
-  },
-
   // Configure projects for major browsers
   projects: [
     {
