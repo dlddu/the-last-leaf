@@ -8,12 +8,16 @@ import { NextRequest } from 'next/server'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
+// Mock functions - declared outside jest.mock
+const mockFindUnique = jest.fn()
+const mockCreate = jest.fn()
+
 // Mock Prisma
 jest.mock('@/lib/prisma', () => ({
   prisma: {
     user: {
-      findUnique: jest.fn(),
-      create: jest.fn(),
+      findUnique: mockFindUnique,
+      create: mockCreate,
     },
   },
 }))
@@ -50,9 +54,9 @@ describe('POST /api/auth/signup', () => {
       }
 
       // Mock no existing user
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
+      mockFindUnique.mockResolvedValue(null)
       // Mock user creation
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -93,8 +97,8 @@ describe('POST /api/auth/signup', () => {
         last_active_at: new Date(),
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -128,8 +132,8 @@ describe('POST /api/auth/signup', () => {
         nickname: 'HashUser',
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockImplementation(async (data) => {
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockImplementation(async (data) => {
         // Verify that password is hashed
         const createData = data.data
         expect(createData.password_hash).toBeDefined()
@@ -347,7 +351,7 @@ describe('POST /api/auth/signup', () => {
       }
 
       // Mock existing user
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(existingUser)
+      mockFindUnique.mockResolvedValue(existingUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -387,7 +391,7 @@ describe('POST /api/auth/signup', () => {
       }
 
       // Mock existing user with lowercase email
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(existingUser)
+      mockFindUnique.mockResolvedValue(existingUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -423,8 +427,8 @@ describe('POST /api/auth/signup', () => {
         last_active_at: new Date(),
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -458,8 +462,8 @@ describe('POST /api/auth/signup', () => {
         last_active_at: new Date(),
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -499,7 +503,7 @@ describe('POST /api/auth/signup', () => {
       }
 
       // Mock database error
-      ;(prisma.user.findUnique as jest.Mock).mockRejectedValue(new Error('Database connection failed'))
+      mockFindUnique.mockRejectedValue(new Error('Database connection failed'))
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -535,8 +539,8 @@ describe('POST /api/auth/signup', () => {
         last_active_at: new Date(),
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
@@ -577,8 +581,8 @@ describe('POST /api/auth/signup', () => {
         last_active_at: new Date(),
       }
 
-      ;(prisma.user.findUnique as jest.Mock).mockResolvedValue(null)
-      ;(prisma.user.create as jest.Mock).mockResolvedValue(mockUser)
+      mockFindUnique.mockResolvedValue(null)
+      mockCreate.mockResolvedValue(mockUser)
 
       const request = new NextRequest('http://localhost:3000/api/auth/signup', {
         method: 'POST',
