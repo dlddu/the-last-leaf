@@ -377,7 +377,7 @@ describe('GET /api/auth/google/callback', () => {
   })
 
   describe('error handling', () => {
-    it('should return 400 when authorization code is missing', async () => {
+    it('should redirect to login with error when authorization code is missing', async () => {
       // Arrange
       const request = new NextRequest(
         'http://localhost:3000/api/auth/google/callback',
@@ -388,13 +388,11 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(400)
-      const data = await response.json()
-      expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/code.*required|authorization.*code/i)
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/login\?error=/)
     })
 
-    it('should return 400 when OAuth callback contains error parameter', async () => {
+    it('should redirect to login with error when OAuth callback contains error parameter', async () => {
       // Arrange
       const request = new NextRequest(
         'http://localhost:3000/api/auth/google/callback?error=access_denied',
@@ -405,13 +403,11 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(400)
-      const data = await response.json()
-      expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/access.*denied|user.*denied/i)
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/login\?error=google_login_failed/)
     })
 
-    it('should return 500 when Google token exchange fails', async () => {
+    it('should redirect to login with error when Google token exchange fails', async () => {
       // Arrange
       ;(global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
@@ -428,13 +424,11 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(500)
-      const data = await response.json()
-      expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/google.*authentication.*failed|token.*exchange.*failed/i)
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/login\?error=authentication_failed/)
     })
 
-    it('should return 500 when Google userinfo API fails', async () => {
+    it('should redirect to login with error when Google userinfo API fails', async () => {
       // Arrange
       const mockGoogleTokenResponse = {
         access_token: 'mock-access-token',
@@ -462,13 +456,11 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(500)
-      const data = await response.json()
-      expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/failed.*user.*info|google.*user.*data/i)
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/login\?error=authentication_failed/)
     })
 
-    it('should return 500 when GOOGLE_CLIENT_SECRET is not configured', async () => {
+    it('should redirect to login with error when GOOGLE_CLIENT_SECRET is not configured', async () => {
       // Arrange
       delete process.env.GOOGLE_CLIENT_SECRET
 
@@ -479,12 +471,10 @@ describe('GET /api/auth/google/callback', () => {
 
       // Act
       const response = await GET(request)
-      const data = await response.json()
 
       // Assert
-      expect(response.status).toBe(500)
-      expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/google.*not.*configured|configuration.*missing|token.*exchange.*failed/i)
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/login\?error=authentication_failed/)
 
       // Restore
       process.env.GOOGLE_CLIENT_SECRET = 'test-google-client-secret'

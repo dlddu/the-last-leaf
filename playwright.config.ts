@@ -40,6 +40,11 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
+  // Global setup environment
+  env: {
+    PLAYWRIGHT_TEST_MODE: 'true',
+  },
+
   // Configure projects for major browsers
   projects: [
     {
@@ -54,10 +59,16 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: false,
     timeout: 120 * 1000,
+    env: {
+      PLAYWRIGHT_TEST_MODE: 'true',
+    },
   } : {
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 120 * 1000,
+    env: {
+      PLAYWRIGHT_TEST_MODE: 'true',
+    },
   },
 });

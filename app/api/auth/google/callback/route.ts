@@ -8,21 +8,20 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
     const error = searchParams.get('error');
+    const state = searchParams.get('state');
 
     // Check if user denied access
     if (error) {
-      return NextResponse.json(
-        { error: 'User denied access' },
-        { status: 400 }
-      );
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('error', 'google_login_failed');
+      return NextResponse.redirect(loginUrl);
     }
 
     // Check if authorization code is present
     if (!code) {
-      return NextResponse.json(
-        { error: 'Authorization code is required' },
-        { status: 400 }
-      );
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('error', 'authentication_failed');
+      return NextResponse.redirect(loginUrl);
     }
 
     // Exchange authorization code for access token
@@ -31,10 +30,9 @@ export async function GET(request: NextRequest) {
       tokenData = await exchangeCodeForToken(code);
     } catch (error) {
       console.error('Token exchange error:', error);
-      return NextResponse.json(
-        { error: 'Google authentication failed - token exchange failed' },
-        { status: 500 }
-      );
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('error', 'authentication_failed');
+      return NextResponse.redirect(loginUrl);
     }
 
     // Get user information from Google
@@ -43,10 +41,9 @@ export async function GET(request: NextRequest) {
       userInfo = await getGoogleUserInfo(tokenData.access_token);
     } catch (error) {
       console.error('User info error:', error);
-      return NextResponse.json(
-        { error: 'Failed to get user info from Google' },
-        { status: 500 }
-      );
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('error', 'authentication_failed');
+      return NextResponse.redirect(loginUrl);
     }
 
     // Upsert user in database (create if new, update if exists)
@@ -68,8 +65,14 @@ export async function GET(request: NextRequest) {
       email: user.email,
     }, '7d');
 
-    // Create response with redirect to /diary
-    const response = NextResponse.redirect(new URL('/diary', request.url));
+    // Determine redirect URL (use state parameter if provided, otherwise /diary)
+    let redirectPath = '/diary';
+    if (state && state.startsWith('/')) {
+      redirectPath = state;
+    }
+
+    // Create response with redirect
+    const response = NextResponse.redirect(new URL(redirectPath, request.url));
 
     // Set HTTP-only cookie
     response.cookies.set({
