@@ -169,6 +169,7 @@ jobs:
     name: Docker Build
     runs-on: ubuntu-24.04-arm
     needs: [build]
+    if: ${{ secrets.REGISTRY_URL != '' && secrets.REGISTRY_USERNAME != '' && secrets.REGISTRY_PASSWORD != '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
