@@ -42,7 +42,7 @@ describe('EmptyState Component', () => {
       render(<EmptyState />)
 
       // Assert
-      const message = screen.getByText(/일기/i)
+      const message = screen.getByText(/아직 작성한 일기가 없어요/i)
       expect(message).toBeInTheDocument()
     })
 
@@ -93,7 +93,7 @@ describe('EmptyState Component', () => {
 
       // Assert
       // Should encourage user to create their first diary
-      expect(screen.getByText(/일기/i)).toBeInTheDocument()
+      expect(screen.getByText(/아직 작성한 일기가 없어요/i)).toBeInTheDocument()
     })
 
     it('should have clear and friendly tone', () => {

@@ -12,8 +12,8 @@ test.describe('Diary Page - Authentication Guard', () => {
     await page.goto('/diary');
 
     // Assert
-    await page.waitForURL(/\/auth\/login/);
-    await expect(page).toHaveURL(/\/auth\/login/);
+    await page.waitForURL(/\/login/);
+    await expect(page).toHaveURL(/\/login/);
   });
 
   test('should allow authenticated user to access /diary', async ({ page }) => {
@@ -420,8 +420,28 @@ test.describe('Diary Page - Responsive Design', () => {
     // Arrange
     await page.setViewportSize({ width: 375, height: 667 });
 
+    // Create more diaries to ensure scrollable content
+    const testUser = await prisma.user.findUnique({
+      where: { email: 'test@example.com' },
+    });
+
+    if (!testUser) {
+      throw new Error('Test user not found');
+    }
+
+    // Create additional diaries to ensure page is scrollable
+    for (let i = 0; i < 5; i++) {
+      await prisma.diary.create({
+        data: {
+          user_id: testUser.user_id,
+          content: `Mobile scroll test diary entry ${i + 1}. This is additional content to ensure the page is scrollable on mobile devices.`,
+        },
+      });
+    }
+
     // Act
     await page.goto('/diary');
+    await page.waitForSelector('[data-testid="diary-card"]');
 
     // Assert - Page should be scrollable
     const isScrollable = await page.evaluate(() => {
