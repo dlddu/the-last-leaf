@@ -2,11 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: the-last-leaf
-  namespace: production
   labels:
     app: the-last-leaf
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: the-last-leaf
@@ -40,13 +39,6 @@ spec:
             configMapKeyRef:
               name: the-last-leaf-config
               key: app-url
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "1000m"
         livenessProbe:
           httpGet:
             path: /api/health
