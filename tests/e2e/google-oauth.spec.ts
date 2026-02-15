@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
+import { setupGoogleOAuthMocks } from '../helpers/google-oauth-mock';
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Login Flow', () => {
+test.describe('Google OAuth - Login Flow', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should display Google login button on login page', async ({ page }) => {
@@ -40,10 +41,10 @@ test.describe.skip('Google OAuth - Login Flow', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - New User Registration', () => {
+test.describe('Google OAuth - New User Registration', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should create new user account after successful Google OAuth callback', async ({ page }) => {
@@ -128,10 +129,10 @@ test.describe.skip('Google OAuth - New User Registration', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Existing User Login', () => {
+test.describe('Google OAuth - Existing User Login', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should login existing user without creating duplicate account', async ({ page }) => {
@@ -224,10 +225,10 @@ test.describe.skip('Google OAuth - Existing User Login', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Redirect Behavior', () => {
+test.describe('Google OAuth - Redirect Behavior', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should redirect to /diary after successful Google OAuth login', async ({ page }) => {
@@ -278,10 +279,10 @@ test.describe.skip('Google OAuth - Redirect Behavior', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Error Handling', () => {
+test.describe('Google OAuth - Error Handling', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should show error message when OAuth callback fails', async ({ page }) => {
@@ -334,10 +335,10 @@ test.describe.skip('Google OAuth - Error Handling', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Security', () => {
+test.describe('Google OAuth - Security', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should use HTTP-only cookie for Google OAuth session', async ({ page }) => {
@@ -402,10 +403,10 @@ test.describe.skip('Google OAuth - Security', () => {
   });
 });
 
-// TODO: Activate when DLD-366 is implemented
-test.describe.skip('Google OAuth - Database Integrity', () => {
+test.describe('Google OAuth - Database Integrity', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
+    await setupGoogleOAuthMocks(page);
   });
 
   test('should create user with valid email format', async ({ page }) => {

@@ -28,6 +28,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if user has password (not a social login only account)
+    if (!user.password_hash) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      );
+    }
+
     // Verify password
     const isValidPassword = await verifyPassword(password, user.password_hash);
 

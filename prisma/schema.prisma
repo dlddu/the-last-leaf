@@ -13,7 +13,7 @@ datasource db {
 model User {
   user_id                 String    @id @default(cuid())
   email                   String    @unique
-  password_hash           String
+  password_hash           String?   // Nullable for social login users
   nickname                String
   created_at              DateTime  @default(now())
   last_active_at          DateTime  @default(now())

@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import GoogleLoginButton from '@/components/GoogleLoginButton';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -169,6 +170,21 @@ export default function SignupPage() {
             {isLoading ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Or</span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <GoogleLoginButton />
+          </div>
+        </div>
 
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{' '}
