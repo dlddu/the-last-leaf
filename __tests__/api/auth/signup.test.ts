@@ -2,15 +2,21 @@
  * @jest-environment node
  */
 
+// Mock Prisma using factory function that requires __mocks__ file
+const mockModule = jest.requireActual<typeof import('@/lib/__mocks__/prisma')>(
+  '../../../lib/__mocks__/prisma'
+)
+const { mockFindUnique, mockCreate, prisma: mockPrisma } = mockModule
+
+jest.mock('@/lib/prisma', () => ({
+  prisma: mockPrisma,
+}))
+
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
 import { POST } from '@/app/api/auth/signup/route'
 import { NextRequest } from 'next/server'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
-
-// Mock Prisma using __mocks__ directory
-jest.mock('@/lib/prisma')
-import { mockFindUnique, mockCreate } from '@/lib/__mocks__/prisma'
 
 describe('POST /api/auth/signup', () => {
   beforeEach(() => {
