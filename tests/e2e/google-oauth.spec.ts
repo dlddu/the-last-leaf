@@ -142,7 +142,7 @@ test.describe.skip('Google OAuth - Existing User Login', () => {
       data: {
         email: existingEmail,
         nickname: 'Existing User',
-        password_hash: null, // Google OAuth users may not have password
+        password_hash: 'oauth_no_password', // Google OAuth users may not have password
       },
     });
 
@@ -173,7 +173,7 @@ test.describe.skip('Google OAuth - Existing User Login', () => {
       data: {
         email: existingEmail,
         nickname: 'Returning User',
-        password_hash: null,
+        password_hash: 'oauth_no_password',
       },
     });
 
@@ -203,7 +203,7 @@ test.describe.skip('Google OAuth - Existing User Login', () => {
       data: {
         email: 'preserve.data@gmail.com',
         nickname: 'Original Nickname',
-        password_hash: null,
+        password_hash: 'oauth_no_password',
       },
     });
 
@@ -453,7 +453,7 @@ test.describe.skip('Google OAuth - Database Integrity', () => {
       data: {
         email: duplicateEmail,
         nickname: 'First User',
-        password_hash: null,
+        password_hash: 'oauth_no_password',
       },
     });
 
