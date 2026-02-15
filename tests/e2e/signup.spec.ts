@@ -3,7 +3,7 @@ import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 import { cleanupUserData } from '../helpers/db-cleanup';
 
 // TODO: Activate when DLD-362 is implemented
-test.describe.skip('Signup Page - Access and Rendering', () => {
+test.describe('Signup Page - Access and Rendering', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
   });
@@ -24,7 +24,7 @@ test.describe.skip('Signup Page - Access and Rendering', () => {
 });
 
 // TODO: Activate when DLD-362 is implemented
-test.describe.skip('Signup Flow - Success Scenarios', () => {
+test.describe('Signup Flow - Success Scenarios', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
   });
@@ -58,7 +58,7 @@ test.describe.skip('Signup Flow - Success Scenarios', () => {
 });
 
 // TODO: Activate when DLD-362 is implemented
-test.describe.skip('Signup Form - Validation Errors', () => {
+test.describe('Signup Form - Validation Errors', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
     await page.goto('/auth/signup');
@@ -146,7 +146,7 @@ test.describe.skip('Signup Form - Validation Errors', () => {
 });
 
 // TODO: Activate when DLD-362 is implemented
-test.describe.skip('Signup API - Error Scenarios', () => {
+test.describe('Signup API - Error Scenarios', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
     await page.goto('/auth/signup');
@@ -170,7 +170,7 @@ test.describe.skip('Signup API - Error Scenarios', () => {
 });
 
 // TODO: Activate when DLD-362 is implemented
-test.describe.skip('Signup Page - Authentication Guard', () => {
+test.describe('Signup Page - Authentication Guard', () => {
   test('should redirect to /diary when authenticated user accesses /auth/signup', async ({ page }) => {
     // Arrange - Authenticate as test user
     await authenticateAsTestUser(page);
