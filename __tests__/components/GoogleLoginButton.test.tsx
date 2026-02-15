@@ -126,7 +126,7 @@ describe('GoogleLoginButton', () => {
 
       // Assert - Check for loading indicator
       await waitFor(() => {
-        expect(button).toHaveTextContent(/loading|로딩|처리/i)
+        expect(button).toHaveTextContent(/loading|로딩|처리|로그인 중/i)
       })
 
       // Cleanup

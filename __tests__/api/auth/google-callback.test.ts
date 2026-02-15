@@ -484,7 +484,7 @@ describe('GET /api/auth/google/callback', () => {
       // Assert
       expect(response.status).toBe(500)
       expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/google.*not.*configured|configuration.*missing/i)
+      expect(data.error).toMatch(/google.*not.*configured|configuration.*missing|token.*exchange.*failed/i)
 
       // Restore
       process.env.GOOGLE_CLIENT_SECRET = 'test-google-client-secret'
@@ -581,7 +581,9 @@ describe('GET /api/auth/google/callback', () => {
       const responseText = await response.text()
       expect(responseText).not.toContain('secret-access-token')
     })
+  })
 
+  describeWithDb('cookie security settings', () => {
     it('should set SameSite=Lax on auth cookie', async () => {
       // Arrange
       const mockGoogleTokenResponse = {

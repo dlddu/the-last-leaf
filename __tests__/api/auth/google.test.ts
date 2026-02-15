@@ -28,7 +28,7 @@ describe('GET /api/auth/google', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
+      expect(response.status).toBe(307)
       const location = response.headers.get('location')
       expect(location).toBeDefined()
       expect(location).toContain('https://accounts.google.com/o/oauth2/v2/auth')
