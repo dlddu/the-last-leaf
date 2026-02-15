@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login Page - Access and Rendering', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
@@ -42,7 +41,6 @@ test.describe('Login Page - Access and Rendering', () => {
   });
 });
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login Flow - Success Scenarios', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
@@ -97,7 +95,6 @@ test.describe('Login Flow - Success Scenarios', () => {
   });
 });
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login Form - Validation Errors', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
@@ -162,7 +159,6 @@ test.describe('Login Form - Validation Errors', () => {
   });
 });
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login API - Error Scenarios', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
@@ -252,7 +248,6 @@ test.describe('Login API - Error Scenarios', () => {
   });
 });
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login Page - Authentication Guard', () => {
   test('should redirect to /diary when authenticated user accesses /login', async ({ page }) => {
     // Arrange - Authenticate as test user
@@ -315,7 +310,6 @@ test.describe('Login Page - Authentication Guard', () => {
   });
 });
 
-// TODO: Activate when DLD-364 is implemented
 test.describe('Login Page - User Experience', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
