@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+namespace: production
+
+replicas:
+  - name: the-last-leaf
+    count: 3
+
+images:
+  - name: the-last-leaf
+    newName: your-registry.io/the-last-leaf
+    newTag: latest
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - configmap-patch.yaml
+
+commonLabels:
+  environment: production
