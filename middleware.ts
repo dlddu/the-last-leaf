@@ -6,7 +6,7 @@ import { verifyToken } from './lib/auth';
 const protectedRoutes = ['/dashboard', '/diary', '/settings'];
 
 // Public routes that don't require authentication
-const publicRoutes = ['/login', '/register', '/'];
+const publicRoutes = ['/login', '/register', '/auth/signup', '/'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -14,6 +14,11 @@ export async function middleware(request: NextRequest) {
   // Check if the route is protected
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
+  );
+
+  // Check if the route is public
+  const isPublicRoute = publicRoutes.some((route) =>
+    pathname === route || pathname.startsWith(route)
   );
 
   // Get auth token from cookie
@@ -24,6 +29,16 @@ export async function middleware(request: NextRequest) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // If authenticated user tries to access public auth routes, redirect to diary
+  if (token && isPublicRoute && (pathname === '/login' || pathname === '/auth/signup')) {
+    try {
+      await verifyToken(token);
+      return NextResponse.redirect(new URL('/diary', request.url));
+    } catch (error) {
+      // Token is invalid, continue to public route
+    }
   }
 
   // Verify token if present
