@@ -8,30 +8,20 @@ import { NextRequest } from 'next/server'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
-// Mock functions - declared outside jest.mock
-const mockFindUnique = jest.fn()
-const mockCreate = jest.fn()
-
-// Mock Prisma
-jest.mock('@/lib/prisma', () => ({
-  prisma: {
-    user: {
-      findUnique: mockFindUnique,
-      create: mockCreate,
-    },
-  },
-}))
-
-import { prisma } from '@/lib/prisma'
+// Mock Prisma using __mocks__ directory
+jest.mock('@/lib/prisma')
+import { mockFindUnique, mockCreate } from '@/lib/__mocks__/prisma'
 
 describe('POST /api/auth/signup', () => {
   beforeEach(() => {
-    // Reset mocks before each test
-    jest.clearAllMocks()
+    // Clear mock calls and reset mock state
+    mockFindUnique.mockClear()
+    mockCreate.mockClear()
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    mockFindUnique.mockClear()
+    mockCreate.mockClear()
   })
 
   describe('successful signup', () => {
@@ -73,10 +63,10 @@ describe('POST /api/auth/signup', () => {
       expect(data.user).toHaveProperty('email', requestBody.email)
       expect(data.user).toHaveProperty('nickname', requestBody.nickname)
       expect(data.user).not.toHaveProperty('password_hash')
-      expect(prisma.user.findUnique).toHaveBeenCalledWith({
-        where: { email: requestBody.email },
+      expect(mockFindUnique).toHaveBeenCalledWith({
+        where: { email: requestBody.email.toLowerCase() },
       })
-      expect(prisma.user.create).toHaveBeenCalled()
+      expect(mockCreate).toHaveBeenCalled()
     })
 
     it('should set httpOnly cookie when user is created', async () => {
@@ -160,7 +150,7 @@ describe('POST /api/auth/signup', () => {
 
       // Assert
       expect(response.status).toBe(201)
-      expect(prisma.user.create).toHaveBeenCalled()
+      expect(mockCreate).toHaveBeenCalled()
     })
   })
 
@@ -366,10 +356,10 @@ describe('POST /api/auth/signup', () => {
       expect(response.status).toBe(409)
       expect(data).toHaveProperty('error')
       expect(data.error).toMatch(/already.*exists|already.*registered/i)
-      expect(prisma.user.findUnique).toHaveBeenCalledWith({
-        where: { email: requestBody.email },
+      expect(mockFindUnique).toHaveBeenCalledWith({
+        where: { email: requestBody.email.toLowerCase() },
       })
-      expect(prisma.user.create).not.toHaveBeenCalled()
+      expect(mockCreate).not.toHaveBeenCalled()
     })
 
     it('should be case-insensitive for email duplicate check', async () => {
