@@ -19,8 +19,8 @@ import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
 // Conditionally skip tests that require database connection
-// These tests will run only in CI environment where database is available
-const describeWithDb = process.env.CI ? describe : describe.skip
+// Set RUN_DB_TESTS=true to run these tests (requires PostgreSQL at localhost:5433)
+const describeWithDb = process.env.RUN_DB_TESTS === 'true' ? describe : describe.skip
 
 describe('POST /api/auth/signup', () => {
   beforeEach(() => {
