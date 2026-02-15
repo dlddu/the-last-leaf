@@ -48,7 +48,7 @@ test.describe('Login Flow - Success Scenarios', () => {
     await clearAuth(page);
   });
 
-  test('should successfully login with valid credentials and redirect to /diary', async ({ page }) => {
+  test('should successfully login with valid credentials and redirect to /dashboard', async ({ page }) => {
     // Arrange
     const testEmail = 'test@example.com';
     const testPassword = 'testpassword123';
@@ -60,8 +60,8 @@ test.describe('Login Flow - Success Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert
-    await page.waitForURL(/\/diary/);
-    await expect(page).toHaveURL(/\/diary/);
+    await page.waitForURL(/\/dashboard/);
+    await expect(page).toHaveURL(/\/dashboard/);
   });
 
   test('should show loading state while login request is processing', async ({ page }) => {
@@ -179,8 +179,8 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByLabel(/password|비밀번호/i).fill(wrongPassword);
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
-    // Assert
-    await expect(page.getByText(/이메일 또는 비밀번호가 일치하지 않습니다|email or password is incorrect|invalid credentials/i)).toBeVisible();
+    // Assert - Use more specific error message pattern matching actual implementation
+    await expect(page.getByText(/invalid email or password/i)).toBeVisible();
     await expect(page).toHaveURL(/\/login/);
   });
 
@@ -195,7 +195,7 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert - Same error message to prevent information disclosure
-    await expect(page.getByText(/이메일 또는 비밀번호가 일치하지 않습니다|email or password is incorrect|invalid credentials/i)).toBeVisible();
+    await expect(page.getByText(/invalid email or password/i)).toBeVisible();
     await expect(page).toHaveURL(/\/login/);
   });
 
@@ -210,7 +210,8 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert - Error should have role="alert" for screen readers
-    const errorAlert = page.getByRole('alert');
+    // Use more specific selector to avoid Next.js route announcer
+    const errorAlert = page.locator('[role="alert"].text-red-500');
     await expect(errorAlert).toBeVisible();
     await expect(errorAlert).toHaveClass(/text-red-500/);
   });
@@ -226,7 +227,7 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert - Error appears
-    await expect(page.getByText(/이메일 또는 비밀번호가 일치하지 않습니다|email or password is incorrect|invalid credentials/i)).toBeVisible();
+    await expect(page.getByText(/invalid email or password/i)).toBeVisible();
 
     // Act - Second attempt with correct password
     await page.getByLabel(/password|비밀번호/i).clear();
@@ -234,8 +235,8 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert - Should redirect (error cleared)
-    await page.waitForURL(/\/diary/);
-    await expect(page).toHaveURL(/\/diary/);
+    await page.waitForURL(/\/dashboard/);
+    await expect(page).toHaveURL(/\/dashboard/);
   });
 
   test('should handle server error gracefully', async ({ page }) => {
@@ -253,7 +254,7 @@ test.describe('Login API - Error Scenarios', () => {
 
 // TODO: Activate when DLD-364 is implemented
 test.describe('Login Page - Authentication Guard', () => {
-  test('should redirect to /diary when authenticated user accesses /login', async ({ page }) => {
+  test('should redirect to /dashboard when authenticated user accesses /login', async ({ page }) => {
     // Arrange - Authenticate as test user
     await authenticateAsTestUser(page);
 
@@ -261,8 +262,8 @@ test.describe('Login Page - Authentication Guard', () => {
     await page.goto('/login');
 
     // Assert
-    await page.waitForURL(/\/diary/);
-    await expect(page).toHaveURL(/\/diary/);
+    await page.waitForURL(/\/dashboard/);
+    await expect(page).toHaveURL(/\/dashboard/);
   });
 
   test('should allow direct access to /login for unauthenticated users', async ({ page }) => {
