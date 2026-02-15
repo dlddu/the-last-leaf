@@ -56,6 +56,13 @@ export default defineConfig({
     timeout: 120 * 1000,
     env: {
       PLAYWRIGHT_TEST_MODE: 'true',
+      DATABASE_URL: process.env.DATABASE_URL || 'postgresql://test:test@localhost:5433/test_db?sslmode=disable',
+      JWT_SECRET: process.env.JWT_SECRET || 'test-jwt-secret-key-for-testing-purposes-only',
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'test-google-client-id',
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'test-google-client-secret',
+      GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3000/api/auth/google/callback',
+      NODE_ENV: 'test',
+      BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     },
   } : {
     command: 'npm run dev',
@@ -64,6 +71,13 @@ export default defineConfig({
     timeout: 120 * 1000,
     env: {
       PLAYWRIGHT_TEST_MODE: 'true',
+      DATABASE_URL: process.env.DATABASE_URL || 'postgresql://test:test@localhost:5433/test_db?sslmode=disable',
+      JWT_SECRET: process.env.JWT_SECRET || 'test-jwt-secret-key-for-testing-purposes-only',
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || 'test-google-client-id',
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || 'test-google-client-secret',
+      GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3000/api/auth/google/callback',
+      NODE_ENV: 'test',
+      BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
     },
   },
 });

@@ -98,10 +98,11 @@ test.describe('Google OAuth - New User Registration', () => {
 
   test('should auto-generate nickname for new Google OAuth user', async ({ page }) => {
     // Arrange
-    const testEmail = `newuser${Date.now()}@gmail.com`;
+    const timestamp = Date.now();
+    const testEmail = `newuser${timestamp}@gmail.com`;
 
     // Act
-    await page.goto('/api/auth/google/callback?code=test_auto_nickname');
+    await page.goto(`/api/auth/google/callback?code=test_auto_nickname_${timestamp}`);
     await page.waitForURL(/\/diary/);
 
     // Assert - User should have auto-generated nickname
@@ -116,13 +117,14 @@ test.describe('Google OAuth - New User Registration', () => {
 
   test('should store Google profile picture URL for new user', async ({ page }) => {
     // Arrange
+    const timestamp = Date.now();
     const testGoogleProfile = {
-      email: `pictureuser${Date.now()}@gmail.com`,
+      email: `pictureuser${timestamp}@gmail.com`,
       picture: 'https://lh3.googleusercontent.com/a/test-picture',
     };
 
     // Act
-    await page.goto('/api/auth/google/callback?code=test_with_picture');
+    await page.goto(`/api/auth/google/callback?code=test_with_picture_${timestamp}`);
     await page.waitForURL(/\/diary/);
 
     // Assert - Profile picture should be stored (if schema supports it)
@@ -448,10 +450,11 @@ test.describe('Google OAuth - Database Integrity', () => {
 
   test('should create user with valid email format', async ({ page }) => {
     // Arrange
-    const testEmail = `validformat${Date.now()}@gmail.com`;
+    const timestamp = Date.now();
+    const testEmail = `validformat${timestamp}@gmail.com`;
 
     // Act
-    await page.goto('/api/auth/google/callback?code=test_email_format');
+    await page.goto(`/api/auth/google/callback?code=test_email_format_${timestamp}`);
     await page.waitForURL(/\/diary/);
 
     // Assert

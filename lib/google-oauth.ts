@@ -7,7 +7,12 @@
  * Check if running in E2E test mode
  */
 function isE2ETestMode(): boolean {
-  return process.env.PLAYWRIGHT_TEST_MODE === 'true';
+  const isTestMode = process.env.PLAYWRIGHT_TEST_MODE === 'true';
+  // Log for debugging in CI
+  if (process.env.NODE_ENV === 'test') {
+    console.log('[Google OAuth] PLAYWRIGHT_TEST_MODE:', process.env.PLAYWRIGHT_TEST_MODE, 'isTestMode:', isTestMode);
+  }
+  return isTestMode;
 }
 
 /**
@@ -65,7 +70,9 @@ function getMockUserDataFromTestCode(code: string): GoogleUserInfo {
   }
 
   if (code.includes('picture')) {
-    const timestamp = Date.now();
+    // Extract timestamp from code if present, e.g., test_with_picture_1234567890
+    const match = code.match(/test_with_picture(?:_(\d+))?/);
+    const timestamp = match && match[1] ? match[1] : Date.now();
     return {
       email: `pictureuser${timestamp}@gmail.com`,
       name: 'Picture User',
@@ -75,11 +82,24 @@ function getMockUserDataFromTestCode(code: string): GoogleUserInfo {
   }
 
   if (code.includes('auto_nickname')) {
-    const timestamp = Date.now();
+    // Extract timestamp from code if present, e.g., test_auto_nickname_1234567890
+    const match = code.match(/test_auto_nickname(?:_(\d+))?/);
+    const timestamp = match && match[1] ? match[1] : Date.now();
     return {
       email: `newuser${timestamp}@gmail.com`,
       name: 'Auto Nickname User',
       sub: `google_sub_auto_${timestamp}`,
+    };
+  }
+
+  if (code.includes('email_format')) {
+    // Extract timestamp from code if present, e.g., test_email_format_1234567890
+    const match = code.match(/test_email_format(?:_(\d+))?/);
+    const timestamp = match && match[1] ? match[1] : Date.now();
+    return {
+      email: `validformat${timestamp}@gmail.com`,
+      name: 'Valid Format User',
+      sub: `google_sub_format_${timestamp}`,
     };
   }
 
@@ -159,7 +179,12 @@ export interface GoogleTokenResponse {
  */
 export async function exchangeCodeForToken(code: string): Promise<GoogleTokenResponse> {
   // E2E test mode: return mock token without calling Google API
-  if (isE2ETestMode() && code.startsWith('test_')) {
+  const testMode = isE2ETestMode();
+  if (process.env.NODE_ENV === 'test') {
+    console.log('[exchangeCodeForToken] code:', code, 'testMode:', testMode, 'startsWithTest:', code.startsWith('test_'));
+  }
+
+  if (testMode && code.startsWith('test_')) {
     // Check for error scenarios
     if (code.includes('invalid_code')) {
       throw new Error('Token exchange failed: invalid_grant');
@@ -237,9 +262,18 @@ export interface GoogleUserInfo {
  */
 export async function getGoogleUserInfo(accessToken: string): Promise<GoogleUserInfo> {
   // E2E test mode: return mock user info without calling Google API
-  if (isE2ETestMode() && accessToken.startsWith('mock_access_token_')) {
+  const testMode = isE2ETestMode();
+  if (process.env.NODE_ENV === 'test') {
+    console.log('[getGoogleUserInfo] accessToken:', accessToken, 'testMode:', testMode, 'isMockToken:', accessToken.startsWith('mock_access_token_'));
+  }
+
+  if (testMode && accessToken.startsWith('mock_access_token_')) {
     const code = accessToken.replace('mock_access_token_', '');
-    return getMockUserDataFromTestCode(code);
+    const mockData = getMockUserDataFromTestCode(code);
+    if (process.env.NODE_ENV === 'test') {
+      console.log('[getGoogleUserInfo] Returning mock data:', mockData);
+    }
+    return mockData;
   }
 
   const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
