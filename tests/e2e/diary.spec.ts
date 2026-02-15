@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Authentication Guard', () => {
+test.describe('Diary Page - Authentication Guard', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
   });
@@ -29,8 +28,7 @@ test.describe.skip('Diary Page - Authentication Guard', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Diary List Display', () => {
+test.describe('Diary Page - Diary List Display', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -83,8 +81,7 @@ test.describe.skip('Diary Page - Diary List Display', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Infinite Scroll', () => {
+test.describe('Diary Page - Infinite Scroll', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -206,8 +203,7 @@ test.describe.skip('Diary Page - Infinite Scroll', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Navigation to Detail', () => {
+test.describe('Diary Page - Navigation to Detail', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -271,8 +267,7 @@ test.describe.skip('Diary Page - Navigation to Detail', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Empty State', () => {
+test.describe('Diary Page - Empty State', () => {
   test.beforeEach(async ({ page }) => {
     // Create a new user with no diaries
     await prisma.user.create({
@@ -352,8 +347,7 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Error Handling', () => {
+test.describe('Diary Page - Error Handling', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -381,8 +375,7 @@ test.describe.skip('Diary Page - Error Handling', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Responsive Design', () => {
+test.describe('Diary Page - Responsive Design', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
