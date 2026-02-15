@@ -3,6 +3,20 @@ import { describe, it, expect } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import DiaryCard from '@/components/DiaryCard'
 
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),
+  }),
+  usePathname: () => '/diary',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
 describe('DiaryCard Component', () => {
   const mockDiary = {
     diary_id: 'test-diary-id',
