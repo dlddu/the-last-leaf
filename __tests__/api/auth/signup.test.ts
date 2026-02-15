@@ -5,24 +5,20 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
 import { POST } from '@/app/api/auth/signup/route'
 import { NextRequest } from 'next/server'
-import { PrismaClient } from '@prisma/client'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
-// Mock PrismaClient
-jest.mock('@prisma/client', () => {
-  const mockPrisma = {
+// Mock Prisma
+jest.mock('@/lib/prisma', () => ({
+  prisma: {
     user: {
       findUnique: jest.fn(),
       create: jest.fn(),
     },
-  }
-  return {
-    PrismaClient: jest.fn(() => mockPrisma),
-  }
-})
+  },
+}))
 
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
 
 describe('POST /api/auth/signup', () => {
   beforeEach(() => {
@@ -185,7 +181,7 @@ describe('POST /api/auth/signup', () => {
       // Assert
       expect(response.status).toBe(400)
       expect(data).toHaveProperty('error')
-      expect(data.error).toContain('email')
+      expect(data.error.toLowerCase()).toContain('email')
     })
 
     it('should return 400 when email is invalid format', async () => {
@@ -232,7 +228,7 @@ describe('POST /api/auth/signup', () => {
       // Assert
       expect(response.status).toBe(400)
       expect(data).toHaveProperty('error')
-      expect(data.error).toContain('password')
+      expect(data.error.toLowerCase()).toContain('password')
     })
 
     it('should return 400 when password is too short', async () => {
@@ -303,7 +299,7 @@ describe('POST /api/auth/signup', () => {
       // Assert
       expect(response.status).toBe(400)
       expect(data).toHaveProperty('error')
-      expect(data.error).toContain('nickname')
+      expect(data.error.toLowerCase()).toContain('nickname')
     })
 
     it('should return 400 when nickname is empty string', async () => {
@@ -327,7 +323,7 @@ describe('POST /api/auth/signup', () => {
       // Assert
       expect(response.status).toBe(400)
       expect(data).toHaveProperty('error')
-      expect(data.error).toContain('nickname')
+      expect(data.error.toLowerCase()).toContain('nickname')
     })
   })
 

@@ -1,16 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/password';
 import { signToken } from '@/lib/auth';
-
-const prisma = new PrismaClient();
 
 // Email validation regex
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid JSON' },
+        { status: 400 }
+      );
+    }
     const { email, password, passwordConfirm, nickname } = body;
 
     // Validate email
