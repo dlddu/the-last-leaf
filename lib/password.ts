@@ -52,3 +52,8 @@ export async function comparePassword(password: string, hash: string): Promise<b
     throw new Error('Invalid hash format');
   }
 }
+
+/**
+ * Alias for comparePassword for better semantic naming
+ */
+export const verifyPassword = comparePassword;
