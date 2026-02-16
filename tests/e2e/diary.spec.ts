@@ -227,6 +227,28 @@ test.describe('Diary Page - Infinite Scroll', () => {
 
 test.describe('Diary Page - Navigation to Detail', () => {
   test.beforeEach(async ({ page }) => {
+    // Reset test user's diaries to seed state for isolation
+    const testUser = await prisma.user.findUnique({
+      where: { email: 'test@example.com' },
+    });
+    if (testUser) {
+      await prisma.diary.deleteMany({
+        where: { user_id: testUser.user_id },
+      });
+      await prisma.diary.create({
+        data: {
+          user_id: testUser.user_id,
+          content: 'This is my first test diary entry. I am testing the diary feature.',
+          created_at: new Date(Date.now() - 1000),
+        },
+      });
+      await prisma.diary.create({
+        data: {
+          user_id: testUser.user_id,
+          content: 'This is my second test diary entry. The weather is nice today.',
+        },
+      });
+    }
     await authenticateAsTestUser(page);
   });
 
