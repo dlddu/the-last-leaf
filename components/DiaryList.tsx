@@ -79,7 +79,7 @@ export default function DiaryList() {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="max-w-2xl mx-auto p-6">
+      <div className="max-w-2xl mx-auto p-6" data-testid="diary-list">
         <DiaryListHeader totalCount={diaries.length} />
 
         {diaries.length === 0 ? (
