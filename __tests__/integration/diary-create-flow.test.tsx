@@ -64,7 +64,7 @@ describe('Diary Create Flow - Integration Test', () => {
       await user.click(backButton)
 
       // Assert
-      expect(mockBack).toHaveBeenCalled()
+      expect(mockPush).toHaveBeenCalledWith('/diary')
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     })
   })
@@ -147,7 +147,7 @@ describe('Diary Create Flow - Integration Test', () => {
       await user.click(confirmButton)
 
       // Assert
-      expect(mockBack).toHaveBeenCalled()
+      expect(mockPush).toHaveBeenCalledWith('/diary')
     })
 
     it('should close modal when Escape key pressed', async () => {
