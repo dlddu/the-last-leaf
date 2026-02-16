@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
+import { authenticateAsTestUser, authenticateAsUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Authentication Guard', () => {
+test.describe('Diary Page - Authentication Guard', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
   });
@@ -13,8 +12,8 @@ test.describe.skip('Diary Page - Authentication Guard', () => {
     await page.goto('/diary');
 
     // Assert
-    await page.waitForURL(/\/auth\/login/);
-    await expect(page).toHaveURL(/\/auth\/login/);
+    await page.waitForURL(/\/login/);
+    await expect(page).toHaveURL(/\/login/);
   });
 
   test('should allow authenticated user to access /diary', async ({ page }) => {
@@ -29,8 +28,7 @@ test.describe.skip('Diary Page - Authentication Guard', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Diary List Display', () => {
+test.describe('Diary Page - Diary List Display', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -83,8 +81,7 @@ test.describe.skip('Diary Page - Diary List Display', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Infinite Scroll', () => {
+test.describe('Diary Page - Infinite Scroll', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -206,8 +203,7 @@ test.describe.skip('Diary Page - Infinite Scroll', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Navigation to Detail', () => {
+test.describe('Diary Page - Navigation to Detail', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -271,8 +267,7 @@ test.describe.skip('Diary Page - Navigation to Detail', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Empty State', () => {
+test.describe('Diary Page - Empty State', () => {
   test.beforeEach(async ({ page }) => {
     // Create a new user with no diaries
     await prisma.user.create({
@@ -297,8 +292,7 @@ test.describe.skip('Diary Page - Empty State', () => {
 
   test('should display EmptyState when user has no diaries', async ({ page }) => {
     // Arrange - Authenticate as user with no diaries
-    // Note: This requires a helper function to authenticate as specific user
-    // For now, we'll test the UI component existence
+    await authenticateAsUser(page, 'emptyuser@example.com');
 
     // Act
     await page.goto('/diary');
@@ -309,6 +303,9 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 
   test('should display "첫 일기 쓰기" CTA button in EmptyState', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -318,6 +315,9 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 
   test('should navigate to /diary/new when clicking "첫 일기 쓰기" button', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -330,6 +330,9 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 
   test('should display empty state illustration or icon', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -343,6 +346,9 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 
   test('should not display diary cards when in empty state', async ({ page }) => {
+    // Arrange
+    await authenticateAsUser(page, 'emptyuser@example.com');
+
     // Act
     await page.goto('/diary');
 
@@ -352,8 +358,7 @@ test.describe.skip('Diary Page - Empty State', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Error Handling', () => {
+test.describe('Diary Page - Error Handling', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -381,8 +386,7 @@ test.describe.skip('Diary Page - Error Handling', () => {
   });
 });
 
-// TODO: Activate when DLD-368 is implemented
-test.describe.skip('Diary Page - Responsive Design', () => {
+test.describe('Diary Page - Responsive Design', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -416,8 +420,28 @@ test.describe.skip('Diary Page - Responsive Design', () => {
     // Arrange
     await page.setViewportSize({ width: 375, height: 667 });
 
+    // Create more diaries to ensure scrollable content
+    const testUser = await prisma.user.findUnique({
+      where: { email: 'test@example.com' },
+    });
+
+    if (!testUser) {
+      throw new Error('Test user not found');
+    }
+
+    // Create additional diaries to ensure page is scrollable
+    for (let i = 0; i < 5; i++) {
+      await prisma.diary.create({
+        data: {
+          user_id: testUser.user_id,
+          content: `Mobile scroll test diary entry ${i + 1}. This is additional content to ensure the page is scrollable on mobile devices.`,
+        },
+      });
+    }
+
     // Act
     await page.goto('/diary');
+    await page.waitForSelector('[data-testid="diary-card"]');
 
     // Assert - Page should be scrollable
     const isScrollable = await page.evaluate(() => {
