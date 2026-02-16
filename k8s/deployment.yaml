@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: the-last-leaf
-        image: ghcr.io/dlddu/the-last-leaf:sha-e5e2c4e
+        image: ghcr.io/dlddu/the-last-leaf:sha-cebf269
         ports:
         - containerPort: 3000
           name: http
