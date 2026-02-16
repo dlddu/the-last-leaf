@@ -59,13 +59,13 @@ export default function DiaryCreatePage() {
     if (saveStatus === 'dirty') {
       setShowLeaveModal(true);
     } else {
-      router.back();
+      router.push('/diary');
     }
   };
 
   const handleConfirmLeave = () => {
     setShowLeaveModal(false);
-    router.back();
+    router.push('/diary');
   };
 
   const handleCancelLeave = () => {

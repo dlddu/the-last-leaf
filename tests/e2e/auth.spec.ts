@@ -31,14 +31,15 @@ test.describe('Authentication Flow', () => {
     await authenticateAsTestUser(page);
     await page.goto('/dashboard');
 
-    // Act
+    // Act - Wait for logout button to appear and click it
     const logoutButton = page.getByRole('button', { name: /logout/i });
-    if (await logoutButton.isVisible()) {
-      await logoutButton.click();
-    }
+    await expect(logoutButton).toBeVisible();
+    await logoutButton.click();
 
-    // Assert
-    // After logout, accessing dashboard should redirect to login
+    // Wait for logout redirect to complete
+    await page.waitForURL(/\/login/);
+
+    // Assert - After logout, accessing dashboard should redirect to login
     await page.goto('/dashboard');
     await expect(page).toHaveURL(/\/login/);
   });
