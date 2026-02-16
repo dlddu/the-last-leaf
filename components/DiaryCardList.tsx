@@ -19,7 +19,7 @@ interface DiaryCardListProps {
 
 export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCardListProps) {
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadingRef = useRef<HTMLDivElement | null>(null);
+  const loadingRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
     // Cleanup previous observer
@@ -53,15 +53,15 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
   }, [hasMore, onLoadMore]);
 
   return (
-    <div data-testid="diary-list" className="grid grid-cols-1 gap-4">
+    <ul data-testid="diary-list" className="grid grid-cols-1 gap-4 list-none p-0 m-0">
       {diaries.map((diary) => (
-        <div key={diary.diary_id}>
+        <li key={diary.diary_id}>
           <DiaryCard diary={diary} />
-        </div>
+        </li>
       ))}
 
       {hasMore && (
-        <div
+        <li
           ref={loadingRef}
           data-testid="loading-indicator"
           role="status"
@@ -69,8 +69,8 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
           className="flex justify-center py-4"
         >
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        </div>
+        </li>
       )}
-    </div>
+    </ul>
   );
 }

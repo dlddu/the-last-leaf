@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom'
-import { describe, it, expect, jest, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach } from '@jest/globals'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import FAB from '@/components/FAB'
 
-// Mock Next.js router
+// Mock Next.js router (must be before component import, use global jest)
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(() => ({
     push: jest.fn(),
@@ -12,6 +11,8 @@ jest.mock('next/navigation', () => ({
     prefetch: jest.fn(),
   })),
 }))
+
+import FAB from '@/components/FAB'
 
 describe('FAB Component', () => {
   beforeEach(() => {

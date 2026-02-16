@@ -18,9 +18,12 @@ jest.mock('@/lib/auth', () => ({
   verifyToken: mockVerifyToken,
 }))
 
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
-import { GET } from '@/app/api/diary/route'
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import { NextRequest } from 'next/server'
+
+// Use require to load route module after jest.mock calls are registered
+// (importing jest from @jest/globals prevents SWC from hoisting jest.mock)
+const { GET } = require('@/app/api/diary/route') as typeof import('@/app/api/diary/route')
 
 describe('GET /api/diary', () => {
   beforeEach(() => {
