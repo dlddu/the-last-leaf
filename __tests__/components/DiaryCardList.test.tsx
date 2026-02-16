@@ -1,6 +1,21 @@
 import '@testing-library/jest-dom'
-import { describe, it, expect, jest, beforeEach } from '@jest/globals'
+import { describe, it, expect, beforeEach } from '@jest/globals'
 import { render, screen, waitFor } from '@testing-library/react'
+
+// Mock next/navigation for DiaryCard which uses useRouter
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),
+  }),
+  usePathname: () => '/diary',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
 import DiaryCardList from '@/components/DiaryCardList'
 
 // Mock IntersectionObserver
