@@ -15,6 +15,7 @@ export default function FAB() {
     <button
       onClick={handleClick}
       aria-label="새 일기 작성"
+      data-testid="fab-create-diary"
       className="fixed bottom-20 right-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
     >
       <svg

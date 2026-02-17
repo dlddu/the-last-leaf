@@ -76,3 +76,81 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    // Get auth token from cookie
+    const token = request.cookies.get('auth-token')?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Verify token
+    let payload;
+    try {
+      payload = await verifyToken(token);
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = payload.userId as string;
+
+    // Parse request body
+    let body;
+    try {
+      body = await request.json();
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+
+    const { content } = body;
+
+    // Validate content
+    if (!content || typeof content !== 'string' || content.trim() === '') {
+      return NextResponse.json(
+        { error: 'Content is required and cannot be empty' },
+        { status: 400 }
+      );
+    }
+
+    // Create diary entry
+    const diary = await prisma.diary.create({
+      data: {
+        user_id: userId,
+        content,
+      },
+    });
+
+    // Update user's last_active_at
+    try {
+      await prisma.user.update({
+        where: { user_id: userId },
+        data: { last_active_at: new Date() },
+      });
+    } catch (error) {
+      // Log error but don't fail the request
+      console.error('Failed to update last_active_at:', error);
+    }
+
+    return NextResponse.json(
+      { diary_id: diary.diary_id },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Create diary error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
