@@ -33,7 +33,7 @@ export default async function DiaryDetailPage({ params }: DiaryDetailPageProps) 
   const formattedTime = new Date(diary.created_at).toLocaleTimeString('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
-  });
+  }) + ' 작성';
 
   return (
     <DiaryDetailClient
