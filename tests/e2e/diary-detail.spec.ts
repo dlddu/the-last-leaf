@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, authenticateAsUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
-// TODO: Activate when DLD-372 is implemented (일기 상세 조회 기능 구현 완료 후 skip 제거)
-test.describe.skip('Diary Detail Page - Navigation from List', () => {
+test.describe('Diary Detail Page - Navigation from List', () => {
   let diaryId: string;
 
   test.beforeEach(async ({ page }) => {
@@ -59,8 +58,7 @@ test.describe.skip('Diary Detail Page - Navigation from List', () => {
   });
 });
 
-// TODO: Activate when DLD-372 is implemented (일기 상세 조회 기능 구현 완료 후 skip 제거)
-test.describe.skip('Diary Detail Page - Content Display', () => {
+test.describe('Diary Detail Page - Content Display', () => {
   let diaryId: string;
   const testContent = '오늘은 정말 맑은 날이었다. 공원을 산책하며 생각을 정리했다.';
 
@@ -144,8 +142,7 @@ test.describe.skip('Diary Detail Page - Content Display', () => {
   });
 });
 
-// TODO: Activate when DLD-372 is implemented (일기 상세 조회 기능 구현 완료 후 skip 제거)
-test.describe.skip('Diary Detail Page - Authorization', () => {
+test.describe('Diary Detail Page - Authorization', () => {
   let otherUserDiaryId: string;
 
   test.beforeEach(async () => {
@@ -229,8 +226,7 @@ test.describe.skip('Diary Detail Page - Authorization', () => {
   });
 });
 
-// TODO: Activate when DLD-372 is implemented (일기 상세 조회 기능 구현 완료 후 skip 제거)
-test.describe.skip('Diary Detail Page - Not Found', () => {
+test.describe('Diary Detail Page - Not Found', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -263,8 +259,7 @@ test.describe.skip('Diary Detail Page - Not Found', () => {
   });
 });
 
-// TODO: Activate when DLD-372 is implemented (일기 상세 조회 기능 구현 완료 후 skip 제거)
-test.describe.skip('Diary Detail Page - Authentication Guard', () => {
+test.describe('Diary Detail Page - Authentication Guard', () => {
   test('should redirect unauthenticated user to /login when accessing /diary/:id', async ({ page }) => {
     // Arrange - Clear all auth cookies
     await clearAuth(page);
