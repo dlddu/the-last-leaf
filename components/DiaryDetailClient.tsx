@@ -1,6 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import DetailHeader from '@/components/DetailHeader';
+import DiaryMeta from '@/components/DiaryMeta';
+import DiaryContent from '@/components/DiaryContent';
+import DeleteConfirmModal from '@/components/DeleteConfirmModal';
 
 interface DiaryDetailClientProps {
   diaryId: string;
@@ -15,8 +19,19 @@ export default function DiaryDetailClient({
   formattedTime,
   content,
 }: DiaryDetailClientProps) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const handleDeleteClick = () => {
-    // 삭제 처리 (추후 구현)
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setIsDeleteModalOpen(false);
+    // 실제 삭제 API 호출은 추후 구현
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -24,16 +39,15 @@ export default function DiaryDetailClient({
       <DetailHeader diaryId={diaryId} onDeleteClick={handleDeleteClick} />
       <div className="max-w-2xl mx-auto p-6 pt-20">
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="mb-4">
-            <p data-testid="diary-detail-date" className="text-sm text-gray-500">
-              {formattedDate} {formattedTime}
-            </p>
-          </div>
-          <div data-testid="diary-content" className="text-gray-800 whitespace-pre-wrap">
-            {content}
-          </div>
+          <DiaryMeta formattedDate={formattedDate} formattedTime={formattedTime} />
+          <DiaryContent content={content} />
         </div>
       </div>
+      <DeleteConfirmModal
+        isOpen={isDeleteModalOpen}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </div>
   );
 }
