@@ -67,15 +67,6 @@ jobs:
         run: npm run prisma:generate
 
       - name: Run tests
-        run: npm run test:coverage
+        run: npm test
         env:
           NODE_ENV: test
-
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/coverage-final.json
-          flags: unittests
-          name: codecov-umbrella

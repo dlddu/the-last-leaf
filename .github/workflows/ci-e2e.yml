@@ -59,6 +59,3 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Stop PostgreSQL test database
-        if: always()
-        run: docker compose down
