@@ -1,6 +1,7 @@
 import { requireAuth } from '@/lib/auth-server';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import DiaryDetailClient from '@/components/DiaryDetailClient';
 
 interface DiaryDetailPageProps {
   params: Promise<{
@@ -32,18 +33,14 @@ export default async function DiaryDetailPage({ params }: DiaryDetailPageProps) 
   const formattedTime = new Date(diary.created_at).toLocaleTimeString('ko-KR', {
     hour: '2-digit',
     minute: '2-digit',
-  });
+  }) + ' 작성';
 
   return (
-    <div className="min-h-screen max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="mb-4">
-          <p data-testid="diary-detail-date" className="text-sm text-gray-500">{formattedDate} {formattedTime}</p>
-        </div>
-        <div data-testid="diary-content" className="text-gray-800 whitespace-pre-wrap">
-          {diary.content}
-        </div>
-      </div>
-    </div>
+    <DiaryDetailClient
+      diaryId={id}
+      formattedDate={formattedDate}
+      formattedTime={formattedTime}
+      content={diary.content}
+    />
   );
 }
