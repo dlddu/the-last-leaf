@@ -56,4 +56,10 @@ jobs:
 
           TAG="${{ steps.tag.outputs.sha_tag }}"
           git commit -m "chore(k8s): update prod image tag to ${TAG}"
-          git push origin main
+
+          # Retry with rebase to handle concurrent commits (e.g. auto-migration)
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && break
+            echo "Push failed (attempt $i/3), retrying..."
+            sleep 2
+          done
