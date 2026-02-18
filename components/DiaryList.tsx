@@ -69,20 +69,19 @@ export default function DiaryList() {
     }
   }, [nextCursor, isLoadingMore, fetchDiaries]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen pb-20">
-      <div className="max-w-2xl mx-auto p-6">
-        <DiaryListHeader totalCount={diaries.length} />
-
-        {diaries.length === 0 ? (
+    <div className="min-h-screen bg-gray-50 pb-20">
+      <DiaryListHeader totalCount={diaries.length} />
+      <div className="px-4 py-3">
+        {isLoading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="flex gap-1">
+              <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+              <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+              <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            </div>
+          </div>
+        ) : diaries.length === 0 ? (
           <EmptyState />
         ) : (
           <DiaryCardList
