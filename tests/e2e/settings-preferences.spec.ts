@@ -1,5 +1,4 @@
-// TODO: Activate when DLD-382 is implemented
-// All tests in this file are skipped until /settings/preferences page is implemented.
+// Activated: DLD-383 — /settings/preferences page implemented.
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
@@ -32,9 +31,7 @@ async function resetTestUserPreferences(userId: string): Promise<void> {
 // Navigation
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Navigation', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Navigation', () => {
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
     await resetTestUserPreferences(userId);
@@ -65,9 +62,7 @@ test.describe.skip('Settings Preferences - Navigation', () => {
 // Timer Toggle — OFF to ON
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Timer Toggle OFF to ON', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Timer Toggle OFF to ON', () => {
   test.beforeEach(async ({ page }) => {
     // Arrange — ensure timer is in inactive state before each test
     const userId = await getTestUserId();
@@ -119,9 +114,7 @@ test.describe.skip('Settings Preferences - Timer Toggle OFF to ON', () => {
 // Timer Toggle — ON to OFF
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Timer Toggle ON to OFF', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Timer Toggle ON to OFF', () => {
   test.beforeEach(async ({ page }) => {
     // Arrange — seed timer as paused so the toggle starts in ON state
     const userId = await getTestUserId();
@@ -163,9 +156,7 @@ test.describe.skip('Settings Preferences - Timer Toggle ON to OFF', () => {
 // Timer Toggle — Persistence after reload
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Timer Toggle Persistence', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Timer Toggle Persistence', () => {
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
     await resetTestUserPreferences(userId);
@@ -208,9 +199,7 @@ test.describe.skip('Settings Preferences - Timer Toggle Persistence', () => {
 // Idle Period Selection
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Idle Period Selection', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Idle Period Selection', () => {
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
     await resetTestUserPreferences(userId);
@@ -292,9 +281,7 @@ test.describe.skip('Settings Preferences - Idle Period Selection', () => {
 // API Reflection
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - API Reflection', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - API Reflection', () => {
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
     await resetTestUserPreferences(userId);
@@ -405,9 +392,7 @@ test.describe.skip('Settings Preferences - API Reflection', () => {
 // Authentication Guard
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Preferences - Authentication Guard', () => {
-  // TODO: DLD-382 — activate after /settings/preferences page is implemented
-
+test.describe('Settings Preferences - Authentication Guard', () => {
   test('should redirect to /login when unauthenticated user accesses /settings/preferences', async ({ page }) => {
     // Arrange
     await clearAuth(page);

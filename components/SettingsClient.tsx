@@ -57,7 +57,7 @@ export default function SettingsClient() {
         <MenuGroup title="환경설정">
           <MenuItem
             label="타이머 일시 중지"
-            href="/settings/timer"
+            href="/settings/preferences"
           />
         </MenuGroup>
 
