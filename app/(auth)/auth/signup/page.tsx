@@ -54,7 +54,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md space-y-6">
         <AppLogo tagline="일기를 기록하고 자서전을 만들어 보세요" />
         <AuthCard>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 이메일
