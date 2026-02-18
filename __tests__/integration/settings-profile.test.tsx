@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import ProfilePage from '@/app/settings/profile/page'
+import ProfilePage from '@/app/(main)/settings/profile/page'
 
 describe('Settings Profile Flow - Integration Test', () => {
   const mockProfileData = {

@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import DiaryEditPage from '@/app/diary/[id]/edit/page'
+import DiaryEditPage from '@/app/(main)/diary/[id]/edit/page'
 
 describe('Diary Edit Flow - Integration Test', () => {
   const defaultParams = { params: Promise.resolve({ id: 'diary-test-id' }) }

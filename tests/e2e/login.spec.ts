@@ -8,7 +8,7 @@ test.describe('Login Page - Access and Rendering', () => {
 
   test('should render login form when accessing /login', async ({ page }) => {
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert
     await expect(page).toHaveURL(/\/login/);
@@ -20,7 +20,7 @@ test.describe('Login Page - Access and Rendering', () => {
 
   test('should display email input field with correct type and attributes', async ({ page }) => {
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert
     const emailInput = page.getByLabel(/email|이메일/i);
@@ -31,7 +31,7 @@ test.describe('Login Page - Access and Rendering', () => {
 
   test('should display password input field with correct type and attributes', async ({ page }) => {
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert
     const passwordInput = page.getByLabel(/password|비밀번호/i);
@@ -46,20 +46,20 @@ test.describe('Login Flow - Success Scenarios', () => {
     await clearAuth(page);
   });
 
-  test('should successfully login with valid credentials and redirect to /dashboard', async ({ page }) => {
+  test('should successfully login with valid credentials and redirect to /diary', async ({ page }) => {
     // Arrange
     const testEmail = 'test@example.com';
     const testPassword = 'testpassword123';
 
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
     await page.getByLabel(/email|이메일/i).fill(testEmail);
     await page.getByLabel(/password|비밀번호/i).fill(testPassword);
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert
-    await page.waitForURL(/\/dashboard/);
-    await expect(page).toHaveURL(/\/dashboard/);
+    await page.waitForURL(/\/diary/);
+    await expect(page).toHaveURL(/\/diary/);
   });
 
   test('should show loading state while login request is processing', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('Login Flow - Success Scenarios', () => {
     const testPassword = 'testpassword123';
 
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
     await page.getByLabel(/email|이메일/i).fill(testEmail);
     await page.getByLabel(/password|비밀번호/i).fill(testPassword);
 
@@ -85,7 +85,7 @@ test.describe('Login Flow - Success Scenarios', () => {
     const testEmail = 'test@example.com';
 
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
     await page.getByLabel(/email|이메일/i).fill(testEmail);
     // Leave password empty
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
@@ -98,7 +98,7 @@ test.describe('Login Flow - Success Scenarios', () => {
 test.describe('Login Form - Validation Errors', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
-    await page.goto('/login');
+    await page.goto('/auth/login');
   });
 
   test('should show validation errors when required fields are missing', async ({ page }) => {
@@ -162,7 +162,7 @@ test.describe('Login Form - Validation Errors', () => {
 test.describe('Login API - Error Scenarios', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
-    await page.goto('/login');
+    await page.goto('/auth/login');
   });
 
   test('should show error message for incorrect password', async ({ page }) => {
@@ -231,8 +231,8 @@ test.describe('Login API - Error Scenarios', () => {
     await page.getByRole('button', { name: /^login|^로그인/i }).click();
 
     // Assert - Should redirect (error cleared)
-    await page.waitForURL(/\/dashboard/);
-    await expect(page).toHaveURL(/\/dashboard/);
+    await page.waitForURL(/\/diary/);
+    await expect(page).toHaveURL(/\/diary/);
   });
 
   test('should handle server error gracefully', async ({ page }) => {
@@ -254,7 +254,7 @@ test.describe('Login Page - Authentication Guard', () => {
     await authenticateAsTestUser(page);
 
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert - Middleware redirects authenticated users from /login to /diary
     await page.waitForURL(/\/diary/);
@@ -266,7 +266,7 @@ test.describe('Login Page - Authentication Guard', () => {
     await clearAuth(page);
 
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert
     await expect(page).toHaveURL(/\/login/);
@@ -313,7 +313,7 @@ test.describe('Login Page - Authentication Guard', () => {
 test.describe('Login Page - User Experience', () => {
   test.beforeEach(async ({ page }) => {
     await clearAuth(page);
-    await page.goto('/login');
+    await page.goto('/auth/login');
   });
 
   test('should allow navigation to signup page if link exists', async ({ page }) => {
@@ -329,7 +329,7 @@ test.describe('Login Page - User Experience', () => {
 
   test('should focus on email field when page loads', async ({ page }) => {
     // Act
-    await page.goto('/login');
+    await page.goto('/auth/login');
 
     // Assert - Email field should be focused (if auto-focus is implemented)
     const emailInput = page.getByLabel(/email|이메일/i);

@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import ContactsPage from '@/app/settings/contacts/page'
+import ContactsPage from '@/app/(main)/settings/contacts/page'
 
 // ---------------------------------------------------------------------------
 // Shared fixtures

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import BottomNav from '@/components/BottomNav'
 
 export const metadata: Metadata = {
   title: 'The Last Leaf',
@@ -16,7 +15,6 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         {children}
-        <BottomNav />
       </body>
     </html>
   )

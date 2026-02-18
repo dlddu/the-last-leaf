@@ -229,6 +229,66 @@ describe('BottomNav Component', () => {
       // Active button should have different styling
       expect(diaryButton.className).not.toBe(settingsButton.className)
     })
+
+    it('should use text-indigo-600 for active tab color (not text-blue-600)', () => {
+      // Arrange
+      const { usePathname } = require('next/navigation')
+      usePathname.mockReturnValue('/diary')
+
+      // Act
+      render(<BottomNav />)
+
+      // Assert
+      const diaryButton = screen.getByRole('button', { name: /일기/i })
+      expect(diaryButton.className).toContain('text-indigo-600')
+      expect(diaryButton.className).not.toContain('text-blue-600')
+    })
+
+    it('should use text-indigo-600 for active settings tab color', () => {
+      // Arrange
+      const { usePathname } = require('next/navigation')
+      usePathname.mockReturnValue('/settings')
+
+      // Act
+      render(<BottomNav />)
+
+      // Assert
+      const settingsButton = screen.getByRole('button', { name: /설정/i })
+      expect(settingsButton.className).toContain('text-indigo-600')
+      expect(settingsButton.className).not.toContain('text-blue-600')
+    })
+
+    it('should use outline style SVG icons (not filled)', () => {
+      // Act
+      render(<BottomNav />)
+
+      // Assert - heroicons outline: fill="none" with stroke="currentColor"
+      const svgElements = document.querySelectorAll('svg')
+      svgElements.forEach((svg) => {
+        expect(svg).toHaveAttribute('fill', 'none')
+        expect(svg).toHaveAttribute('stroke', 'currentColor')
+      })
+    })
+
+    it('should render SVG icon for diary tab', () => {
+      // Act
+      render(<BottomNav />)
+
+      // Assert - diary button contains an SVG icon
+      const diaryButton = screen.getByRole('button', { name: /일기/i })
+      const svgInDiary = diaryButton.querySelector('svg')
+      expect(svgInDiary).toBeInTheDocument()
+    })
+
+    it('should render SVG icon for settings tab', () => {
+      // Act
+      render(<BottomNav />)
+
+      // Assert - settings button contains an SVG icon
+      const settingsButton = screen.getByRole('button', { name: /설정/i })
+      const svgInSettings = settingsButton.querySelector('svg')
+      expect(svgInSettings).toBeInTheDocument()
+    })
   })
 
   describe('Edge Cases', () => {

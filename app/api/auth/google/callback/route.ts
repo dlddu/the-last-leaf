@@ -12,14 +12,14 @@ export async function GET(request: NextRequest) {
 
     // Check if user denied access
     if (error) {
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = new URL('/auth/login', request.url);
       loginUrl.searchParams.set('error', 'google_login_failed');
       return NextResponse.redirect(loginUrl);
     }
 
     // Check if authorization code is present
     if (!code) {
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = new URL('/auth/login', request.url);
       loginUrl.searchParams.set('error', 'authentication_failed');
       return NextResponse.redirect(loginUrl);
     }
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       tokenData = await exchangeCodeForToken(code);
     } catch (error) {
       console.error('Token exchange error:', error);
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = new URL('/auth/login', request.url);
       loginUrl.searchParams.set('error', 'authentication_failed');
       return NextResponse.redirect(loginUrl);
     }
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       userInfo = await getGoogleUserInfo(tokenData.access_token);
     } catch (error) {
       console.error('User info error:', error);
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = new URL('/auth/login', request.url);
       loginUrl.searchParams.set('error', 'authentication_failed');
       return NextResponse.redirect(loginUrl);
     }

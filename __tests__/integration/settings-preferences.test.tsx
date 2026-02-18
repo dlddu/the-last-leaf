@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import PreferencesPage from '@/app/settings/preferences/page'
+import PreferencesPage from '@/app/(main)/settings/preferences/page'
 
 describe('Settings Preferences Flow - Integration Test', () => {
   const mockPreferencesData = {
