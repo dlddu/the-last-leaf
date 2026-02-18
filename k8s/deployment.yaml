@@ -16,7 +16,7 @@ spec:
     spec:
       initContainers:
       - name: migrate
-        image: ghcr.io/dlddu/the-last-leaf:sha-c0482dc
+        image: ghcr.io/dlddu/the-last-leaf:sha-a491d9a
         workingDir: /app
         command:
         - sh
@@ -36,7 +36,7 @@ spec:
             name: the-last-leaf-config
       containers:
       - name: the-last-leaf
-        image: ghcr.io/dlddu/the-last-leaf:sha-c0482dc
+        image: ghcr.io/dlddu/the-last-leaf:sha-a491d9a
         ports:
         - containerPort: 3000
           name: http
