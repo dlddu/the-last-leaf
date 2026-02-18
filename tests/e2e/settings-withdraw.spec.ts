@@ -1,5 +1,4 @@
-// TODO: Activate when DLD-384 is implemented
-// All tests in this file are skipped until /settings/withdraw page is implemented.
+// DLD-385: E2E tests for /settings/withdraw — activated after implementation (DLD-384)
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth, generateAuthToken } from '../helpers/auth';
 import { prisma, cleanupUserByEmail } from '../helpers/db-cleanup';
@@ -90,8 +89,7 @@ async function setupWithdrawUserSession(page: import('@playwright/test').Page): 
 // Navigation
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Withdraw - Navigation', () => {
-  // TODO: DLD-384 — activate after /settings/withdraw page is implemented
+test.describe('Settings Withdraw - Navigation', () => {
 
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -113,7 +111,7 @@ test.describe.skip('Settings Withdraw - Navigation', () => {
     await page.waitForURL(/\/settings\/withdraw/);
 
     // Assert
-    await expect(page.getByRole('heading', { name: /계정 탈퇴/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /계정 탈퇴/i, level: 1 })).toBeVisible();
   });
 });
 
@@ -121,8 +119,7 @@ test.describe.skip('Settings Withdraw - Navigation', () => {
 // Deletion Items List
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Withdraw - Deletion Items List', () => {
-  // TODO: DLD-384 — activate after /settings/withdraw page is implemented
+test.describe('Settings Withdraw - Deletion Items List', () => {
 
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -131,10 +128,11 @@ test.describe.skip('Settings Withdraw - Deletion Items List', () => {
 
   test('should display the list of items that will be deleted on withdraw page', async ({ page }) => {
     // Assert — 삭제될 항목 4가지가 모두 표시되어야 한다
-    await expect(page.getByText(/일기/i)).toBeVisible();
-    await expect(page.getByText(/자서전/i)).toBeVisible();
-    await expect(page.getByText(/프로필/i)).toBeVisible();
-    await expect(page.getByText(/계정/i)).toBeVisible();
+    const deletionList = page.locator('[data-testid="withdraw-deletion-list"]');
+    await expect(deletionList.getByText(/일기/i)).toBeVisible();
+    await expect(deletionList.getByText(/자서전/i)).toBeVisible();
+    await expect(deletionList.getByText(/프로필/i)).toBeVisible();
+    await expect(deletionList.getByText(/계정/i)).toBeVisible();
   });
 
   test('should display all four deletion item categories in a list', async ({ page }) => {
@@ -151,8 +149,7 @@ test.describe.skip('Settings Withdraw - Deletion Items List', () => {
 // Consent Checkbox
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Withdraw - Consent Checkbox', () => {
-  // TODO: DLD-384 — activate after /settings/withdraw page is implemented
+test.describe('Settings Withdraw - Consent Checkbox', () => {
 
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -214,8 +211,7 @@ test.describe.skip('Settings Withdraw - Consent Checkbox', () => {
 // Withdraw Execution
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Withdraw - Withdraw Execution', () => {
-  // TODO: DLD-384 — activate after /settings/withdraw page is implemented
+test.describe('Settings Withdraw - Withdraw Execution', () => {
 
   test.afterEach(async () => {
     // 탈퇴 전용 유저가 남아 있다면 정리한다 (탈퇴 API가 이미 삭제했을 수 있으므로 catch 처리)
@@ -318,9 +314,7 @@ test.describe.skip('Settings Withdraw - Withdraw Execution', () => {
 // Authentication Guard
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Withdraw - Authentication Guard', () => {
-  // TODO: DLD-384 — activate after /settings/withdraw page is implemented
-
+test.describe('Settings Withdraw - Authentication Guard', () => {
   test('should redirect to /login when unauthenticated user accesses /settings/withdraw', async ({ page }) => {
     // Arrange
     await clearAuth(page);

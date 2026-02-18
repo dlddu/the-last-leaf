@@ -5,6 +5,7 @@ export const mockCreate = jest.fn()
 export const mockUpdate = jest.fn()
 export const mockUpsert = jest.fn()
 export const mockFindMany = jest.fn()
+export const mockDelete = jest.fn()
 export const mockDiaryFindUnique = jest.fn()
 export const mockDiaryUpdate = jest.fn()
 export const mockDiaryDelete = jest.fn()
@@ -15,6 +16,7 @@ export const prisma = {
     create: mockCreate,
     update: mockUpdate,
     upsert: mockUpsert,
+    delete: mockDelete,
   },
   diary: {
     findMany: mockFindMany,
