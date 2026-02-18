@@ -69,7 +69,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
 
           <button
             onClick={onDeleteClick}
-            aria-label="삭제"
+            aria-label="일기 삭제"
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <svg

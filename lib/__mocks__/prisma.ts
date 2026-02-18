@@ -7,6 +7,7 @@ export const mockUpsert = jest.fn()
 export const mockFindMany = jest.fn()
 export const mockDiaryFindUnique = jest.fn()
 export const mockDiaryUpdate = jest.fn()
+export const mockDiaryDelete = jest.fn()
 
 export const prisma = {
   user: {
@@ -20,5 +21,6 @@ export const prisma = {
     findUnique: mockDiaryFindUnique,
     create: mockCreate,
     update: mockDiaryUpdate,
+    delete: mockDiaryDelete,
   },
 }

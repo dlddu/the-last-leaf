@@ -2,9 +2,7 @@ import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, authenticateAsUser, generateAuthToken } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
-// TODO: Activate when DELETE API is implemented (일기 삭제 기능 구현 완료 후 skip 제거)
-// Linear 이슈: DLD-376
-test.describe.skip('Diary Delete - Success Flow', () => {
+test.describe('Diary Delete - Success Flow', () => {
   let diaryId: string;
   const testContent = '삭제 테스트용 일기 내용입니다. 이 일기는 삭제될 예정입니다.';
 
@@ -73,9 +71,7 @@ test.describe.skip('Diary Delete - Success Flow', () => {
   });
 });
 
-// TODO: Activate when DELETE API is implemented (일기 삭제 기능 구현 완료 후 skip 제거)
-// Linear 이슈: DLD-376
-test.describe.skip('Diary Delete - Cancel Flow', () => {
+test.describe('Diary Delete - Cancel Flow', () => {
   let diaryId: string;
 
   test.beforeEach(async ({ page }) => {
@@ -126,9 +122,7 @@ test.describe.skip('Diary Delete - Cancel Flow', () => {
   });
 });
 
-// TODO: Activate when DELETE API is implemented (일기 삭제 기능 구현 완료 후 skip 제거)
-// Linear 이슈: DLD-376
-test.describe.skip('Diary Delete - Authorization', () => {
+test.describe('Diary Delete - Authorization', () => {
   let otherUserDiaryId: string;
 
   test.beforeEach(async () => {
