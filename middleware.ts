@@ -11,6 +11,11 @@ const publicRoutes = ['/auth/login', '/auth/signup', '/'];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Handle legacy /login route - redirect to /auth/login
+  if (pathname === '/login' || pathname.startsWith('/login/')) {
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
+
   // Handle /dashboard - redirect to /diary if authenticated, else /auth/login
   if (pathname.startsWith('/dashboard')) {
     const token = request.cookies.get('auth-token')?.value;
