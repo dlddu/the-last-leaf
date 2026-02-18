@@ -51,12 +51,12 @@ test.describe('Login Form', () => {
     await page.goto('/auth/login');
 
     // Act
-    await page.getByRole('button', { name: /login|sign in/i }).click();
+    await page.getByRole('button', { name: /login|sign in|로그인/i }).click();
 
     // Assert
     // Should show validation messages (implementation dependent)
-    const emailInput = page.getByLabel(/email/i);
-    const passwordInput = page.getByLabel(/password/i);
+    const emailInput = page.getByLabel(/email|이메일/i);
+    const passwordInput = page.getByLabel(/password|비밀번호/i);
 
     await expect(emailInput).toBeVisible();
     await expect(passwordInput).toBeVisible();
@@ -67,9 +67,9 @@ test.describe('Login Form', () => {
     await page.goto('/auth/login');
 
     // Act
-    await page.getByLabel(/email/i).fill('test@example.com');
-    await page.getByLabel(/password/i).fill('testpassword123');
-    await page.getByRole('button', { name: /login|sign in/i }).click();
+    await page.getByLabel(/email|이메일/i).fill('test@example.com');
+    await page.getByLabel(/password|비밀번호/i).fill('testpassword123');
+    await page.getByRole('button', { name: /login|sign in|로그인/i }).click();
 
     // Assert
     // Should redirect to diary or home after successful login
@@ -82,9 +82,9 @@ test.describe('Login Form', () => {
     await page.goto('/auth/login');
 
     // Act
-    await page.getByLabel(/email/i).fill('wrong@example.com');
-    await page.getByLabel(/password/i).fill('wrongpassword');
-    await page.getByRole('button', { name: /login|sign in/i }).click();
+    await page.getByLabel(/email|이메일/i).fill('wrong@example.com');
+    await page.getByLabel(/password|비밀번호/i).fill('wrongpassword');
+    await page.getByRole('button', { name: /login|sign in|로그인/i }).click();
 
     // Assert
     // Should show error message
