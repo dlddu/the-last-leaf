@@ -207,8 +207,10 @@ describe('Diary Edit Flow - Integration Test', () => {
       await user.type(textarea, '!')
 
       // Assert
-      const charCount = screen.getByTestId('char-count')
-      expect(charCount.textContent).toContain((initialCount + 1).toString())
+      await waitFor(() => {
+        const charCount = screen.getByTestId('char-count')
+        expect(charCount.textContent).toContain((initialCount + 1).toString())
+      })
     })
 
     it('should show ConfirmLeaveModal when back button clicked in dirty state', async () => {
@@ -298,17 +300,19 @@ describe('Diary Edit Flow - Integration Test', () => {
   describe('Saving State', () => {
     it('should transition to saving state when save button clicked', async () => {
       // Arrange
-      ;(global.fetch as jest.Mock)
-        .mockResolvedValueOnce({
+      let resolvePut: (value: unknown) => void
+      ;(global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+        if (options?.method === 'PUT') {
+          return new Promise(resolve => {
+            resolvePut = resolve
+          })
+        }
+        // GET
+        return Promise.resolve({
           ok: true,
           json: async () => mockDiaryData,
         })
-        .mockImplementationOnce(() =>
-          new Promise(resolve => setTimeout(() => resolve({
-            ok: true,
-            json: async () => ({ diary_id: 'diary-test-id' }),
-          }), 100))
-        )
+      })
       const user = userEvent.setup()
 
       // Act
@@ -322,24 +326,36 @@ describe('Diary Edit Flow - Integration Test', () => {
       await user.type(textarea, ' updated')
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
-      await user.click(saveButton)
+      user.click(saveButton)
 
-      // Assert
-      expect(screen.getByTestId('save-status')).toHaveTextContent(/저장 중|saving/i)
-      expect(saveButton).toBeDisabled()
+      // Assert - saving 상태가 될 때까지 기다림
+      await waitFor(() => {
+        expect(screen.getByTestId('save-status')).toHaveTextContent(/저장 중|saving/i)
+      })
+      expect(screen.getByRole('button', { name: /저장|save/i })).toBeDisabled()
+
+      // 정리
+      resolvePut!({
+        ok: true,
+        json: async () => ({ diary_id: 'diary-test-id' }),
+      })
     })
 
     it('should send PUT request with updated content', async () => {
       // Arrange
-      ;(global.fetch as jest.Mock)
-        .mockResolvedValueOnce({
+      ;(global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+        if (options?.method === 'PUT') {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ diary_id: 'diary-test-id', content: 'Original diary content updated' }),
+          })
+        }
+        // GET
+        return Promise.resolve({
           ok: true,
           json: async () => mockDiaryData,
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ diary_id: 'diary-test-id', content: 'Original diary content updated' }),
-        })
+      })
       const user = userEvent.setup()
 
       // Act
@@ -374,15 +390,19 @@ describe('Diary Edit Flow - Integration Test', () => {
   describe('Success State', () => {
     it('should navigate to diary detail page on successful save', async () => {
       // Arrange
-      ;(global.fetch as jest.Mock)
-        .mockResolvedValueOnce({
+      ;(global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+        if (options?.method === 'PUT') {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ diary_id: 'diary-test-id' }),
+          })
+        }
+        // GET
+        return Promise.resolve({
           ok: true,
           json: async () => mockDiaryData,
         })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ diary_id: 'diary-test-id' }),
-        })
+      })
       const user = userEvent.setup()
 
       // Act
@@ -408,16 +428,20 @@ describe('Diary Edit Flow - Integration Test', () => {
   describe('Error State', () => {
     it('should show error status when save fails', async () => {
       // Arrange
-      ;(global.fetch as jest.Mock)
-        .mockResolvedValueOnce({
+      ;(global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+        if (options?.method === 'PUT') {
+          return Promise.resolve({
+            ok: false,
+            status: 500,
+            json: async () => ({ error: 'Internal server error' }),
+          })
+        }
+        // GET
+        return Promise.resolve({
           ok: true,
           json: async () => mockDiaryData,
         })
-        .mockResolvedValueOnce({
-          ok: false,
-          status: 500,
-          json: async () => ({ error: 'Internal server error' }),
-        })
+      })
       const user = userEvent.setup()
 
       // Act
@@ -441,16 +465,20 @@ describe('Diary Edit Flow - Integration Test', () => {
 
     it('should enable save button after error', async () => {
       // Arrange
-      ;(global.fetch as jest.Mock)
-        .mockResolvedValueOnce({
+      ;(global.fetch as jest.Mock).mockImplementation((url: string, options?: RequestInit) => {
+        if (options?.method === 'PUT') {
+          return Promise.resolve({
+            ok: false,
+            status: 500,
+            json: async () => ({ error: 'Internal server error' }),
+          })
+        }
+        // GET
+        return Promise.resolve({
           ok: true,
           json: async () => mockDiaryData,
         })
-        .mockResolvedValueOnce({
-          ok: false,
-          status: 500,
-          json: async () => ({ error: 'Internal server error' }),
-        })
+      })
       const user = userEvent.setup()
 
       // Act

@@ -126,7 +126,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
     setShowLeaveModal(false);
   };
 
-  const characterCount = content.length;
+  const characterCount = content?.length || 0;
 
   if (isLoading) {
     return (
