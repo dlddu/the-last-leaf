@@ -14,9 +14,9 @@ test.describe('Signup Page - Access and Rendering', () => {
 
     // Assert
     await expect(page).toHaveURL(/\/auth\/signup/);
-    await expect(page.getByRole('heading', { name: /sign up|회원가입/i })).toBeVisible();
+    await expect(page.getByText('나의 자서전')).toBeVisible();
     await expect(page.getByLabel(/email|이메일/i)).toBeVisible();
-    await expect(page.getByLabel(/^password|^비밀번호/i)).toBeVisible();
+    await expect(page.getByLabel(/^password$|^비밀번호$/i)).toBeVisible();
     await expect(page.getByLabel(/confirm password|비밀번호 확인/i)).toBeVisible();
     await expect(page.getByLabel(/nickname|닉네임/i)).toBeVisible();
     await expect(page.getByRole('button', { name: /sign up|가입하기/i })).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('Signup Flow - Success Scenarios', () => {
     // Act
     await page.goto('/auth/signup');
     await page.getByLabel(/email|이메일/i).fill(testEmail);
-    await page.getByLabel(/^password|^비밀번호/i).fill(testPassword);
+    await page.getByLabel(/^password$|^비밀번호$/i).fill(testPassword);
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill(testPassword);
     await page.getByLabel(/nickname|닉네임/i).fill(testNickname);
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
@@ -70,7 +70,7 @@ test.describe('Signup Form - Validation Errors', () => {
 
     // Act
     await page.getByLabel(/email|이메일/i).fill('test@example.com');
-    await page.getByLabel(/^password|^비밀번호/i).fill(shortPassword);
+    await page.getByLabel(/^password$|^비밀번호$/i).fill(shortPassword);
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill(shortPassword);
     await page.getByLabel(/nickname|닉네임/i).fill('TestUser');
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
@@ -82,7 +82,7 @@ test.describe('Signup Form - Validation Errors', () => {
   test('should show validation error when passwords do not match', async ({ page }) => {
     // Act
     await page.getByLabel(/email|이메일/i).fill('test@example.com');
-    await page.getByLabel(/^password|^비밀번호/i).fill('password123');
+    await page.getByLabel(/^password$|^비밀번호$/i).fill('password123');
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill('password456');
     await page.getByLabel(/nickname|닉네임/i).fill('TestUser');
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
@@ -97,7 +97,7 @@ test.describe('Signup Form - Validation Errors', () => {
 
     // Assert
     const emailInput = page.getByLabel(/email|이메일/i);
-    const passwordInput = page.getByLabel(/^password|^비밀번호/i);
+    const passwordInput = page.getByLabel(/^password$|^비밀번호$/i);
     const nicknameInput = page.getByLabel(/nickname|닉네임/i);
 
     // Check that form inputs are still visible (validation prevented submission)
@@ -111,7 +111,7 @@ test.describe('Signup Form - Validation Errors', () => {
 
   test('should show validation error when email field is missing', async ({ page }) => {
     // Act
-    await page.getByLabel(/^password|^비밀번호/i).fill('password123');
+    await page.getByLabel(/^password$|^비밀번호$/i).fill('password123');
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill('password123');
     await page.getByLabel(/nickname|닉네임/i).fill('TestUser');
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
@@ -128,14 +128,14 @@ test.describe('Signup Form - Validation Errors', () => {
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
 
     // Assert
-    await expect(page.getByLabel(/^password|^비밀번호/i)).toBeVisible();
+    await expect(page.getByLabel(/^password$|^비밀번호$/i)).toBeVisible();
     await expect(page).toHaveURL(/\/auth\/signup/);
   });
 
   test('should show validation error when nickname field is missing', async ({ page }) => {
     // Act
     await page.getByLabel(/email|이메일/i).fill('test@example.com');
-    await page.getByLabel(/^password|^비밀번호/i).fill('password123');
+    await page.getByLabel(/^password$|^비밀번호$/i).fill('password123');
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill('password123');
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
 
@@ -158,7 +158,7 @@ test.describe('Signup API - Error Scenarios', () => {
 
     // Act
     await page.getByLabel(/email|이메일/i).fill(existingEmail);
-    await page.getByLabel(/^password|^비밀번호/i).fill('password123');
+    await page.getByLabel(/^password$|^비밀번호$/i).fill('password123');
     await page.getByLabel(/confirm password|비밀번호 확인/i).fill('password123');
     await page.getByLabel(/nickname|닉네임/i).fill('NewUser');
     await page.getByRole('button', { name: /sign up|가입하기/i }).click();
