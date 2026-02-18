@@ -1,5 +1,3 @@
-// TODO: Activate when DLD-386 is implemented
-// All tests in this file are skipped until logout feature on /settings is implemented.
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 
@@ -7,9 +5,7 @@ import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 // Logout - Navigation
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings - Logout Navigation', () => {
-  // TODO: DLD-386 — activate after logout button on /settings is implemented
-
+test.describe('Settings - Logout Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
     await page.goto('/settings');
@@ -29,9 +25,7 @@ test.describe.skip('Settings - Logout Navigation', () => {
 // Logout - Authentication Guard (diary)
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings - Logout Authentication Guard (diary)', () => {
-  // TODO: DLD-386 — activate after logout clears session and guards /diary
-
+test.describe('Settings - Logout Authentication Guard (diary)', () => {
   test('should redirect to /login when accessing /diary after logout', async ({ page }) => {
     // Arrange — log in and then log out via the settings page
     await authenticateAsTestUser(page);
@@ -52,9 +46,7 @@ test.describe.skip('Settings - Logout Authentication Guard (diary)', () => {
 // Logout - Authentication Guard (settings)
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings - Logout Authentication Guard (settings)', () => {
-  // TODO: DLD-386 — activate after logout clears session and guards /settings/*
-
+test.describe('Settings - Logout Authentication Guard (settings)', () => {
   test('should redirect to /login when accessing /settings after logout', async ({ page }) => {
     // Arrange
     await authenticateAsTestUser(page);
@@ -105,9 +97,7 @@ test.describe.skip('Settings - Logout Authentication Guard (settings)', () => {
 // Logout - Cookie Removal
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings - Logout Cookie Removal', () => {
-  // TODO: DLD-386 — activate after logout removes auth-token cookie
-
+test.describe('Settings - Logout Cookie Removal', () => {
   test('should remove the auth-token cookie after logout', async ({ page }) => {
     // Arrange
     await authenticateAsTestUser(page);
