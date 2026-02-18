@@ -32,8 +32,8 @@ export default function LoginPage() {
         return;
       }
 
-      // Redirect to dashboard on success
-      router.push('/dashboard');
+      // Redirect to diary on success
+      router.push('/diary');
     } catch (err) {
       setError('An error occurred. Please try again.');
     } finally {
