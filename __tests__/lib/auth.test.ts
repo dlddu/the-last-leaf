@@ -124,8 +124,14 @@ describe('JWT Authentication Utilities', () => {
       const payload = { userId: 'tamper-test', email: 'tamper@example.com' }
       const token = await signToken(payload)
 
-      // Tamper with the token by changing last character
-      const tamperedToken = token.slice(0, -1) + 'X'
+      // Tamper with the signature by changing a character in the middle
+      // (changing only the last character may not alter the decoded signature due to base64url padding)
+      const parts = token.split('.')
+      const sig = parts[2]
+      const midIdx = Math.floor(sig.length / 2)
+      const tamperedChar = sig[midIdx] === 'A' ? 'B' : 'A'
+      const tamperedSig = sig.slice(0, midIdx) + tamperedChar + sig.slice(midIdx + 1)
+      const tamperedToken = parts[0] + '.' + parts[1] + '.' + tamperedSig
 
       // Act & Assert
       await expect(verifyToken(tamperedToken)).rejects.toThrow()
