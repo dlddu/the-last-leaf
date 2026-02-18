@@ -5,16 +5,71 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   docker:
     name: Docker Build
     runs-on: ubuntu-24.04-arm
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for Prisma schema drift
+        id: prisma-diff
+        run: |
+          MIGRATION_SQL=$(npx prisma migrate diff \
+            --from-migrations ./prisma/migrations \
+            --to-schema-datamodel ./prisma/schema.prisma \
+            --script 2>&1) || true
+
+          if echo "$MIGRATION_SQL" | grep -q "This is an empty migration"; then
+            echo "has_drift=false" >> "$GITHUB_OUTPUT"
+            echo "No schema drift detected."
+          elif [ -z "$MIGRATION_SQL" ]; then
+            echo "has_drift=false" >> "$GITHUB_OUTPUT"
+            echo "No schema drift detected (empty output)."
+          else
+            echo "has_drift=true" >> "$GITHUB_OUTPUT"
+            echo "Schema drift detected. Generating migration..."
+
+            TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
+            MIGRATION_DIR="prisma/migrations/${TIMESTAMP}_auto"
+            mkdir -p "$MIGRATION_DIR"
+            echo "$MIGRATION_SQL" > "$MIGRATION_DIR/migration.sql"
+            echo "Created migration: $MIGRATION_DIR"
+          fi
+
+      - name: Commit migration files
+        if: steps.prisma-diff.outputs.has_drift == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prisma/migrations/
+          git commit -m "chore(prisma): auto-generate migration"
+          git push origin main
+
+      - name: Warn on PR if migration needed
+        if: steps.prisma-diff.outputs.has_drift == 'true' && github.event_name == 'pull_request'
+        run: |
+          echo "::warning::Prisma schema has uncommitted changes that require a migration."
+          echo "A migration will be auto-generated when this PR is merged to main."
 
       - name: Log in to Container Registry
         uses: docker/login-action@v3
