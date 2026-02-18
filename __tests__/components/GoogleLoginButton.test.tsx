@@ -359,4 +359,82 @@ describe('GoogleLoginButton', () => {
       })
     })
   })
+
+  // ──────────────────────────────────────────────────────
+  // DLD-400 리스타일링 요구사항
+  // ──────────────────────────────────────────────────────
+  describe('DLD-400 리스타일링', () => {
+    it('should apply rounded-xl class to the button', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('rounded-xl')
+    })
+
+    it('should apply py-3 class to the button', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('py-3')
+    })
+
+    it('should apply border class to the button', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      expect(button).toHaveClass('border')
+    })
+
+    it('should render Google 4-color SVG icon with blue path (#4285F4)', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      const svg = button.querySelector('svg')
+      expect(svg).toBeInTheDocument()
+
+      const bluePath = svg!.querySelector('[fill="#4285F4"]')
+      expect(bluePath).toBeInTheDocument()
+    })
+
+    it('should render Google 4-color SVG icon with green path (#34A853)', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      const svg = button.querySelector('svg')
+      const greenPath = svg!.querySelector('[fill="#34A853"]')
+      expect(greenPath).toBeInTheDocument()
+    })
+
+    it('should render Google 4-color SVG icon with yellow path (#FBBC05)', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      const svg = button.querySelector('svg')
+      const yellowPath = svg!.querySelector('[fill="#FBBC05"]')
+      expect(yellowPath).toBeInTheDocument()
+    })
+
+    it('should render Google 4-color SVG icon with red path (#EA4335)', () => {
+      // Act
+      render(<GoogleLoginButton />)
+
+      // Assert
+      const button = screen.getByRole('button')
+      const svg = button.querySelector('svg')
+      const redPath = svg!.querySelector('[fill="#EA4335"]')
+      expect(redPath).toBeInTheDocument()
+    })
+  })
 })

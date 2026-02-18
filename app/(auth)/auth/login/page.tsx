@@ -3,6 +3,10 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import AppLogo from '@/components/AppLogo';
+import AuthCard from '@/components/AuthCard';
+import Divider from '@/components/Divider';
+import AuthLink from '@/components/AuthLink';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,77 +46,78 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-8">Login</h1>
+    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+      <div className="w-full max-w-md space-y-6">
+        <AppLogo tagline="일기를 쓰면, 자서전이 됩니다" />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              data-testid="email-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+        <AuthCard>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                이메일
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                data-testid="email-input"
+                placeholder="이메일을 입력하세요"
+                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                disabled={isLoading}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2">
+                비밀번호
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                data-testid="password-input"
+                placeholder="비밀번호를 입력하세요"
+                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                disabled={isLoading}
+              />
+            </div>
+
+            {error && (
+              <div
+                className="text-red-500 text-sm"
+                role="alert"
+                data-testid="error-message"
+              >
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
               disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              data-testid="password-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
-              disabled={isLoading}
-            />
-          </div>
-
-          {error && (
-            <div
-              className="text-red-500 text-sm"
-              role="alert"
-              data-testid="error-message"
+              data-testid="submit-button"
+              className="w-full bg-indigo-600 text-white py-3 px-4 rounded-xl hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {error}
-            </div>
-          )}
+              {isLoading ? 'Logging in...' : '로그인'}
+            </button>
+          </form>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            data-testid="submit-button"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or</span>
-            </div>
+          <div className="mt-4">
+            <Divider />
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <GoogleLoginButton />
           </div>
-        </div>
+
+          <div className="mt-4">
+            <AuthLink text="계정이 없으신가요?" linkText="회원가입" href="/auth/signup" />
+          </div>
+        </AuthCard>
       </div>
     </main>
   );
