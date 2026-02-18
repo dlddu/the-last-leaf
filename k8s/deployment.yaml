@@ -14,6 +14,26 @@ spec:
       labels:
         app: the-last-leaf
     spec:
+      initContainers:
+      - name: migrate
+        image: ghcr.io/dlddu/the-last-leaf:sha-ed958d9
+        workingDir: /app
+        command:
+        - sh
+        - -c
+        - |
+          DB_HOST=$(echo "$DATABASE_URL" | sed -n 's|.*@\([^:/?]*\).*|\1|p')
+          echo "Waiting for database at ${DB_HOST}:5432..."
+          until nc -z "$DB_HOST" 5432; do
+            sleep 1
+          done
+          echo "Database is ready. Running migrations..."
+          node node_modules/prisma/build/index.js migrate deploy
+        envFrom:
+        - secretRef:
+            name: the-last-leaf-secrets
+        - configMapRef:
+            name: the-last-leaf-config
       containers:
       - name: the-last-leaf
         image: ghcr.io/dlddu/the-last-leaf:sha-ed958d9

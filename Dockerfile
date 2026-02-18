@@ -25,7 +25,7 @@ RUN npm run build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl netcat-openbsd
 WORKDIR /app
 
 ENV NODE_ENV production
@@ -40,6 +40,8 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
 
 USER nextjs
 
