@@ -65,9 +65,7 @@ export default function SettingsClient() {
           <MenuItem
             label="계정 탈퇴"
             variant="danger"
-            onClick={() => {
-              // 계정 탈퇴 처리
-            }}
+            href="/settings/withdraw"
           />
         </MenuGroup>
 
