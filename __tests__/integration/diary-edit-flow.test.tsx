@@ -156,7 +156,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       // Assert
@@ -177,7 +178,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -199,7 +201,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -225,7 +228,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -250,7 +254,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -280,7 +285,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -319,7 +325,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -362,7 +369,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -409,7 +417,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -448,7 +457,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
@@ -485,7 +495,8 @@ describe('Diary Edit Flow - Integration Test', () => {
       render(<DiaryEditPage {...defaultParams} />)
 
       await waitFor(() => {
-        screen.getByTestId('diary-content-input')
+        const textarea = screen.getByTestId('diary-content-input')
+        expect(textarea).toHaveValue(mockDiaryData.content)
       })
 
       const textarea = screen.getByTestId('diary-content-input')
