@@ -24,7 +24,7 @@ jest.mock('@/components/GoogleLoginButton', () => {
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import LoginPage from '@/app/login/page'
+import LoginPage from '@/app/(auth)/auth/login/page'
 
 describe('Login Page - Redirect Flow', () => {
   beforeEach(() => {

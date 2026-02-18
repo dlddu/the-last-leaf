@@ -188,21 +188,17 @@ describe('middleware', () => {
   })
 
   describe('Legacy /login route removal', () => {
-    it('should NOT treat /login as a protected route (old route is removed)', async () => {
+    it('should redirect legacy /login to /auth/login', async () => {
       // Arrange - unauthenticated request to old /login path
       const request = buildRequest('/login')
 
       // Act
       const response = await middleware(request)
 
-      // Assert - should pass through without redirecting to /auth/login loop
-      // (The old /login route is replaced by /auth/login)
-      // It must not be treated as a protected route requiring auth
-      const location = response.headers.get('location')
-      // If there's a redirect, it should NOT redirect /login to /auth/login as a protected route
-      if (location) {
-        expect(new URL(location).pathname).not.toBe('/auth/login')
-      }
+      // Assert - legacy /login should be redirected to /auth/login
+      expect(response.status).toBe(307)
+      const location = response.headers.get('location') ?? ''
+      expect(new URL(location).pathname).toBe('/auth/login')
     })
   })
 

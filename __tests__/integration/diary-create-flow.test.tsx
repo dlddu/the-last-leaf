@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import DiaryCreatePage from '@/app/diary/new/page'
+import DiaryCreatePage from '@/app/(main)/diary/new/page'
 
 describe('Diary Create Flow - Integration Test', () => {
   beforeEach(() => {

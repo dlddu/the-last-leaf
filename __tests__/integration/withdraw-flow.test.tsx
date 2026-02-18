@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 // Mock fetch for API calls
 global.fetch = jest.fn()
 
-import WithdrawPage from '@/app/settings/withdraw/page'
+import WithdrawPage from '@/app/(main)/settings/withdraw/page'
 
 describe('Withdraw Flow - Integration Test', () => {
   beforeEach(() => {
