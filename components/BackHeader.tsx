@@ -47,9 +47,9 @@ export default function BackHeader({ title, onSave, onBack, isSaving = false }: 
           </svg>
         </button>
 
-        <div className="text-lg font-medium text-gray-800">
+        <h1 className="text-lg font-medium text-gray-800">
           {title}
-        </div>
+        </h1>
 
         <button
           onClick={onSave}
