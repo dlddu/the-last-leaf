@@ -38,6 +38,11 @@
 			"source": "dlddu-the-last-leaf-dind",
 			"target": "/var/lib/docker",
 			"type": "volume"
+		},
+		{
+			"source": "${localEnv:HOME}/.config/gh",
+			"target": "/home/vscode/.config/gh",
+			"type": "bind"
 		}
 	]
 }
