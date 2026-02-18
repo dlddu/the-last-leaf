@@ -123,8 +123,7 @@ export default function WithdrawCard() {
       });
 
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        setErrorMessage(data.error || '오류가 발생했습니다. 다시 시도해주세요.');
+        setErrorMessage('오류가 발생했습니다. 다시 시도해주세요.');
         setState('confirmed');
         return;
       }

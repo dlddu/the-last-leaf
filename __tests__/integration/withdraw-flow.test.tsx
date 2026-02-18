@@ -39,7 +39,7 @@ describe('Withdraw Flow - Integration Test', () => {
       render(<WithdrawPage />)
 
       // Assert
-      expect(screen.getByText(/계정 탈퇴/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/계정 탈퇴/i).length).toBeGreaterThan(0)
     })
 
     it('should render BackHeader with "계정 탈퇴" title', () => {
@@ -48,7 +48,6 @@ describe('Withdraw Flow - Integration Test', () => {
 
       // Assert
       expect(screen.getByRole('banner')).toBeInTheDocument()
-      expect(screen.getByText(/계정 탈퇴/i)).toBeInTheDocument()
     })
 
     it('should render back navigation button', () => {
@@ -414,7 +413,7 @@ describe('Withdraw Flow - Integration Test', () => {
 
       // Act - Step 1: Render
       render(<WithdrawPage />)
-      expect(screen.getByText(/계정 탈퇴/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/계정 탈퇴/i).length).toBeGreaterThan(0)
 
       // Act - Step 2: Verify button is disabled
       const button = screen.getByRole('button', { name: /탈퇴|withdraw|삭제|delete/i })

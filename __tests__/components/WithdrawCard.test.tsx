@@ -49,8 +49,8 @@ describe('WithdrawCard Component', () => {
 
       // Assert - 탈퇴 관련 제목이 있어야 함
       expect(
-        screen.getByText(/탈퇴|계정 삭제|회원 탈퇴|withdraw|account deletion/i)
-      ).toBeInTheDocument()
+        screen.getAllByText(/탈퇴|계정 삭제|회원 탈퇴|withdraw|account deletion/i).length
+      ).toBeGreaterThan(0)
     })
 
     it('should render a description or warning message', () => {
@@ -64,7 +64,7 @@ describe('WithdrawCard Component', () => {
       expect(card).toBeInTheDocument()
       // 탈퇴에 대한 설명이 포함되어야 함
       const hasDescription =
-        screen.queryByText(/삭제|복구|되돌릴 수 없|영구|주의|경고|데이터|delete|permanent|warning/i) !== null
+        screen.queryAllByText(/삭제|복구|되돌릴 수 없|영구|주의|경고|데이터|delete|permanent|warning/i).length > 0
       expect(hasDescription).toBe(true)
     })
 
