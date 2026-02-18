@@ -1,5 +1,3 @@
-// TODO: Activate when DLD-380 is implemented
-// All tests in this file are skipped until /settings/contacts page is implemented.
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
@@ -28,8 +26,7 @@ async function clearTestUserContacts(userId: string): Promise<void> {
 // Navigation
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Navigation', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Navigation', () => {
 
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
@@ -61,8 +58,7 @@ test.describe.skip('Settings Contacts - Navigation', () => {
 // Empty State
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Empty State', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Empty State', () => {
 
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
@@ -93,8 +89,7 @@ test.describe.skip('Settings Contacts - Empty State', () => {
 // Add Contact
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Add Contact', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Add Contact', () => {
 
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
@@ -187,8 +182,7 @@ test.describe.skip('Settings Contacts - Add Contact', () => {
 // Delete Contact
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Delete Contact', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Delete Contact', () => {
 
   test.beforeEach(async ({ page }) => {
     // Seed one contact directly via DB so the delete scenario has something to work with
@@ -251,8 +245,7 @@ test.describe.skip('Settings Contacts - Delete Contact', () => {
 // Validation
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Validation', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Validation', () => {
 
   test.beforeEach(async ({ page }) => {
     const userId = await getTestUserId();
@@ -309,8 +302,7 @@ test.describe.skip('Settings Contacts - Validation', () => {
 // Authentication Guard
 // ---------------------------------------------------------------------------
 
-test.describe.skip('Settings Contacts - Authentication Guard', () => {
-  // TODO: DLD-380 — activate after /settings/contacts page is implemented
+test.describe('Settings Contacts - Authentication Guard', () => {
 
   test('should redirect to /login when unauthenticated user accesses /settings/contacts', async ({ page }) => {
     // Arrange
