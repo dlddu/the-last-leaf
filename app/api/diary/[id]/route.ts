@@ -112,6 +112,79 @@ export async function PUT(
   }
 }
 
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    // Get auth token from cookie
+    const token = request.cookies.get('auth-token')?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Verify token
+    let payload;
+    try {
+      payload = await verifyToken(token);
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = payload.userId as string;
+
+    // Get diary id from params
+    const { id } = await params;
+
+    // Fetch diary for ownership check (without user_id filter to allow 403 vs 404 distinction)
+    const diary = await prisma.diary.findUnique({
+      where: {
+        diary_id: id,
+      },
+    });
+
+    if (!diary) {
+      return NextResponse.json(
+        { error: 'Not found' },
+        { status: 404 }
+      );
+    }
+
+    // Check ownership
+    if (diary.user_id !== userId) {
+      return NextResponse.json(
+        { error: 'Forbidden' },
+        { status: 403 }
+      );
+    }
+
+    // Delete diary entry
+    await prisma.diary.delete({
+      where: {
+        diary_id: id,
+      },
+    });
+
+    return NextResponse.json(
+      { message: 'Diary deleted successfully' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Delete diary error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
