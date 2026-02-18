@@ -37,7 +37,7 @@ export default function PeriodSelector({
             onClick={() => onChange(value)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
               isSelected
-                ? 'bg-blue-600 text-white border-blue-600'
+                ? 'bg-indigo-600 text-white border-indigo-600'
                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >

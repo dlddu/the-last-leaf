@@ -40,7 +40,7 @@ export default function EmptyState() {
       <Link
         href="/diary/new"
         role="button"
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+        className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
       >
         첫 일기 쓰기
       </Link>

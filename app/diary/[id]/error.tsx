@@ -47,7 +47,7 @@ export default function DiaryDetailError({ error, reset }: DiaryDetailErrorProps
         <div className="flex flex-col gap-3">
           <button
             onClick={reset}
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
             다시 시도
           </button>

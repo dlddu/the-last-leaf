@@ -29,7 +29,7 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
         <button
           onClick={handleBack}
           aria-label="뒤로가기"
-          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
           onClick={onSave}
           disabled={isSaving || disabled}
           aria-label={isSaving ? '저장 중...' : '저장'}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           {isSaving ? '저장 중...' : '저장'}
         </button>

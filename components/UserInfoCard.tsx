@@ -13,7 +13,7 @@ export default function UserInfoCard({ nickname, email }: UserInfoCardProps) {
       data-testid="user-info-card"
       className="flex items-center gap-4 px-4 py-5 bg-white"
     >
-      <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl font-semibold flex-shrink-0">
+      <div className="w-14 h-14 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xl font-semibold flex-shrink-0">
         {initial}
       </div>
       <div className="flex flex-col min-w-0">

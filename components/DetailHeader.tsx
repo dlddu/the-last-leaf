@@ -27,7 +27,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
         <button
           onClick={handleBack}
           aria-label="뒤로 가기"
-          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
           <button
             onClick={handleEdit}
             aria-label="수정"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

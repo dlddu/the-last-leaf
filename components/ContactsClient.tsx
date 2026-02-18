@@ -152,7 +152,7 @@ export default function ContactsClient() {
           <button
             data-testid="add-contact-button"
             onClick={handleAddContact}
-            className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-blue-400 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
             + 연락처 추가
           </button>

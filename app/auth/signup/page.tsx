@@ -101,7 +101,7 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               data-testid="email-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               disabled={isLoading}
             />
           </div>
@@ -116,7 +116,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               data-testid="password-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               disabled={isLoading}
             />
           </div>
@@ -131,7 +131,7 @@ export default function SignupPage() {
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               data-testid="password-confirm-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               disabled={isLoading}
             />
           </div>
@@ -146,7 +146,7 @@ export default function SignupPage() {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               data-testid="nickname-input"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               disabled={isLoading}
             />
           </div>
@@ -165,7 +165,7 @@ export default function SignupPage() {
             type="submit"
             disabled={isLoading}
             data-testid="submit-button"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Creating Account...' : 'Sign Up'}
           </button>
@@ -188,7 +188,7 @@ export default function SignupPage() {
 
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{' '}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <a href="/login" className="text-indigo-600 hover:underline">
             Login
           </a>
         </p>

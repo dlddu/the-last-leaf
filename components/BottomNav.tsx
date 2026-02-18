@@ -29,7 +29,7 @@ export default function BottomNav() {
           aria-current={isActive('/diary') ? 'page' : undefined}
           className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
             isActive('/diary')
-              ? 'text-blue-600 font-semibold'
+              ? 'text-indigo-600 font-semibold'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -55,7 +55,7 @@ export default function BottomNav() {
           aria-current={isActive('/settings') ? 'page' : undefined}
           className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
             isActive('/settings')
-              ? 'text-blue-600 font-semibold'
+              ? 'text-indigo-600 font-semibold'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
