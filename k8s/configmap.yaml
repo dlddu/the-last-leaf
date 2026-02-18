@@ -5,4 +5,5 @@ metadata:
   labels:
     app: the-last-leaf
 data:
-  app-url: "https://the-last-leaf.example.com"
+  NODE_ENV: "production"
+  NEXT_PUBLIC_APP_URL: "https://the-last-leaf.example.com"
