@@ -21,24 +21,11 @@ spec:
         - containerPort: 3000
           name: http
           protocol: TCP
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: the-last-leaf-secrets
-              key: database-url
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: the-last-leaf-secrets
-              key: jwt-secret
-        - name: NEXT_PUBLIC_APP_URL
-          valueFrom:
-            configMapKeyRef:
-              name: the-last-leaf-config
-              key: app-url
+        envFrom:
+        - secretRef:
+            name: the-last-leaf-secrets
+        - configMapRef:
+            name: the-last-leaf-config
         livenessProbe:
           httpGet:
             path: /api/health
