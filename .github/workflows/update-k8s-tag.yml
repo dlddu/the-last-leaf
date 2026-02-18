@@ -2,7 +2,7 @@ name: Update K8s Image Tag
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Build Image"]
     types: [completed]
     branches: [main]
 
