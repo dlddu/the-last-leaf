@@ -428,6 +428,45 @@ describe('PUT /api/user/preferences', () => {
       )
     })
 
+    it('should map INACTIVE to inactive in DB', async () => {
+      // Arrange
+      const userId = 'test-user-id'
+      mockVerifyToken.mockResolvedValue({ userId, email: 'test@example.com' })
+
+      const updatedUser = {
+        user_id: userId,
+        email: 'test@example.com',
+        nickname: 'TestUser',
+        timer_status: 'inactive',
+        timer_idle_threshold_sec: 300,
+        created_at: new Date(),
+        last_active_at: new Date(),
+      }
+
+      mockUpdate.mockResolvedValue(updatedUser)
+
+      const request = new NextRequest('http://localhost:3000/api/user/preferences', {
+        method: 'PUT',
+        headers: {
+          Cookie: 'auth-token=valid-token',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ timer_status: 'INACTIVE' }),
+      })
+
+      // Act
+      await PUT(request)
+
+      // Assert: DB에는 lowercase 'inactive'로 저장되어야 함
+      expect(mockUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            timer_status: 'inactive',
+          }),
+        })
+      )
+    })
+
     it('should update timer_idle_threshold_sec to 30 days (2592000)', async () => {
       // Arrange
       const userId = 'test-user-id'

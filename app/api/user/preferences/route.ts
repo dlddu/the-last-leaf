@@ -104,9 +104,9 @@ export async function PUT(request: NextRequest) {
 
     // Validate timer_status
     if (timer_status !== undefined) {
-      if (!['PAUSED', 'ACTIVE'].includes(timer_status)) {
+      if (!['PAUSED', 'ACTIVE', 'INACTIVE'].includes(timer_status)) {
         return NextResponse.json(
-          { error: 'Invalid timer_status. Must be PAUSED or ACTIVE' },
+          { error: 'Invalid timer_status. Must be PAUSED, ACTIVE, or INACTIVE' },
           { status: 400 }
         );
       }
@@ -132,7 +132,13 @@ export async function PUT(request: NextRequest) {
     const updateData: Record<string, unknown> = {};
     if (timer_status !== undefined) {
       // Map API values to DB values
-      updateData.timer_status = timer_status === 'PAUSED' ? 'paused' : 'active';
+      if (timer_status === 'PAUSED') {
+        updateData.timer_status = 'paused';
+      } else if (timer_status === 'INACTIVE') {
+        updateData.timer_status = 'inactive';
+      } else {
+        updateData.timer_status = 'active';
+      }
     }
     if (timer_idle_threshold_sec !== undefined) {
       updateData.timer_idle_threshold_sec = timer_idle_threshold_sec;
