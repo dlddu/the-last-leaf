@@ -165,7 +165,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.getByTestId('warning-banner')).toBeInTheDocument()
+        expect(screen.getByTestId('timer-pause-warning-banner')).toBeInTheDocument()
       })
     })
 
@@ -181,7 +181,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.queryByTestId('warning-banner')).not.toBeInTheDocument()
+        expect(screen.queryByTestId('timer-pause-warning-banner')).not.toBeInTheDocument()
       })
     })
 
@@ -210,7 +210,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.getByTestId('warning-banner')).toBeInTheDocument()
+        expect(screen.getByTestId('timer-pause-warning-banner')).toBeInTheDocument()
       })
     })
 
@@ -230,7 +230,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
       render(<PreferencesPage />)
 
       await waitFor(() => {
-        expect(screen.getByTestId('warning-banner')).toBeInTheDocument()
+        expect(screen.getByTestId('timer-pause-warning-banner')).toBeInTheDocument()
       })
 
       // Act: toggle OFF
@@ -239,7 +239,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.queryByTestId('warning-banner')).not.toBeInTheDocument()
+        expect(screen.queryByTestId('timer-pause-warning-banner')).not.toBeInTheDocument()
       })
     })
   })
@@ -768,7 +768,7 @@ describe('Settings Preferences Flow - Integration Test', () => {
 
       // Assert - Step 4: API called and warning banner shown
       await waitFor(() => {
-        expect(screen.getByTestId('warning-banner')).toBeInTheDocument()
+        expect(screen.getByTestId('timer-pause-warning-banner')).toBeInTheDocument()
       })
 
       // Assert - Step 5: PUT API was called with PAUSED

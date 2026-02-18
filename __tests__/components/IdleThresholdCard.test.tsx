@@ -61,7 +61,7 @@ describe('IdleThresholdCard Component', () => {
 
       // Assert: 카드에 제목이 있어야 함 (예: "유휴 시간", "기간", "idle threshold" 등)
       expect(
-        screen.getByText(/유휴|기간|자동|threshold|period/i)
+        screen.getByRole('heading', { name: /유휴|기간|자동|threshold|period/i })
       ).toBeInTheDocument()
     })
 

@@ -61,7 +61,7 @@ describe('TimerPauseCard Component', () => {
 
       // Assert: 카드에 제목이 있어야 함 (예: "타이머 일시정지", "일시정지" 등)
       expect(
-        screen.getByText(/일시정지|타이머|pause/i)
+        screen.getByRole('heading', { name: /일시정지|타이머|pause/i })
       ).toBeInTheDocument()
     })
   })
@@ -91,7 +91,7 @@ describe('TimerPauseCard Component', () => {
       )
 
       // Assert
-      expect(screen.queryByTestId('warning-banner')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('timer-pause-warning-banner')).not.toBeInTheDocument()
     })
   })
 
@@ -120,7 +120,7 @@ describe('TimerPauseCard Component', () => {
       )
 
       // Assert
-      expect(screen.getByTestId('warning-banner')).toBeInTheDocument()
+      expect(screen.getByTestId('timer-pause-warning-banner')).toBeInTheDocument()
     })
 
     it('should display warning message in WarningBanner when isPaused is true', () => {
@@ -133,7 +133,7 @@ describe('TimerPauseCard Component', () => {
       )
 
       // Assert: 경고 메시지가 화면에 표시되어야 함
-      const warningBanner = screen.getByTestId('warning-banner')
+      const warningBanner = screen.getByTestId('timer-pause-warning-banner')
       expect(warningBanner).toBeVisible()
       expect(warningBanner.textContent?.length).toBeGreaterThan(0)
     })

@@ -132,7 +132,7 @@ export async function PUT(request: NextRequest) {
     const updateData: Record<string, unknown> = {};
     if (timer_status !== undefined) {
       // Map API values to DB values
-      updateData.timer_status = timer_status === 'PAUSED' ? 'paused' : 'inactive';
+      updateData.timer_status = timer_status === 'PAUSED' ? 'paused' : 'active';
     }
     if (timer_idle_threshold_sec !== undefined) {
       updateData.timer_idle_threshold_sec = timer_idle_threshold_sec;
