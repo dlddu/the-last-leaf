@@ -51,7 +51,7 @@ export default function ContactCard({ index, contact, onChange, onDelete }: Cont
           value={contact.email}
           onChange={(e) => onChange(index, 'email', e.target.value)}
           placeholder="이메일 주소"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
         />
       </div>
 
@@ -63,7 +63,7 @@ export default function ContactCard({ index, contact, onChange, onDelete }: Cont
           value={contact.phone}
           onChange={(e) => onChange(index, 'phone', e.target.value)}
           placeholder="전화번호"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
         />
       </div>
     </div>

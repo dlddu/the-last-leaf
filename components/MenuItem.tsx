@@ -27,7 +27,7 @@ export default function MenuItem({ label, href, onClick, testId, variant = 'defa
     <button
       data-testid={testId}
       onClick={handleClick}
-      className={`w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${textColorClass}`}
+      className={`w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 ${textColorClass}`}
     >
       <span className={textColorClass}>{label}</span>
       {variant !== 'danger' && (

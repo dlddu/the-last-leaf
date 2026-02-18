@@ -49,7 +49,7 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             href="/diary"
-            className="bg-blue-500 text-white p-6 rounded-lg hover:bg-blue-600 transition"
+            className="bg-indigo-600 text-white p-6 rounded-lg hover:bg-indigo-700 transition"
           >
             <h3 className="text-xl font-semibold mb-2">Diary</h3>
             <p className="text-sm">Write and manage your diary entries</p>

@@ -41,7 +41,7 @@ export default function ProfileForm({
           type="text"
           value={nickname}
           onChange={(e) => onNicknameChange(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
         />
       </div>
 
@@ -55,7 +55,7 @@ export default function ProfileForm({
           type="text"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-600"
         />
       </div>
     </div>

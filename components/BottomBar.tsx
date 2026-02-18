@@ -32,7 +32,7 @@ export default function BottomBar({ characterCount, saveStatus }: BottomBarProps
       case 'saved':
         return 'text-green-600';
       case 'saving':
-        return 'text-blue-600';
+        return 'text-indigo-600';
       case 'dirty':
         return 'text-orange-600';
       default:

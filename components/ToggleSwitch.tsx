@@ -28,7 +28,7 @@ export default function ToggleSwitch({
         checked={checked}
         disabled={disabled}
         data-testid={testId}
-        className="w-4 h-4 accent-blue-600"
+        className="w-4 h-4 accent-indigo-600"
         onChange={handleChange}
       />
       {label && (
