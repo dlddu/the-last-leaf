@@ -12,7 +12,7 @@ test.describe('Login Page - Access and Rendering', () => {
 
     // Assert
     await expect(page).toHaveURL(/\/login/);
-    await expect(page.getByRole('heading', { name: /login|로그인/i })).toBeVisible();
+    await expect(page.getByText('나의 자서전')).toBeVisible();
     await expect(page.getByLabel(/email|이메일/i)).toBeVisible();
     await expect(page.getByLabel(/password|비밀번호/i)).toBeVisible();
     await expect(page.getByRole('button', { name: /login|로그인/i })).toBeVisible();
@@ -270,7 +270,7 @@ test.describe('Login Page - Authentication Guard', () => {
 
     // Assert
     await expect(page).toHaveURL(/\/login/);
-    await expect(page.getByRole('heading', { name: /login|로그인/i })).toBeVisible();
+    await expect(page.getByText('나의 자서전')).toBeVisible();
   });
 
   test('should redirect to /login when unauthenticated user tries to access protected route', async ({ page }) => {
