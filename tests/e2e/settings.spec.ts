@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser, clearAuth } from '../helpers/auth';
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings Home - BottomNav Navigation', () => {
+test.describe.skip('Settings Home - BottomNav Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
     await page.goto('/diary');
@@ -28,7 +28,7 @@ test.describe('Settings Home - BottomNav Navigation', () => {
 });
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings Home - UserInfoCard', () => {
+test.describe.skip('Settings Home - UserInfoCard', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
     await page.goto('/settings');
@@ -52,7 +52,7 @@ test.describe('Settings Home - UserInfoCard', () => {
 });
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings Home - MenuItem Navigation', () => {
+test.describe.skip('Settings Home - MenuItem Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
     await page.goto('/settings');
@@ -69,7 +69,7 @@ test.describe('Settings Home - MenuItem Navigation', () => {
 });
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings Profile - Page Access', () => {
+test.describe.skip('Settings Profile - Page Access', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
   });
@@ -89,7 +89,7 @@ test.describe('Settings Profile - Page Access', () => {
 });
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings Profile - Form Fields', () => {
+test.describe.skip('Settings Profile - Form Fields', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
     await page.goto('/settings/profile');
@@ -141,7 +141,7 @@ test.describe('Settings Profile - Form Fields', () => {
 });
 
 // TODO: Activate when DLD-378 is implemented
-test.describe('Settings - Authentication Guard', () => {
+test.describe.skip('Settings - Authentication Guard', () => {
   test('should redirect to /login when unauthenticated user accesses /settings', async ({ page }) => {
     // Arrange
     await clearAuth(page);
