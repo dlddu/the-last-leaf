@@ -9,6 +9,7 @@ import BottomBar from '@/components/BottomBar';
 import ConfirmLeaveModal from '@/components/ConfirmLeaveModal';
 
 type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
+type ErrorState = 'not_found' | 'forbidden' | null;
 
 interface DiaryData {
   diary_id: string;
@@ -31,6 +32,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<ErrorState>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -49,7 +51,14 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
 
         if (!response.ok) {
           if (!cancelled) {
-            routerRef.current.push(`/diary`);
+            if (response.status === 403) {
+              setError('forbidden');
+            } else if (response.status === 404) {
+              setError('not_found');
+            } else {
+              routerRef.current.push(`/diary`);
+            }
+            setIsLoading(false);
           }
           return;
         }
@@ -137,6 +146,24 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
         <div role="status" aria-label="로딩 중">
           <span className="text-gray-500">로딩 중...</span>
         </div>
+      </div>
+    );
+  }
+
+  if (error === 'forbidden') {
+    return (
+      <div className="flex flex-col h-screen items-center justify-center">
+        <h1 className="text-2xl font-bold text-gray-700">403</h1>
+        <p className="text-gray-500">권한이 없습니다</p>
+      </div>
+    );
+  }
+
+  if (error === 'not_found') {
+    return (
+      <div className="flex flex-col h-screen items-center justify-center">
+        <h1 className="text-2xl font-bold text-gray-700">404</h1>
+        <p className="text-gray-500">일기를 찾을 수 없습니다</p>
       </div>
     );
   }
