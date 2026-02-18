@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { describe, it, expect, beforeEach } from '@jest/globals'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // Mock Next.js router
@@ -172,7 +172,6 @@ describe('Diary Edit Flow - Integration Test', () => {
         ok: true,
         json: async () => mockDiaryData,
       })
-      const user = userEvent.setup()
 
       // Act
       render(<DiaryEditPage {...defaultParams} />)
@@ -183,7 +182,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' extra text')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' extra text' } })
 
       // Assert
       expect(screen.getByTestId('save-status')).toHaveTextContent(/저장되지 않음|수정 중|unsaved/i)
@@ -195,7 +194,6 @@ describe('Diary Edit Flow - Integration Test', () => {
         ok: true,
         json: async () => mockDiaryData,
       })
-      const user = userEvent.setup()
 
       // Act
       render(<DiaryEditPage {...defaultParams} />)
@@ -207,7 +205,7 @@ describe('Diary Edit Flow - Integration Test', () => {
 
       const textarea = screen.getByTestId('diary-content-input')
       const initialCount = mockDiaryData.content.length
-      await user.type(textarea, '!')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + '!' } })
 
       // Assert
       await waitFor(() => {
@@ -233,7 +231,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' modified')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' modified' } })
 
       const backButton = screen.getByRole('button', { name: /뒤로|back/i })
       await user.click(backButton)
@@ -259,7 +257,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' modified')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' modified' } })
 
       const backButton = screen.getByRole('button', { name: /뒤로|back/i })
       await user.click(backButton)
@@ -290,7 +288,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' modified')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' modified' } })
 
       const backButton = screen.getByRole('button', { name: /뒤로|back/i })
       await user.click(backButton)
@@ -330,7 +328,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' updated')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
       user.click(saveButton)
@@ -374,7 +372,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' updated')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
       await user.click(saveButton)
@@ -422,7 +420,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' updated content')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated content' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
       await user.click(saveButton)
@@ -462,7 +460,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' updated')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
       await user.click(saveButton)
@@ -500,7 +498,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       })
 
       const textarea = screen.getByTestId('diary-content-input')
-      await user.type(textarea, ' updated')
+      fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
       await user.click(saveButton)

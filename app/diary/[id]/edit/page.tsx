@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import EditHeader from '@/components/EditHeader';
 import DateLabel from '@/components/DateLabel';
@@ -23,6 +23,8 @@ interface DiaryEditPageProps {
 
 export default function DiaryEditPage({ params }: DiaryEditPageProps) {
   const router = useRouter();
+  const routerRef = useRef(router);
+  routerRef.current = router;
   const [diaryId, setDiaryId] = useState<string | null>(null);
   const [diaryDate, setDiaryDate] = useState<string | null>(null);
   const [content, setContent] = useState('');
@@ -47,7 +49,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
 
         if (!response.ok) {
           if (!cancelled) {
-            router.push(`/diary`);
+            routerRef.current.push(`/diary`);
           }
           return;
         }
@@ -62,7 +64,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
       } catch (error) {
         console.error('Error loading diary:', error);
         if (!cancelled) {
-          router.push(`/diary`);
+          routerRef.current.push(`/diary`);
         }
       }
     };
@@ -72,7 +74,8 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
     return () => {
       cancelled = true;
     };
-  }, [params, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
