@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser } from '../helpers/auth';
 import { prisma } from '../helpers/db-cleanup';
 
-// TODO: Activate when DLD-374 is implemented (일기 수정 기능 구현 완료 후 활성화)
-test.describe.skip('Diary Edit Page - Success Flow', () => {
+test.describe('Diary Edit Page - Success Flow', () => {
   let diaryId: string;
   const originalContent = '수정 전 원본 내용입니다. 오늘은 맑은 날이었다.';
 
@@ -92,8 +91,7 @@ test.describe.skip('Diary Edit Page - Success Flow', () => {
   });
 });
 
-// TODO: Activate when DLD-374 is implemented (일기 수정 기능 구현 완료 후 활성화)
-test.describe.skip('Diary Edit Page - Cancel and Back Navigation', () => {
+test.describe('Diary Edit Page - Cancel and Back Navigation', () => {
   let diaryId: string;
   const originalContent = '뒤로가기 테스트용 원본 내용입니다.';
 
@@ -209,8 +207,7 @@ test.describe.skip('Diary Edit Page - Cancel and Back Navigation', () => {
   });
 });
 
-// TODO: Activate when DLD-374 is implemented (일기 수정 기능 구현 완료 후 활성화)
-test.describe.skip('Diary Edit Page - Authorization', () => {
+test.describe('Diary Edit Page - Authorization', () => {
   let otherUserDiaryId: string;
 
   test.beforeEach(async () => {
