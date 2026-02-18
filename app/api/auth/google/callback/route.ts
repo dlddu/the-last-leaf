@@ -71,8 +71,9 @@ export async function GET(request: NextRequest) {
       redirectPath = state;
     }
 
-    // Create response with redirect
-    const response = NextResponse.redirect(new URL(redirectPath, request.url));
+    // Create response with redirect (use NEXT_PUBLIC_APP_URL to avoid internal pod address)
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || request.url;
+    const response = NextResponse.redirect(new URL(redirectPath, baseUrl));
 
     // Set HTTP-only cookie
     response.cookies.set({
