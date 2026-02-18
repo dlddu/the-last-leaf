@@ -111,7 +111,7 @@ test.describe('Settings Withdraw - Navigation', () => {
     await page.waitForURL(/\/settings\/withdraw/);
 
     // Assert
-    await expect(page.getByRole('heading', { name: /계정 탈퇴/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /계정 탈퇴/i, level: 1 })).toBeVisible();
   });
 });
 
@@ -128,10 +128,11 @@ test.describe('Settings Withdraw - Deletion Items List', () => {
 
   test('should display the list of items that will be deleted on withdraw page', async ({ page }) => {
     // Assert — 삭제될 항목 4가지가 모두 표시되어야 한다
-    await expect(page.getByText(/일기/i)).toBeVisible();
-    await expect(page.getByText(/자서전/i)).toBeVisible();
-    await expect(page.getByText(/프로필/i)).toBeVisible();
-    await expect(page.getByText(/계정/i)).toBeVisible();
+    const deletionList = page.locator('[data-testid="withdraw-deletion-list"]');
+    await expect(deletionList.getByText(/일기/i)).toBeVisible();
+    await expect(deletionList.getByText(/자서전/i)).toBeVisible();
+    await expect(deletionList.getByText(/프로필/i)).toBeVisible();
+    await expect(deletionList.getByText(/계정/i)).toBeVisible();
   });
 
   test('should display all four deletion item categories in a list', async ({ page }) => {
