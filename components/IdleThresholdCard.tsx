@@ -18,11 +18,11 @@ export default function IdleThresholdCard({
   return (
     <div
       data-testid={testId}
-      className="bg-white rounded-2xl p-5 border border-gray-100"
+      className="bg-white dark:bg-gray-900 rounded-2xl p-5 border border-gray-100 dark:border-gray-800"
     >
       <div className="mb-4">
-        <h3 className="text-sm font-medium text-gray-900">비활성 판단 기간</h3>
-        <p className="text-xs text-gray-400 mt-0.5">마지막 일기 작성 후 이 기간이 지나면 자서전을 생성합니다</p>
+        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">비활성 판단 기간</h3>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">마지막 일기 작성 후 이 기간이 지나면 자서전을 생성합니다</p>
       </div>
       <PeriodSelector
         selectedValue={selectedValue}

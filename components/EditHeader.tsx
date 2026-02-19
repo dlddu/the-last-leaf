@@ -23,13 +23,13 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
   return (
     <header
       role="banner"
-      className="fixed top-0 left-0 right-0 z-10 bg-white border-b border-gray-100"
+      className="fixed top-0 left-0 right-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800"
     >
       <div className="px-5 py-3 flex items-center justify-between">
         <button
           onClick={handleBack}
           aria-label="뒤로가기"
-          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
           </svg>
         </button>
 
-        <div className="text-sm font-medium text-gray-800">
+        <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
           수정하기
         </div>
 
@@ -55,7 +55,7 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
           onClick={onSave}
           disabled={isSaving || disabled}
           aria-label={isSaving ? '저장 중...' : '저장'}
-          className="text-indigo-600 font-semibold text-sm hover:bg-indigo-50 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="text-indigo-600 font-semibold text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 disabled:text-gray-300 dark:disabled:text-gray-600 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           {isSaving ? '저장 중...' : '저장'}
         </button>

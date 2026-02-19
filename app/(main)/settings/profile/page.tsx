@@ -90,7 +90,7 @@ export default function ProfilePage() {
   const isSaving = status === 'saving';
 
   return (
-    <main className="min-h-screen pt-16 pb-24 bg-gray-50">
+    <main className="min-h-screen pt-16 pb-24 bg-gray-50 dark:bg-gray-950">
       <BackHeader
         title="프로필 관리"
         onSave={handleSave}
@@ -101,8 +101,8 @@ export default function ProfilePage() {
         <div
           className={`mx-4 mt-4 px-4 py-3 rounded-xl text-sm ${
             status === 'success'
-              ? 'bg-green-50 text-green-800 border border-green-200'
-              : 'bg-red-50 text-red-800 border border-red-200'
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
           }`}
         >
           {message}
@@ -111,7 +111,7 @@ export default function ProfilePage() {
 
       {(status === 'loading') && (
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">로딩 중...</p>
+          <p className="text-gray-500 dark:text-gray-400">로딩 중...</p>
         </div>
       )}
 

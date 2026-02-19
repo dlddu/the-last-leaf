@@ -34,7 +34,7 @@ export default function SettingsClient() {
   }, []);
 
   return (
-    <main className="min-h-screen pb-24 bg-gray-50">
+    <main className="min-h-screen pb-24 bg-gray-50 dark:bg-gray-950">
       <SettingsHeader />
 
       {profile && (

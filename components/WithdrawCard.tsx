@@ -16,7 +16,7 @@ function WarningIcon() {
   return (
     <div
       data-testid="withdraw-warning-icon"
-      className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto"
+      className="flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mx-auto"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@ function DeletionList() {
         <li
           key={item}
           data-testid="withdraw-deletion-item"
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 rounded-lg text-sm text-red-700"
+          className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg text-sm text-red-700 dark:text-red-300"
         >
           <span className="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0" />
           {item}
@@ -72,9 +72,9 @@ function ConfirmCheckbox({ checked, onChange }: ConfirmCheckboxProps) {
         data-testid="withdraw-consent-checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+        className="mt-0.5 w-4 h-4 text-red-600 border-gray-300 dark:border-gray-700 rounded focus:ring-red-500"
       />
-      <span className="text-sm text-gray-700">
+      <span className="text-sm text-gray-700 dark:text-gray-300">
         위 내용을 확인했으며, 탈퇴에 동의합니다
       </span>
     </label>
@@ -93,7 +93,7 @@ function WithdrawButton({ state, onClick }: WithdrawButtonProps) {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className="mt-6 w-full py-3 px-4 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+      className="mt-6 w-full py-3 px-4 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
     >
       {state === 'processing' ? '처리 중...' : '탈퇴하기'}
     </button>
@@ -139,21 +139,21 @@ export default function WithdrawCard() {
   const isChecked = state === 'confirmed' || state === 'processing';
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6">
       <WarningIcon />
 
-      <h2 className="mt-4 text-center text-xl font-bold text-gray-900">
+      <h2 className="mt-4 text-center text-xl font-bold text-gray-900 dark:text-gray-100">
         계정 탈퇴
       </h2>
 
-      <p className="mt-2 text-center text-sm text-gray-500">
+      <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
         탈퇴 시 아래 데이터가 영구적으로 삭제되며 되돌릴 수 없습니다.
       </p>
 
       <DeletionList />
 
       {errorMessage && (
-        <div className="mt-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="mt-4 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
           {errorMessage}
         </div>
       )}

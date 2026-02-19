@@ -46,7 +46,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-950">
       <div className="w-full max-w-md space-y-6">
         <AppLogo tagline="일기를 쓰면, 자서전이 됩니다" />
 
@@ -64,7 +64,7 @@ export default function LoginPage() {
                 required
                 data-testid="email-input"
                 placeholder="이메일을 입력하세요"
-                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-600"
                 disabled={isLoading}
               />
             </div>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 required
                 data-testid="password-input"
                 placeholder="비밀번호를 입력하세요"
-                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-600"
                 disabled={isLoading}
               />
             </div>

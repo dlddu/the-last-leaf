@@ -144,7 +144,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
     return (
       <div className="flex flex-col h-screen items-center justify-center">
         <div role="status" aria-label="로딩 중">
-          <span className="text-gray-500">로딩 중...</span>
+          <span className="text-gray-500 dark:text-gray-400">로딩 중...</span>
         </div>
       </div>
     );
@@ -153,8 +153,8 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
   if (error === 'forbidden') {
     return (
       <div className="flex flex-col h-screen items-center justify-center">
-        <h1 className="text-2xl font-bold text-gray-700">403</h1>
-        <p className="text-gray-500">권한이 없습니다</p>
+        <h1 className="text-2xl font-bold text-gray-700 dark:text-gray-300">403</h1>
+        <p className="text-gray-500 dark:text-gray-400">권한이 없습니다</p>
       </div>
     );
   }
@@ -162,8 +162,8 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
   if (error === 'not_found') {
     return (
       <div className="flex flex-col h-screen items-center justify-center">
-        <h1 className="text-2xl font-bold text-gray-700">404</h1>
-        <p className="text-gray-500">일기를 찾을 수 없습니다</p>
+        <h1 className="text-2xl font-bold text-gray-700 dark:text-gray-300">404</h1>
+        <p className="text-gray-500 dark:text-gray-400">일기를 찾을 수 없습니다</p>
       </div>
     );
   }
