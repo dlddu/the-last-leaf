@@ -9,3 +9,13 @@ export const PAGINATION_MAX_LIMIT = 50;
 
 // Validation
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PASSWORD_MIN_LENGTH = 8;
+
+// Preferences
+export const VALID_TIMER_STATUSES = ['PAUSED', 'ACTIVE', 'INACTIVE'] as const;
+export const VALID_IDLE_THRESHOLDS = [2592000, 5184000, 7776000, 15552000] as const;
+export const TIMER_STATUS_MAP: Record<string, string> = {
+  PAUSED: 'paused',
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+};

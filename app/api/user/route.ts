@@ -1,29 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { authenticateRequest, clearAuthCookie } from '@/lib/api-helpers';
+import { authenticateRequest, clearAuthCookie, withErrorHandler } from '@/lib/api-helpers';
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const auth = await authenticateRequest(request);
-    if (!auth.success) return auth.response;
+export const DELETE = withErrorHandler('Delete account error', async (request: NextRequest) => {
+  const auth = await authenticateRequest(request);
+  if (!auth.success) return auth.response;
 
-    await prisma.user.delete({
-      where: { user_id: auth.userId },
-    });
+  await prisma.user.delete({
+    where: { user_id: auth.userId },
+  });
 
-    const response = NextResponse.json({
-      success: true,
-      message: 'Account deleted successfully',
-    });
+  const response = NextResponse.json({
+    success: true,
+    message: 'Account deleted successfully',
+  });
 
-    clearAuthCookie(response);
+  clearAuthCookie(response);
 
-    return response;
-  } catch (error) {
-    console.error('Delete account error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+  return response;
+});

@@ -412,11 +412,9 @@ describe('POST /api/auth/login', () => {
       const data = await response.json()
 
       // Assert
-      // Note: Current implementation returns 500 for JSON parse errors
-      // This differs from signup which returns 400
-      expect(response.status).toBe(500)
+      expect(response.status).toBe(400)
       expect(data).toHaveProperty('error')
-      expect(data.error).toMatch(/internal server error/i)
+      expect(data.error).toMatch(/invalid json/i)
     })
 
     // Tests requiring Prisma database connection - run only in CI
