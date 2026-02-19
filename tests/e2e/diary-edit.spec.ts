@@ -122,7 +122,9 @@ test.describe('Diary Edit Page - Cancel and Back Navigation', () => {
   });
 
   test('should navigate directly to /diary/:id without modal when going back with no changes', async ({ page }) => {
-    // Act
+    // Act - Visit detail page first so router.back() has somewhere to go
+    await page.goto(`/diary/${diaryId}`);
+    await page.waitForLoadState('networkidle');
     await page.goto(`/diary/${diaryId}/edit`);
 
     // Go back without making any changes
@@ -156,7 +158,9 @@ test.describe('Diary Edit Page - Cancel and Back Navigation', () => {
   });
 
   test('should navigate to /diary/:id without saving when clicking "나가기" in ConfirmLeaveModal', async ({ page }) => {
-    // Arrange
+    // Arrange - Visit detail page first so router.back() has somewhere to go
+    await page.goto(`/diary/${diaryId}`);
+    await page.waitForLoadState('networkidle');
     await page.goto(`/diary/${diaryId}/edit`);
 
     const contentTextarea = page.locator('[data-testid="diary-content-input"]');
@@ -263,13 +267,11 @@ test.describe('Diary Edit Page - Authorization', () => {
     // Act
     await page.goto(`/diary/${otherUserDiaryId}/edit`);
 
-    // Assert - Should show 403 or 404 error page
-    const isErrorPage =
-      (await page.locator('text=403').isVisible()) ||
-      (await page.locator('text=404').isVisible()) ||
-      (await page.locator('text=/찾을 수 없|not found|forbidden|권한/i').isVisible());
-
-    expect(isErrorPage).toBeTruthy();
+    // Assert - Should show error page (GET returns 404 for non-owner's diary)
+    // Use auto-waiting assertion instead of instant isVisible() to avoid flakiness
+    await expect(
+      page.locator('text=403').or(page.locator('text=404'))
+    ).toBeVisible();
   });
 
   test('should not display edit form when accessing another user\'s diary edit page', async ({ page }) => {

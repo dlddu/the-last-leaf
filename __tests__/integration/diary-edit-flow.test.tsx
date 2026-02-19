@@ -297,7 +297,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       await user.click(confirmButton)
 
       // Assert
-      expect(mockPush).toHaveBeenCalledWith(`/diary/${mockDiaryData.diary_id}`)
+      expect(mockBack).toHaveBeenCalled()
     })
   })
 

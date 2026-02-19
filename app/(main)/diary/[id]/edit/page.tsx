@@ -125,13 +125,13 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
     if (saveStatus === 'dirty') {
       setShowLeaveModal(true);
     } else {
-      router.push(`/diary/${diaryId}`);
+      router.back();
     }
   };
 
   const handleConfirmLeave = () => {
     setShowLeaveModal(false);
-    router.push(`/diary/${diaryId}`);
+    router.back();
   };
 
   const handleCancelLeave = () => {
