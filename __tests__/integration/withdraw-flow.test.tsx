@@ -215,7 +215,7 @@ describe('Withdraw Flow - Integration Test', () => {
   })
 
   describe('processing → success state transition', () => {
-    it('should redirect to /login after successful account deletion', async () => {
+    it('should redirect to /auth/login after successful account deletion', async () => {
       // Arrange
       const user = userEvent.setup()
       ;(global.fetch as jest.Mock).mockResolvedValue({
@@ -236,10 +236,11 @@ describe('Withdraw Flow - Integration Test', () => {
       const button = screen.getByRole('button', { name: /탈퇴|withdraw|삭제|delete/i })
       await user.click(button)
 
-      // Assert
+      // Assert - /auth/login으로 리다이렉트되어야 함 (이전의 /login 경로에서 변경)
       await waitFor(() => {
-        expect(mockPush).toHaveBeenCalledWith('/login')
+        expect(mockPush).toHaveBeenCalledWith('/auth/login')
       })
+      expect(mockPush).not.toHaveBeenCalledWith('/login')
     })
 
     it('should call DELETE API exactly once on success', async () => {
@@ -327,7 +328,7 @@ describe('Withdraw Flow - Integration Test', () => {
       })
     })
 
-    it('should NOT redirect to /login when deletion fails', async () => {
+    it('should NOT redirect to /auth/login when deletion fails', async () => {
       // Arrange
       const user = userEvent.setup()
       ;(global.fetch as jest.Mock).mockResolvedValue({
@@ -349,12 +350,13 @@ describe('Withdraw Flow - Integration Test', () => {
       const button = screen.getByRole('button', { name: /탈퇴|withdraw|삭제|delete/i })
       await user.click(button)
 
-      // Assert - 에러 시 /login으로 이동하면 안 됨
+      // Assert - 에러 시 /auth/login으로 이동하면 안 됨
       await waitFor(() => {
         expect(
           screen.getByText(/오류|error|실패|failed|문제/i)
         ).toBeInTheDocument()
       })
+      expect(mockPush).not.toHaveBeenCalledWith('/auth/login')
       expect(mockPush).not.toHaveBeenCalledWith('/login')
     })
 
@@ -403,7 +405,7 @@ describe('Withdraw Flow - Integration Test', () => {
   })
 
   describe('Full withdrawal flow', () => {
-    it('should complete full withdrawal: render → check → click → redirect to /login', async () => {
+    it('should complete full withdrawal: render → check → click → redirect to /auth/login', async () => {
       // Arrange
       const user = userEvent.setup()
       ;(global.fetch as jest.Mock).mockResolvedValue({
@@ -433,10 +435,11 @@ describe('Withdraw Flow - Integration Test', () => {
       // Act - Step 4: Click withdraw button
       await user.click(button)
 
-      // Assert - Step 5: Redirected to /login
+      // Assert - Step 5: Redirected to /auth/login (이전의 /login에서 변경)
       await waitFor(() => {
-        expect(mockPush).toHaveBeenCalledWith('/login')
+        expect(mockPush).toHaveBeenCalledWith('/auth/login')
       })
+      expect(mockPush).not.toHaveBeenCalledWith('/login')
 
       // Assert - DELETE request was made
       expect(global.fetch).toHaveBeenCalledWith(
