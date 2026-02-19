@@ -7,8 +7,7 @@ import DiaryTextarea from '@/components/DiaryTextarea';
 import BottomBar from '@/components/BottomBar';
 import ConfirmLeaveModal from '@/components/ConfirmLeaveModal';
 import { API_ENDPOINTS } from '@/lib/api-client';
-
-type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
+import type { SaveStatus } from '@/lib/types';
 
 export default function DiaryCreatePage() {
   const router = useRouter();

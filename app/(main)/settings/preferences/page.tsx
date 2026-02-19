@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import BackHeader from '@/components/BackHeader';
 import TimerPauseCard from '@/components/TimerPauseCard';
 import IdleThresholdCard from '@/components/IdleThresholdCard';
 import StatusMessage from '@/components/StatusMessage';
+import PageLoading from '@/components/PageLoading';
 import type { Preferences, PageStatus } from '@/lib/types';
 import { API_ENDPOINTS } from '@/lib/api-client';
-import type { PreferencesResponse } from '@/lib/api-client';
 
 export default function PreferencesPage() {
   const [status, setStatus] = useState<PageStatus>('loading');
@@ -35,25 +35,23 @@ export default function PreferencesPage() {
     fetchPreferences();
   }, []);
 
-  const handleToggle = async (isPaused: boolean) => {
+  const savePreference = useCallback(async (
+    optimisticUpdate: Partial<Preferences>,
+    body: Record<string, unknown>,
+  ) => {
     if (!preferences) return;
 
     const previousPreferences = { ...preferences };
-    const newTimerStatus = isPaused ? 'paused' : 'inactive';
-    const apiTimerStatus = isPaused ? 'PAUSED' : 'INACTIVE';
 
-    // Optimistically update local state
-    setPreferences({ ...preferences, timer_status: newTimerStatus });
+    setPreferences({ ...preferences, ...optimisticUpdate });
     setStatus('saving');
     setMessage('');
 
     try {
       const response = await fetch(API_ENDPOINTS.USER_PREFERENCES, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ timer_status: apiTimerStatus }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
@@ -72,43 +70,22 @@ export default function PreferencesPage() {
       setMessage('저장 중 오류가 발생했습니다. 다시 시도해주세요.');
       setPreferences(previousPreferences);
     }
+  }, [preferences]);
+
+  const handleToggle = async (isPaused: boolean) => {
+    const newTimerStatus = isPaused ? 'paused' : 'inactive';
+    const apiTimerStatus = isPaused ? 'PAUSED' : 'INACTIVE';
+    await savePreference(
+      { timer_status: newTimerStatus },
+      { timer_status: apiTimerStatus },
+    );
   };
 
   const handlePeriodChange = async (value: number) => {
-    if (!preferences) return;
-
-    const previousPreferences = { ...preferences };
-
-    // Optimistically update local state
-    setPreferences({ ...preferences, timer_idle_threshold_sec: value });
-    setStatus('saving');
-    setMessage('');
-
-    try {
-      const response = await fetch(API_ENDPOINTS.USER_PREFERENCES, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ timer_idle_threshold_sec: value }),
-      });
-
-      if (!response.ok) {
-        setStatus('error');
-        setMessage('저장 중 오류가 발생했습니다. 다시 시도해주세요.');
-        setPreferences(previousPreferences);
-        return;
-      }
-
-      const data = await response.json();
-      setPreferences(data);
-      setStatus('success');
-      setMessage('저장되었습니다.');
-    } catch (error) {
-      setStatus('error');
-      setMessage('저장 중 오류가 발생했습니다. 다시 시도해주세요.');
-      setPreferences(previousPreferences);
-    }
+    await savePreference(
+      { timer_idle_threshold_sec: value },
+      { timer_idle_threshold_sec: value },
+    );
   };
 
   const isSaving = status === 'saving';
@@ -123,11 +100,7 @@ export default function PreferencesPage() {
         variant={status === 'success' ? 'success' : 'error'}
       />
 
-      {status === 'loading' && (
-        <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">로딩 중...</p>
-        </div>
-      )}
+      {status === 'loading' && <PageLoading />}
 
       {preferences && (
         <div className="mt-4 px-4 space-y-4">

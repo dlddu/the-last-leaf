@@ -1,9 +1,6 @@
 'use client';
 
-interface Contact {
-  email: string;
-  phone: string;
-}
+import type { Contact } from '@/lib/types';
 
 interface ContactCardProps {
   index: number;

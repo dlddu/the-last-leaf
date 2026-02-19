@@ -8,8 +8,8 @@ import DiaryTextarea from '@/components/DiaryTextarea';
 import BottomBar from '@/components/BottomBar';
 import ConfirmLeaveModal from '@/components/ConfirmLeaveModal';
 import { API_ENDPOINTS } from '@/lib/api-client';
+import type { SaveStatus } from '@/lib/types';
 
-type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
 type ErrorState = 'not_found' | 'forbidden' | null;
 
 interface DiaryData {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyToken } from './lib/auth';
+import { AUTH_COOKIE_NAME } from './lib/constants';
 
 // Protected routes that require authentication
 const protectedRoutes = ['/diary', '/settings'];
@@ -18,7 +19,7 @@ export async function middleware(request: NextRequest) {
 
   // Handle /dashboard - redirect to /diary if authenticated, else /auth/login
   if (pathname.startsWith('/dashboard')) {
-    const token = request.cookies.get('auth-token')?.value;
+    const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
     if (token) {
       try {
         await verifyToken(token);
@@ -43,7 +44,7 @@ export async function middleware(request: NextRequest) {
   );
 
   // Get auth token from cookie
-  const token = request.cookies.get('auth-token')?.value;
+  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
 
   // If trying to access protected route without token, redirect to /auth/login
   if (isProtectedRoute && !token) {
@@ -73,7 +74,7 @@ export async function middleware(request: NextRequest) {
         : NextResponse.next();
 
       response.cookies.set({
-        name: 'auth-token',
+        name: AUTH_COOKIE_NAME,
         value: '',
         maxAge: 0,
         path: '/',

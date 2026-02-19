@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import BackHeader from '@/components/BackHeader';
 import ContactCard from '@/components/ContactCard';
 import StatusMessage from '@/components/StatusMessage';
+import PageLoading from '@/components/PageLoading';
 import type { Contact, PageStatus } from '@/lib/types';
 import { API_ENDPOINTS, mapContacts } from '@/lib/api-client';
 import type { ContactsResponse } from '@/lib/api-client';
@@ -95,11 +96,7 @@ export default function ContactsClient() {
         variant={status === 'success' ? 'success' : 'error'}
       />
 
-      {status === 'loading' && (
-        <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">로딩 중...</p>
-        </div>
-      )}
+      {status === 'loading' && <PageLoading />}
 
       {status !== 'loading' && (
         <div className="px-4 py-6 flex flex-col gap-4">

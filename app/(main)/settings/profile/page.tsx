@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import BackHeader from '@/components/BackHeader';
 import ProfileForm from '@/components/ProfileForm';
 import StatusMessage from '@/components/StatusMessage';
+import PageLoading from '@/components/PageLoading';
 import type { UserProfile, ProfilePageStatus } from '@/lib/types';
 import { API_ENDPOINTS } from '@/lib/api-client';
 import type { UserProfileResponse } from '@/lib/api-client';
@@ -97,11 +98,7 @@ export default function ProfilePage() {
         variant={status === 'success' ? 'success' : 'error'}
       />
 
-      {(status === 'loading') && (
-        <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500 dark:text-gray-400">로딩 중...</p>
-        </div>
-      )}
+      {(status === 'loading') && <PageLoading />}
 
       {profile && (
         <ProfileForm
