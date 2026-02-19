@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
@@ -37,7 +38,7 @@ export default function DeleteConfirmModal({ isOpen, onConfirm, onCancel, isDele
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
       onClick={handleBackdropClick}
     >
       <div
@@ -45,30 +46,30 @@ export default function DeleteConfirmModal({ isOpen, onConfirm, onCancel, isDele
         aria-modal="true"
         aria-label="일기 삭제 확인"
         aria-describedby="delete-modal-description"
-        className="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-xl"
+        className="bg-white w-full max-w-md rounded-t-2xl p-6 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="delete-modal-description" className="text-lg font-semibold text-gray-800 mb-4">
+        <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto">
+          <TrashIcon className="w-6 h-6 text-red-500" />
+        </div>
+        <h3 className="text-lg font-bold text-gray-900 text-center">
           일기를 삭제할까요?
-        </h2>
-        <p className="text-gray-600 mb-6">
+        </h3>
+        <p id="delete-modal-description" className="text-sm text-gray-500 text-center">
           삭제된 일기는 복구할 수 없습니다.
         </p>
-        <div className="flex gap-3 justify-end">
+        <div className="flex gap-3 pt-2">
           <button
             onClick={onCancel}
-            aria-label="취소"
             disabled={isDeleting}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50"
-            autoFocus
+            className="flex-1 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium"
           >
             취소
           </button>
           <button
             onClick={onConfirm}
-            aria-label={isDeleting ? '삭제 중' : '삭제'}
             disabled={isDeleting}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+            className="flex-1 py-3 bg-red-500 text-white rounded-xl font-medium"
           >
             {isDeleting ? '삭제 중' : '삭제'}
           </button>
