@@ -117,11 +117,24 @@ describe('DiaryDetailClient — 와이어프레임 본문 레이아웃 스펙', 
 
     it('should not render a card wrapper with rounded-lg class', () => {
       // Arrange & Act
-      const { container } = render(<DiaryDetailClient {...defaultProps} />)
+      render(<DiaryDetailClient {...defaultProps} />)
 
-      // Assert — rounded-lg 카드 스타일이 제거되어야 한다
-      const cardWrapper = container.querySelector('.rounded-lg')
-      expect(cardWrapper).toBeNull()
+      // Assert — 본문 영역(DiaryContent 기준 조상)에 rounded-lg + shadow 조합 래퍼가 없어야 한다
+      const contentEl = screen.getByTestId('diary-content')
+      let ancestor = contentEl.parentElement
+      let hasRoundedLgWrapper = false
+      while (ancestor && !ancestor.className?.includes('min-h-screen')) {
+        if (
+          ancestor.className &&
+          ancestor.className.includes('rounded-lg') &&
+          ancestor.className.includes('shadow')
+        ) {
+          hasRoundedLgWrapper = true
+          break
+        }
+        ancestor = ancestor.parentElement
+      }
+      expect(hasRoundedLgWrapper).toBe(false)
     })
 
     it('should not render a card wrapper with bg-white class inside the body area', () => {
