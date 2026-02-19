@@ -16,30 +16,19 @@ export default function ContactCard({ index, contact, onChange, onDelete }: Cont
   return (
     <div
       data-testid="contact-card"
-      className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col gap-3 shadow-sm"
+      className="bg-white rounded-2xl p-5 border border-gray-100 flex flex-col gap-3"
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-600">연락처 {index + 1}</span>
+        <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">
+          연락처 {index + 1}
+        </span>
         <button
           data-testid="contact-delete-button"
           onClick={() => onDelete(index)}
           aria-label="삭제"
-          className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="text-xs text-red-400 hover:text-red-500 transition-colors focus:outline-none"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          삭제
         </button>
       </div>
 
@@ -51,7 +40,7 @@ export default function ContactCard({ index, contact, onChange, onDelete }: Cont
           value={contact.email}
           onChange={(e) => onChange(index, 'email', e.target.value)}
           placeholder="이메일 주소"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
 
@@ -63,7 +52,7 @@ export default function ContactCard({ index, contact, onChange, onDelete }: Cont
           value={contact.phone}
           onChange={(e) => onChange(index, 'phone', e.target.value)}
           placeholder="전화번호"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       </div>
     </div>
