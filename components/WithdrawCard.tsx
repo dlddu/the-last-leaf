@@ -16,7 +16,7 @@ function WarningIcon() {
   return (
     <div
       data-testid="withdraw-warning-icon"
-      className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto"
+      className="flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mx-auto"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -41,13 +41,13 @@ function DeletionList() {
   return (
     <ul
       data-testid="withdraw-deletion-list"
-      className="mt-4 bg-red-50 rounded-xl p-4 space-y-2"
+      className="mt-4 bg-red-50 dark:bg-red-900/20 rounded-xl p-4 space-y-2"
     >
       {DELETION_ITEMS.map((item) => (
         <li
           key={item}
           data-testid="withdraw-deletion-item"
-          className="text-sm text-red-700"
+          className="text-sm text-red-700 dark:text-red-300"
         >
           {item}
         </li>
@@ -71,9 +71,9 @@ function ConfirmCheckbox({ checked, onChange }: ConfirmCheckboxProps) {
         data-testid="withdraw-consent-checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="w-5 h-5 text-red-500 border-gray-300 rounded focus:ring-red-500"
+        className="w-5 h-5 text-red-500 border-gray-300 dark:border-gray-700 rounded focus:ring-red-500"
       />
-      <span className="text-sm text-gray-700">
+      <span className="text-sm text-gray-700 dark:text-gray-300">
         위 내용을 확인했으며, 탈퇴에 동의합니다
       </span>
     </label>
@@ -94,7 +94,7 @@ function WithdrawButton({ state, onClick }: WithdrawButtonProps) {
       disabled={isDisabled}
       className={`mt-6 w-full py-3 px-4 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 ${
         isDisabled
-          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+          ? 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500'
           : 'bg-red-500 text-white hover:bg-red-600'
       }`}
     >
@@ -142,21 +142,21 @@ export default function WithdrawCard() {
   const isChecked = state === 'confirmed' || state === 'processing';
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 border border-gray-100 dark:border-gray-800">
       <WarningIcon />
 
-      <h2 className="mt-4 text-center text-lg font-bold text-gray-900">
+      <h2 className="mt-4 text-center text-lg font-bold text-gray-900 dark:text-gray-100">
         정말 탈퇴하시겠어요?
       </h2>
 
-      <p className="mt-2 text-center text-sm text-gray-500">
+      <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
         탈퇴하면 아래 데이터가 모두 삭제됩니다.
       </p>
 
       <DeletionList />
 
       {errorMessage && (
-        <div className="mt-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="mt-4 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
           {errorMessage}
         </div>
       )}

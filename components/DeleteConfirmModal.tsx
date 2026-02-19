@@ -46,23 +46,23 @@ export default function DeleteConfirmModal({ isOpen, onConfirm, onCancel, isDele
         aria-modal="true"
         aria-label="일기 삭제 확인"
         aria-describedby="delete-modal-description"
-        className="bg-white w-full max-w-md rounded-t-2xl p-6 space-y-4"
+        className="bg-white dark:bg-gray-900 w-full max-w-md rounded-t-2xl p-6 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto">
+        <div className="flex items-center justify-center w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full mx-auto">
           <TrashIcon className="w-6 h-6 text-red-500" />
         </div>
-        <h3 className="text-lg font-bold text-gray-900 text-center">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 text-center">
           일기를 삭제할까요?
         </h3>
-        <p id="delete-modal-description" className="text-sm text-gray-500 text-center">
+        <p id="delete-modal-description" className="text-sm text-gray-500 dark:text-gray-400 text-center">
           삭제된 일기는 복구할 수 없습니다.
         </p>
         <div className="flex gap-3 pt-2">
           <button
             onClick={onCancel}
             disabled={isDeleting}
-            className="flex-1 py-3 border border-gray-300 rounded-xl text-gray-700 font-medium"
+            className="flex-1 py-3 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 font-medium"
           >
             취소
           </button>

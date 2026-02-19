@@ -5,7 +5,7 @@ import WithdrawCard from '@/components/WithdrawCard';
 
 export default function WithdrawPage() {
   return (
-    <main className="min-h-screen pt-16 pb-24 bg-gray-50">
+    <main className="min-h-screen pt-16 pb-24 bg-gray-50 dark:bg-gray-950">
       <BackHeader title="계정 탈퇴" />
 
       <div className="mt-4 px-4">

@@ -12,7 +12,7 @@ export default function EmptyState() {
         data-testid="empty-state-illustration"
         role="img"
         aria-label="일기가 없습니다"
-        className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6"
+        className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-6"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ export default function EmptyState() {
           <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
         </svg>
       </div>
-      <p className="text-gray-600 mb-6 text-center">
+      <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
         아직 작성한 일기가 없어요.<br />
         첫 번째 일기를 작성해보세요!
       </p>

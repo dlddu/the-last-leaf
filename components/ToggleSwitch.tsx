@@ -19,7 +19,7 @@ export default function ToggleSwitch({
     <label className="flex items-center gap-3 cursor-pointer">
       <div
         className={`relative w-12 h-7 rounded-full transition-colors ${
-          checked ? 'bg-indigo-600' : 'bg-gray-200'
+          checked ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-600'
         }`}
       >
         <input
@@ -36,7 +36,7 @@ export default function ToggleSwitch({
           }`}
         />
       </div>
-      {label && <span className="text-sm text-gray-700">{label}</span>}
+      {label && <span className="text-sm text-gray-700 dark:text-gray-300">{label}</span>}
     </label>
   );
 }

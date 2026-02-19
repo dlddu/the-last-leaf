@@ -21,13 +21,13 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
   return (
     <header
       role="banner"
-      className="fixed top-0 left-0 right-0 z-10 bg-white border-b border-gray-100"
+      className="fixed top-0 left-0 right-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800"
     >
       <div className="px-4 py-3 flex items-center justify-between">
         <button
           onClick={handleBack}
           aria-label="뒤로 가기"
-          className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
           <button
             onClick={handleEdit}
             aria-label="수정"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
           >
             {/* PencilSquareIcon — heroicons/24/outline */}
             <svg
@@ -72,7 +72,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
           <button
             onClick={onDeleteClick}
             aria-label="일기 삭제"
-            className="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="p-2 text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             {/* TrashIcon — heroicons/24/outline */}
             <svg

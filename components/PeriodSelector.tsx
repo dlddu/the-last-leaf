@@ -38,7 +38,7 @@ export default function PeriodSelector({
             className={`rounded-xl flex-1 py-2.5 text-sm font-medium transition-colors border ${
               isSelected
                 ? 'bg-indigo-600 text-white border-indigo-600'
-                : 'border-gray-200 text-gray-600 bg-white hover:bg-gray-50'
+                : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {label}

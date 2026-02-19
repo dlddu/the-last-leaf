@@ -19,12 +19,12 @@ export default function TimerPauseCard({
   return (
     <div
       data-testid={testId}
-      className="bg-white rounded-2xl p-5 border border-gray-100"
+      className="bg-white dark:bg-gray-900 rounded-2xl p-5 border border-gray-100 dark:border-gray-800"
     >
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-medium text-gray-900">타이머 일시 중지</h3>
-          <p className="text-sm text-gray-500 mt-0.5">활성화하면 비활성 감지가 일시 중지됩니다</p>
+          <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">타이머 일시 중지</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">활성화하면 비활성 감지가 일시 중지됩니다</p>
         </div>
         <ToggleSwitch
           checked={isPaused}

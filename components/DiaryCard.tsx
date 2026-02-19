@@ -43,17 +43,17 @@ export default function DiaryCard({ diary }: DiaryCardProps) {
     <button
       data-testid="diary-card"
       onClick={handleClick}
-      className="w-full text-left bg-white rounded-xl p-4 border border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+      className="w-full text-left bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
     >
       <div className="flex items-center justify-between mb-2">
-        <span data-testid="diary-date" className="text-sm font-semibold text-gray-800">
+        <span data-testid="diary-date" className="text-sm font-semibold text-gray-800 dark:text-gray-200">
           {formatDate(diary.created_at)}
         </span>
-        <span data-testid="diary-time" className="text-xs text-gray-400">
+        <span data-testid="diary-time" className="text-xs text-gray-400 dark:text-gray-500">
           {formatTime(diary.created_at)}
         </span>
       </div>
-      <p data-testid="diary-preview" className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+      <p data-testid="diary-preview" className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
         {diary.content}
       </p>
     </button>

@@ -102,7 +102,7 @@ export default function ContactsClient() {
   const isSaving = status === 'saving';
 
   return (
-    <main className="min-h-screen pt-16 pb-24 bg-gray-50">
+    <main className="min-h-screen pt-16 pb-24 bg-gray-50 dark:bg-gray-950">
       <BackHeader
         title="연락처 관리"
         rightLabel="추가"
@@ -113,8 +113,8 @@ export default function ContactsClient() {
         <div
           className={`mx-4 mt-4 px-4 py-3 rounded-lg text-sm ${
             status === 'success'
-              ? 'bg-green-50 text-green-800 border border-green-200'
-              : 'bg-red-50 text-red-800 border border-red-200'
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
           }`}
         >
           {message}
@@ -123,18 +123,18 @@ export default function ContactsClient() {
 
       {status === 'loading' && (
         <div className="flex items-center justify-center py-12">
-          <p className="text-gray-500">로딩 중...</p>
+          <p className="text-gray-500 dark:text-gray-400">로딩 중...</p>
         </div>
       )}
 
       {status !== 'loading' && (
         <div className="px-4 py-6 flex flex-col gap-4">
-          <p className="text-xs text-gray-500 mb-4 px-1">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 px-1">
             비활성 감지 시 아래 연락처로 자서전 링크가 전송됩니다.
           </p>
 
           {contacts.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
               등록된 연락처가 없습니다.
             </p>
           ) : (
@@ -152,7 +152,7 @@ export default function ContactsClient() {
           <button
             data-testid="add-contact-button"
             onClick={handleAddContact}
-            className="w-full py-8 border-2 border-dashed border-gray-200 rounded-2xl text-gray-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 flex flex-col items-center gap-2"
+            className="w-full py-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl text-gray-400 dark:text-gray-500 hover:border-indigo-400 hover:text-indigo-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 flex flex-col items-center gap-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

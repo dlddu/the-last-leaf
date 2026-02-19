@@ -15,9 +15,9 @@ export default function WarningBanner({
     <div
       role="alert"
       data-testid={testId}
-      className="bg-amber-50 border border-amber-200 rounded-xl p-3"
+      className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-3"
     >
-      <p className="text-xs text-amber-700">{message}</p>
+      <p className="text-xs text-amber-700 dark:text-amber-300">{message}</p>
     </div>
   );
 }

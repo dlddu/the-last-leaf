@@ -23,13 +23,13 @@ export default function MenuItem({ label, href, onClick, testId, variant = 'defa
     }
   };
 
-  const textColorClass = variant === 'danger' ? 'text-red-500' : 'text-gray-800';
+  const textColorClass = variant === 'danger' ? 'text-red-500' : 'text-gray-800 dark:text-gray-200';
 
   return (
     <button
       data-testid={testId}
       onClick={handleClick}
-      className={`w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 ${textColorClass}`}
+      className={`w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 ${textColorClass}`}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {icon && (
@@ -38,14 +38,14 @@ export default function MenuItem({ label, href, onClick, testId, variant = 'defa
         <div className="flex flex-col items-start min-w-0">
           <span className={textColorClass}>{label}</span>
           {sub && (
-            <span className="text-xs text-gray-400 truncate">{sub}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500 truncate">{sub}</span>
           )}
         </div>
       </div>
       {variant !== 'danger' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 text-gray-400 flex-shrink-0"
+          className="h-5 w-5 text-gray-400 dark:text-gray-500 flex-shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
