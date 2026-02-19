@@ -85,24 +85,24 @@ export function clearAuthCookie(response: NextResponse): void {
   });
 }
 
-type AnyRouteHandler = (...args: any[]) => Promise<NextResponse>;
+// Next.js route handlers have varying signatures (request only, or request + context).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type RouteHandler = (...args: any[]) => Promise<NextResponse>;
 
 /**
  * Wrap an API route handler with standardized error handling.
  * Catches unhandled errors and returns a 500 response with console logging.
  * Preserves the original handler's type signature for Next.js route validation.
  */
-export function withErrorHandler<T extends AnyRouteHandler>(label: string, handler: T): T {
-  return (async (...args: any[]) => {
-    try {
-      return await handler(...args);
-    } catch (error) {
+export function withErrorHandler<T extends RouteHandler>(label: string, handler: T): T {
+  return ((...args: Parameters<T>): Promise<NextResponse> => {
+    return handler(...args).catch((error: unknown) => {
       console.error(`${label}:`, error);
       return NextResponse.json(
         { error: 'Internal server error' },
         { status: 500 },
       );
-    }
+    });
   }) as T;
 }
 
@@ -133,6 +133,25 @@ export function validateContent(content: unknown): NextResponse | null {
     );
   }
   return null;
+}
+
+/**
+ * Find a user by ID or return a 404 response.
+ * Excludes password_hash from the returned user object.
+ */
+export async function requireUser(
+  userId: string,
+): Promise<{ user: Omit<Awaited<ReturnType<typeof prisma.user.findUnique>> & {}, 'password_hash'> } | { response: NextResponse }> {
+  const user = await prisma.user.findUnique({
+    where: { user_id: userId },
+  });
+
+  if (!user) {
+    return { response: NextResponse.json({ error: 'User not found' }, { status: 404 }) };
+  }
+
+  const { password_hash, ...userWithoutPassword } = user;
+  return { user: userWithoutPassword };
 }
 
 /**
