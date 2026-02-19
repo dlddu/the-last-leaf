@@ -8,6 +8,7 @@ import FAB from './FAB';
 import type { Diary } from '@/lib/types';
 import { API_ENDPOINTS, mapDiaries } from '@/lib/api-client';
 import type { DiaryListResponse } from '@/lib/api-client';
+import { PAGINATION_DEFAULT_LIMIT } from '@/lib/constants';
 
 export default function DiaryList() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -18,8 +19,8 @@ export default function DiaryList() {
   const fetchDiaries = useCallback(async (cursor?: string | null) => {
     try {
       const url = cursor
-        ? `${API_ENDPOINTS.DIARY}?cursor=${cursor}&limit=10`
-        : `${API_ENDPOINTS.DIARY}?limit=10`;
+        ? `${API_ENDPOINTS.DIARY}?cursor=${cursor}&limit=${PAGINATION_DEFAULT_LIMIT}`
+        : `${API_ENDPOINTS.DIARY}?limit=${PAGINATION_DEFAULT_LIMIT}`;
 
       const response = await fetch(url);
 
