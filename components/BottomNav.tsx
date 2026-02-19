@@ -18,6 +18,11 @@ export default function BottomNav() {
     return pathname === path;
   };
 
+  // Hide BottomNav on pages that have their own BottomBar (edit/new)
+  if (pathname?.endsWith('/edit') || pathname === '/diary/new') {
+    return null;
+  }
+
   return (
     <nav
       role="navigation"
