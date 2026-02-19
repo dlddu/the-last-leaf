@@ -130,6 +130,113 @@ describe('IdleThresholdCard Component', () => {
     })
   })
 
+  describe('Wireframe spec - DLD-410 redesign styles', () => {
+    it('should render card container with rounded-2xl class', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+          data-testid="idle-threshold-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - rounded-2xl
+      const card = screen.getByTestId('idle-threshold-card')
+      expect(card.className).toContain('rounded-2xl')
+    })
+
+    it('should render card container with p-5 padding class', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+          data-testid="idle-threshold-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - p-5
+      const card = screen.getByTestId('idle-threshold-card')
+      expect(card.className).toContain('p-5')
+    })
+
+    it('should render card container with border-gray-100 class', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+          data-testid="idle-threshold-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - border border-gray-100
+      const card = screen.getByTestId('idle-threshold-card')
+      expect(card.className).toContain('border-gray-100')
+    })
+
+    it('should render updated title text 비활성 판단 기간', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 새로운 제목 텍스트
+      expect(screen.getByText('비활성 판단 기간')).toBeInTheDocument()
+    })
+
+    it('should render title with text-sm font-medium classes', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - text-sm font-medium
+      const title = screen.getByText('비활성 판단 기간')
+      expect(title.className).toContain('text-sm')
+      expect(title.className).toContain('font-medium')
+    })
+
+    it('should render updated description text about autobiography generation', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 새로운 설명 텍스트
+      expect(
+        screen.getByText('마지막 일기 작성 후 이 기간이 지나면 자서전을 생성합니다')
+      ).toBeInTheDocument()
+    })
+
+    it('should render description with text-xs text-gray-400 classes', () => {
+      // Arrange & Act
+      render(
+        <IdleThresholdCard
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - text-xs text-gray-400
+      const description = screen.getByText(
+        '마지막 일기 작성 후 이 기간이 지나면 자서전을 생성합니다'
+      )
+      expect(description.className).toContain('text-xs')
+      expect(description.className).toContain('text-gray-400')
+    })
+  })
+
   describe('Interaction', () => {
     it('should call onChange with 2592000 when 30일 button is clicked', async () => {
       // Arrange
