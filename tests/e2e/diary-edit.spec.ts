@@ -122,7 +122,9 @@ test.describe('Diary Edit Page - Cancel and Back Navigation', () => {
   });
 
   test('should navigate directly to /diary/:id without modal when going back with no changes', async ({ page }) => {
-    // Act
+    // Act - Visit detail page first so router.back() has somewhere to go
+    await page.goto(`/diary/${diaryId}`);
+    await page.waitForLoadState('networkidle');
     await page.goto(`/diary/${diaryId}/edit`);
 
     // Go back without making any changes
@@ -156,7 +158,9 @@ test.describe('Diary Edit Page - Cancel and Back Navigation', () => {
   });
 
   test('should navigate to /diary/:id without saving when clicking "나가기" in ConfirmLeaveModal', async ({ page }) => {
-    // Arrange
+    // Arrange - Visit detail page first so router.back() has somewhere to go
+    await page.goto(`/diary/${diaryId}`);
+    await page.waitForLoadState('networkidle');
     await page.goto(`/diary/${diaryId}/edit`);
 
     const contentTextarea = page.locator('[data-testid="diary-content-input"]');
