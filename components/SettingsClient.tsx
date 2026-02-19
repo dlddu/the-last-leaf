@@ -34,7 +34,7 @@ export default function SettingsClient() {
   }, []);
 
   return (
-    <main className="min-h-screen pt-16 pb-24 bg-gray-50">
+    <main className="min-h-screen pb-24 bg-gray-50">
       <SettingsHeader />
 
       {profile && (
@@ -47,10 +47,14 @@ export default function SettingsClient() {
             label="프로필 관리"
             href="/settings/profile"
             testId="menu-item-profile"
+            icon="👤"
+            sub="이름, 닉네임"
           />
           <MenuItem
             label="연락처 관리"
             href="/settings/contacts"
+            icon="📞"
+            sub="긴급 연락처"
           />
         </MenuGroup>
 
@@ -58,6 +62,8 @@ export default function SettingsClient() {
           <MenuItem
             label="타이머 일시 중지"
             href="/settings/preferences"
+            icon="⏸️"
+            sub="비활성 감지 일시 중지"
           />
         </MenuGroup>
 
@@ -66,6 +72,7 @@ export default function SettingsClient() {
             label="계정 탈퇴"
             variant="danger"
             href="/settings/withdraw"
+            icon="🚪"
           />
         </MenuGroup>
 

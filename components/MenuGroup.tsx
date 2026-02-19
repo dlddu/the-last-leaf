@@ -10,12 +10,12 @@ interface MenuGroupProps {
 export default function MenuGroup({ title, children }: MenuGroupProps) {
   return (
     <div className="mb-6">
-      <div className="px-4 py-2">
-        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+      <div className="px-5 pt-4 pb-2">
+        <span className="text-xs font-medium text-gray-400">
           {title}
         </span>
       </div>
-      <div className="bg-white rounded-xl overflow-hidden divide-y divide-gray-100">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
         {children}
       </div>
     </div>

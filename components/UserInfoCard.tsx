@@ -11,10 +11,12 @@ export default function UserInfoCard({ nickname, email }: UserInfoCardProps) {
   return (
     <div
       data-testid="user-info-card"
-      className="flex items-center gap-4 px-4 py-5 bg-white"
+      className="flex items-center gap-4 bg-white mx-4 mt-4 rounded-2xl p-5 border border-gray-100"
     >
-      <div className="w-14 h-14 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xl font-semibold flex-shrink-0">
-        {initial}
+      <div className="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+        <span className="text-xl font-bold text-indigo-600">
+          {initial}
+        </span>
       </div>
       <div className="flex flex-col min-w-0">
         <span
