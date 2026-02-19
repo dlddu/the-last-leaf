@@ -225,4 +225,59 @@ describe('ProfileForm Component', () => {
       expect(mockOnNicknameChange).toHaveBeenCalled()
     })
   })
+
+  describe('Email Field Guide Text (DLD-408)', () => {
+    it('should display helper text informing user that email cannot be changed', () => {
+      // Arrange & Act
+      render(<ProfileForm {...defaultProps} />)
+
+      // Assert
+      expect(
+        screen.getByText('이메일은 변경할 수 없습니다')
+      ).toBeInTheDocument()
+    })
+
+    it('should render email helper text in the same section as the email field', () => {
+      // Arrange & Act
+      render(<ProfileForm {...defaultProps} />)
+
+      // Assert
+      const emailInput = screen.getByTestId('profile-email')
+      const helperText = screen.getByText('이메일은 변경할 수 없습니다')
+
+      // Both elements should be present in the document
+      expect(emailInput).toBeInTheDocument()
+      expect(helperText).toBeInTheDocument()
+    })
+  })
+
+  describe('Card Container (DLD-408)', () => {
+    it('should render form fields inside a card container', () => {
+      // Arrange & Act
+      render(<ProfileForm {...defaultProps} />)
+
+      // Assert
+      expect(screen.getByTestId('profile-card')).toBeInTheDocument()
+    })
+
+    it('should render email field inside the card container', () => {
+      // Arrange & Act
+      render(<ProfileForm {...defaultProps} />)
+
+      // Assert
+      const card = screen.getByTestId('profile-card')
+      const emailInput = screen.getByTestId('profile-email')
+      expect(card).toContainElement(emailInput)
+    })
+
+    it('should render nickname field inside the card container', () => {
+      // Arrange & Act
+      render(<ProfileForm {...defaultProps} />)
+
+      // Assert
+      const card = screen.getByTestId('profile-card')
+      const nicknameInput = screen.getByTestId('profile-nickname')
+      expect(card).toContainElement(nicknameInput)
+    })
+  })
 })
