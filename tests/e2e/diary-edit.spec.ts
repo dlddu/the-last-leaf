@@ -267,13 +267,11 @@ test.describe('Diary Edit Page - Authorization', () => {
     // Act
     await page.goto(`/diary/${otherUserDiaryId}/edit`);
 
-    // Assert - Should show 403 or 404 error page
-    const isErrorPage =
-      (await page.locator('text=403').isVisible()) ||
-      (await page.locator('text=404').isVisible()) ||
-      (await page.locator('text=/찾을 수 없|not found|forbidden|권한/i').isVisible());
-
-    expect(isErrorPage).toBeTruthy();
+    // Assert - Should show error page (GET returns 404 for non-owner's diary)
+    // Use auto-waiting assertion instead of instant isVisible() to avoid flakiness
+    await expect(
+      page.locator('text=403').or(page.locator('text=404'))
+    ).toBeVisible();
   });
 
   test('should not display edit form when accessing another user\'s diary edit page', async ({ page }) => {
