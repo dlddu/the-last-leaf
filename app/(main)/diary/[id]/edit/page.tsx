@@ -179,7 +179,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
 
       <main className="flex-1 pt-16 pb-16 overflow-hidden">
         {diaryDate && (
-          <div className="px-4 pt-4">
+          <div className="px-5 pt-6 mb-4">
             <DateLabel date={diaryDate} />
           </div>
         )}

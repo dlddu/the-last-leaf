@@ -11,7 +11,7 @@ export default function DateLabel({ date }: DateLabelProps) {
   });
 
   return (
-    <div data-testid="diary-date" className="text-lg font-medium text-gray-800">
+    <div data-testid="diary-date" className="text-sm text-gray-400">
       {formattedDate}
     </div>
   );
