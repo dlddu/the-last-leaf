@@ -18,11 +18,11 @@ export default function IdleThresholdCard({
   return (
     <div
       data-testid={testId}
-      className="bg-white rounded-xl p-4 shadow-sm"
+      className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm"
     >
       <div className="mb-3">
-        <h3 className="text-base font-medium text-gray-900">자동 삭제 기간</h3>
-        <p className="text-sm text-gray-500 mt-0.5">유휴 상태 감지 후 자동 삭제까지의 기간을 설정합니다.</p>
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100">자동 삭제 기간</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">유휴 상태 감지 후 자동 삭제까지의 기간을 설정합니다.</p>
       </div>
       <PeriodSelector
         selectedValue={selectedValue}

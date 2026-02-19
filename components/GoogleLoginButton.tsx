@@ -38,7 +38,7 @@ export default function GoogleLoginButton() {
         onClick={handleGoogleLogin}
         disabled={isLoading}
         aria-busy={isLoading}
-        className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {/* Google Logo SVG */}
         <svg
@@ -67,7 +67,7 @@ export default function GoogleLoginButton() {
           />
         </svg>
 
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           {isLoading ? 'Google 로그인 중...' : 'Google로 계속하기'}
         </span>
       </button>

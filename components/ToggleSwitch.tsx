@@ -32,7 +32,7 @@ export default function ToggleSwitch({
         onChange={handleChange}
       />
       {label && (
-        <span className="text-sm text-gray-700">{label}</span>
+        <span className="text-sm text-gray-700 dark:text-gray-300">{label}</span>
       )}
     </label>
   );

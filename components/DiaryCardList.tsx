@@ -69,15 +69,15 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
           className="flex justify-center items-center gap-1 py-4"
         >
           <span
-            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
             style={{ animationDelay: '0s' }}
           />
           <span
-            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
             style={{ animationDelay: '0.1s' }}
           />
           <span
-            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
             style={{ animationDelay: '0.2s' }}
           />
         </li>

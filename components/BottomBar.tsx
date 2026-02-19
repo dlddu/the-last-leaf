@@ -16,16 +16,16 @@ export default function BottomBar({ characterCount, saveStatus }: BottomBarProps
   return (
     <footer
       role="contentinfo"
-      className="fixed bottom-0 left-0 right-0 z-10 w-full bg-white border-t border-gray-100"
+      className="fixed bottom-0 left-0 right-0 z-10 w-full bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800"
     >
       <div className="px-5 py-3 flex items-center justify-between">
-        <div data-testid="char-count" className="text-sm text-gray-600">
+        <div data-testid="char-count" className="text-sm text-gray-600 dark:text-gray-400">
           {formatCharCount(characterCount)}자
         </div>
         <div
           data-testid="save-status"
           aria-live="polite"
-          className="text-xs text-gray-400"
+          className="text-xs text-gray-400 dark:text-gray-500"
         >
           자동 저장됨
         </div>

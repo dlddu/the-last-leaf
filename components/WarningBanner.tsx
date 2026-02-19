@@ -15,12 +15,12 @@ export default function WarningBanner({
     <div
       role="alert"
       data-testid={testId}
-      className="flex items-start gap-2 px-4 py-3 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800"
+      className="flex items-start gap-2 px-4 py-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg text-yellow-800 dark:text-yellow-200"
     >
       {showIcon && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 flex-shrink-0 text-yellow-600"
+          className="h-5 w-5 flex-shrink-0 text-yellow-600 dark:text-yellow-400"
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"

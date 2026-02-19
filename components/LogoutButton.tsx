@@ -28,7 +28,7 @@ export default function LogoutButton() {
       onClick={handleLogout}
       disabled={isLoading}
       aria-label="Logout"
-      className="w-full bg-white rounded-2xl border border-gray-100 px-5 py-3.5 text-sm font-medium text-gray-500 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 px-5 py-3.5 text-sm font-medium text-gray-500 dark:text-gray-400 text-center disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {isLoading ? '로그아웃 중...' : '로그아웃'}
     </button>
