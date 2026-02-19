@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 type WithdrawState = 'idle' | 'confirmed' | 'processing' | 'error';
 
 const DELETION_ITEMS = [
-  '일기 데이터',
-  '자서전 데이터',
-  '프로필 정보',
-  '계정 정보',
+  '• 작성한 모든 일기',
+  '• 생성된 자서전',
+  '• 프로필 및 연락처 정보',
+  '• 계정 정보',
 ];
 
 function WarningIcon() {
@@ -20,7 +20,7 @@ function WarningIcon() {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-8 w-8 text-red-600"
+        className="h-8 w-8 text-red-400"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -41,15 +41,14 @@ function DeletionList() {
   return (
     <ul
       data-testid="withdraw-deletion-list"
-      className="mt-4 space-y-2"
+      className="mt-4 bg-red-50 rounded-xl p-4 space-y-2"
     >
       {DELETION_ITEMS.map((item) => (
         <li
           key={item}
           data-testid="withdraw-deletion-item"
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 rounded-lg text-sm text-red-700"
+          className="text-sm text-red-700"
         >
-          <span className="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0" />
           {item}
         </li>
       ))}
@@ -65,14 +64,14 @@ interface ConfirmCheckboxProps {
 function ConfirmCheckbox({ checked, onChange }: ConfirmCheckboxProps) {
   return (
     <label
-      className="flex items-start gap-3 mt-6 cursor-pointer"
+      className="flex items-center gap-3 mt-6 cursor-pointer"
     >
       <input
         type="checkbox"
         data-testid="withdraw-consent-checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+        className="w-5 h-5 text-red-500 border-gray-300 rounded focus:ring-red-500"
       />
       <span className="text-sm text-gray-700">
         위 내용을 확인했으며, 탈퇴에 동의합니다
@@ -93,7 +92,11 @@ function WithdrawButton({ state, onClick }: WithdrawButtonProps) {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className="mt-6 w-full py-3 px-4 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
+      className={`mt-6 w-full py-3 px-4 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 ${
+        isDisabled
+          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+          : 'bg-red-500 text-white hover:bg-red-600'
+      }`}
     >
       {state === 'processing' ? '처리 중...' : '탈퇴하기'}
     </button>
@@ -129,7 +132,7 @@ export default function WithdrawCard() {
       }
 
       setState('idle');
-      router.push('/login');
+      router.push('/auth/login');
     } catch (error) {
       setErrorMessage('오류가 발생했습니다. 다시 시도해주세요.');
       setState('confirmed');
@@ -139,15 +142,15 @@ export default function WithdrawCard() {
   const isChecked = state === 'confirmed' || state === 'processing';
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
+    <div className="bg-white rounded-2xl p-5 border border-gray-100">
       <WarningIcon />
 
-      <h2 className="mt-4 text-center text-xl font-bold text-gray-900">
-        계정 탈퇴
+      <h2 className="mt-4 text-center text-lg font-bold text-gray-900">
+        정말 탈퇴하시겠어요?
       </h2>
 
       <p className="mt-2 text-center text-sm text-gray-500">
-        탈퇴 시 아래 데이터가 영구적으로 삭제되며 되돌릴 수 없습니다.
+        탈퇴하면 아래 데이터가 모두 삭제됩니다.
       </p>
 
       <DeletionList />
