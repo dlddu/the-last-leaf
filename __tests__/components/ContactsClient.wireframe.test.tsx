@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 import { describe, it, expect } from '@jest/globals'
 import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 // Mock next/navigation (must be before component import)
 jest.mock('next/navigation', () => ({
@@ -49,6 +50,15 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
   // ---------------------------------------------------------------------------
 
   describe('BackHeader 우측 "추가" 버튼', () => {
+    function getHeaderAddButton(): HTMLElement {
+      const header = document.querySelector('header[role="banner"]')
+      if (!header) throw new Error('header[role="banner"] not found')
+      const buttons = header.querySelectorAll('button')
+      const addBtn = Array.from(buttons).find((btn) => btn.textContent?.trim() === '추가')
+      if (!addBtn) throw new Error('"추가" button not found inside header')
+      return addBtn
+    }
+
     it('should render an "추가" button in the header', async () => {
       // Arrange
       mockGetSuccess()
@@ -58,7 +68,7 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
 
       // Assert — "추가" 텍스트 버튼이 헤더 내에 존재해야 한다
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /추가/i })).toBeInTheDocument()
+        expect(getHeaderAddButton()).toBeInTheDocument()
       })
     })
 
@@ -71,7 +81,7 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
 
       // Assert
       await waitFor(() => {
-        const addButton = screen.getByRole('button', { name: /추가/i })
+        const addButton = getHeaderAddButton()
         expect(addButton.className).toMatch(/text-indigo-600/)
       })
     })
@@ -85,7 +95,7 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
 
       // Assert
       await waitFor(() => {
-        const addButton = screen.getByRole('button', { name: /추가/i })
+        const addButton = getHeaderAddButton()
         expect(addButton.className).toMatch(/font-semibold/)
       })
     })
@@ -99,7 +109,7 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
 
       // Assert
       await waitFor(() => {
-        const addButton = screen.getByRole('button', { name: /추가/i })
+        const addButton = getHeaderAddButton()
         expect(addButton.className).toMatch(/text-sm/)
       })
     })
@@ -107,17 +117,24 @@ describe('ContactsClient — 와이어프레임 스타일 스펙', () => {
     it('should add a new contact card when the header "추가" button is clicked', async () => {
       // Arrange
       mockGetSuccess()
-      const { default: userEvent } = await import('@testing-library/user-event')
       const user = userEvent.setup()
 
       render(<ContactsClient />)
 
+      // Find the "추가" button specifically inside the header
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /추가/i })).toBeInTheDocument()
+        const header = document.querySelector('header[role="banner"]')
+        expect(header).not.toBeNull()
+        const buttons = header!.querySelectorAll('button')
+        const addBtn = Array.from(buttons).find((btn) => btn.textContent?.trim() === '추가')
+        expect(addBtn).toBeDefined()
       })
 
-      // Act
-      await user.click(screen.getByRole('button', { name: /추가/i }))
+      // Act — click the header "추가" button
+      const header = document.querySelector('header[role="banner"]')!
+      const buttons = header.querySelectorAll('button')
+      const addBtn = Array.from(buttons).find((btn) => btn.textContent?.trim() === '추가')!
+      await user.click(addBtn)
 
       // Assert — 연락처 카드가 추가되어야 한다
       expect(screen.getAllByTestId('contact-card')).toHaveLength(1)
