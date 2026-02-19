@@ -7,9 +7,11 @@ interface BackHeaderProps {
   onSave?: () => void;
   onBack?: () => void;
   isSaving?: boolean;
+  rightLabel?: string;
+  onRightAction?: () => void;
 }
 
-export default function BackHeader({ title, onSave, onBack, isSaving = false }: BackHeaderProps) {
+export default function BackHeader({ title, onSave, onBack, isSaving = false, rightLabel, onRightAction }: BackHeaderProps) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -19,6 +21,8 @@ export default function BackHeader({ title, onSave, onBack, isSaving = false }: 
       router.back();
     }
   };
+
+  const hasCustomRight = rightLabel !== undefined && onRightAction !== undefined;
 
   return (
     <header
@@ -31,34 +35,31 @@ export default function BackHeader({ title, onSave, onBack, isSaving = false }: 
           aria-label="뒤로가기"
           className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        <h1 className="text-lg font-medium text-gray-800">
-          {title}
-        </h1>
+        <h1 className="text-lg font-medium text-gray-800">{title}</h1>
 
-        <button
-          onClick={onSave}
-          disabled={isSaving}
-          aria-label={isSaving ? '저장 중...' : '저장'}
-          className="text-indigo-600 font-semibold text-sm disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
-        >
-          {isSaving ? '저장 중...' : '저장'}
-        </button>
+        {hasCustomRight ? (
+          <button
+            onClick={onRightAction}
+            aria-label={rightLabel}
+            className="text-indigo-600 font-semibold text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          >
+            {rightLabel}
+          </button>
+        ) : (
+          <button
+            onClick={onSave}
+            disabled={isSaving}
+            aria-label={isSaving ? '저장 중...' : '저장'}
+            className="text-indigo-600 font-semibold text-sm disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          >
+            {isSaving ? '저장 중...' : '저장'}
+          </button>
+        )}
       </div>
     </header>
   );
