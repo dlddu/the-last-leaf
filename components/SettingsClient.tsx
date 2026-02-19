@@ -6,13 +6,9 @@ import UserInfoCard from '@/components/UserInfoCard';
 import MenuGroup from '@/components/MenuGroup';
 import MenuItem from '@/components/MenuItem';
 import LogoutButton from '@/components/LogoutButton';
-
-interface UserProfile {
-  user_id: string;
-  email: string;
-  nickname: string;
-  name?: string;
-}
+import type { UserProfile } from '@/lib/types';
+import { API_ENDPOINTS } from '@/lib/api-client';
+import type { UserProfileResponse } from '@/lib/api-client';
 
 export default function SettingsClient() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -20,9 +16,9 @@ export default function SettingsClient() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('/api/user/profile', { method: 'GET' });
+        const response = await fetch(API_ENDPOINTS.USER_PROFILE, { method: 'GET' });
         if (response.ok) {
-          const data = await response.json();
+          const data: UserProfileResponse = await response.json();
           setProfile(data.user);
         }
       } catch (error) {

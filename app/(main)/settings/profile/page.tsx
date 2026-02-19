@@ -3,18 +3,13 @@
 import { useState, useEffect } from 'react';
 import BackHeader from '@/components/BackHeader';
 import ProfileForm from '@/components/ProfileForm';
-
-type PageStatus = 'loading' | 'idle' | 'dirty' | 'saving' | 'success' | 'error';
-
-interface UserProfile {
-  user_id: string;
-  email: string;
-  nickname: string;
-  name: string;
-}
+import StatusMessage from '@/components/StatusMessage';
+import type { UserProfile, ProfilePageStatus } from '@/lib/types';
+import { API_ENDPOINTS } from '@/lib/api-client';
+import type { UserProfileResponse } from '@/lib/api-client';
 
 export default function ProfilePage() {
-  const [status, setStatus] = useState<PageStatus>('loading');
+  const [status, setStatus] = useState<ProfilePageStatus>('loading');
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [nickname, setNickname] = useState('');
   const [name, setName] = useState('');
@@ -23,13 +18,13 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('/api/user/profile', { method: 'GET' });
+        const response = await fetch(API_ENDPOINTS.USER_PROFILE, { method: 'GET' });
         if (!response.ok) {
           setStatus('error');
           setMessage('프로필을 불러오는 중 오류가 발생했습니다.');
           return;
         }
-        const data = await response.json();
+        const data: UserProfileResponse = await response.json();
         setProfile(data.user);
         setNickname(data.user.nickname ?? '');
         setName(data.user.name ?? '');
@@ -61,7 +56,7 @@ export default function ProfilePage() {
     setStatus('saving');
     setMessage('');
     try {
-      const response = await fetch('/api/user/profile', {
+      const response = await fetch(API_ENDPOINTS.USER_PROFILE, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -97,17 +92,10 @@ export default function ProfilePage() {
         isSaving={isSaving}
       />
 
-      {message && (
-        <div
-          className={`mx-4 mt-4 px-4 py-3 rounded-xl text-sm ${
-            status === 'success'
-              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
-              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
-          }`}
-        >
-          {message}
-        </div>
-      )}
+      <StatusMessage
+        message={message}
+        variant={status === 'success' ? 'success' : 'error'}
+      />
 
       {(status === 'loading') && (
         <div className="flex items-center justify-center py-12">

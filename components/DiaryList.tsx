@@ -5,14 +5,9 @@ import DiaryListHeader from './DiaryListHeader';
 import DiaryCardList from './DiaryCardList';
 import EmptyState from './EmptyState';
 import FAB from './FAB';
-
-interface Diary {
-  diary_id: string;
-  user_id: string;
-  content: string;
-  created_at: Date;
-  updated_at: Date;
-}
+import type { Diary } from '@/lib/types';
+import { API_ENDPOINTS, mapDiaries } from '@/lib/api-client';
+import type { DiaryListResponse } from '@/lib/api-client';
 
 export default function DiaryList() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -23,8 +18,8 @@ export default function DiaryList() {
   const fetchDiaries = useCallback(async (cursor?: string | null) => {
     try {
       const url = cursor
-        ? `/api/diary?cursor=${cursor}&limit=10`
-        : '/api/diary?limit=10';
+        ? `${API_ENDPOINTS.DIARY}?cursor=${cursor}&limit=10`
+        : `${API_ENDPOINTS.DIARY}?limit=10`;
 
       const response = await fetch(url);
 
@@ -32,14 +27,8 @@ export default function DiaryList() {
         throw new Error('Failed to fetch diaries');
       }
 
-      const data = await response.json();
-
-      // Convert date strings to Date objects
-      const newDiaries = data.diaries.map((diary: any) => ({
-        ...diary,
-        created_at: new Date(diary.created_at),
-        updated_at: new Date(diary.updated_at),
-      }));
+      const data: DiaryListResponse = await response.json();
+      const newDiaries = mapDiaries(data.diaries);
 
       if (cursor) {
         // Append to existing diaries

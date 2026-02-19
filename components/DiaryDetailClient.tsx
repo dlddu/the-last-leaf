@@ -6,6 +6,7 @@ import DetailHeader from '@/components/DetailHeader';
 import DiaryMeta from '@/components/DiaryMeta';
 import DiaryContent from '@/components/DiaryContent';
 import DeleteConfirmModal from '@/components/DeleteConfirmModal';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 interface DiaryDetailClientProps {
   diaryId: string;
@@ -40,7 +41,7 @@ export default function DiaryDetailClient({
     setDeleteStatus('deleting');
 
     try {
-      const response = await fetch(`/api/diary/${diaryId}`, {
+      const response = await fetch(API_ENDPOINTS.DIARY_BY_ID(diaryId), {
         method: 'DELETE',
       });
 

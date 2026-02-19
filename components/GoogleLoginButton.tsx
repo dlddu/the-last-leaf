@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 export default function GoogleLoginButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,7 @@ export default function GoogleLoginButton() {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/google', {
+      const response = await fetch(API_ENDPOINTS.AUTH_GOOGLE, {
         method: 'GET',
         redirect: 'manual', // Prevent automatic redirect
       });

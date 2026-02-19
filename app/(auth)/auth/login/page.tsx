@@ -7,6 +7,7 @@ import AppLogo from '@/components/AppLogo';
 import AuthCard from '@/components/AuthCard';
 import Divider from '@/components/Divider';
 import AuthLink from '@/components/AuthLink';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(API_ENDPOINTS.AUTH_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

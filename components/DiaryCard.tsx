@@ -1,15 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import type { Diary } from '@/lib/types';
 
 interface DiaryCardProps {
-  diary: {
-    diary_id: string;
-    user_id: string;
-    content: string;
-    created_at: Date;
-    updated_at: Date;
-  };
+  diary: Diary;
 }
 
 export default function DiaryCard({ diary }: DiaryCardProps) {

@@ -7,6 +7,7 @@ import AppLogo from '@/components/AppLogo';
 import AuthCard from '@/components/AuthCard';
 import Divider from '@/components/Divider';
 import AuthLink from '@/components/AuthLink';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function SignupPage() {
     if (validationError) { setError(validationError); return; }
     setIsLoading(true);
     try {
-      const response = await fetch('/api/auth/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, passwordConfirm, nickname }) });
+      const response = await fetch(API_ENDPOINTS.AUTH_SIGNUP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, passwordConfirm, nickname }) });
       const data = await response.json();
       if (!response.ok) { setError(data.error || 'Failed to create account'); return; }
       router.push('/diary');

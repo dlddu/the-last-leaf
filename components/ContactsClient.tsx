@@ -3,15 +3,10 @@
 import { useState, useEffect } from 'react';
 import BackHeader from '@/components/BackHeader';
 import ContactCard from '@/components/ContactCard';
-
-interface Contact {
-  contact_id?: string;
-  user_id?: string;
-  email: string;
-  phone: string;
-}
-
-type PageStatus = 'loading' | 'loaded' | 'saving' | 'success' | 'error';
+import StatusMessage from '@/components/StatusMessage';
+import type { Contact, PageStatus } from '@/lib/types';
+import { API_ENDPOINTS, mapContacts } from '@/lib/api-client';
+import type { ContactsResponse } from '@/lib/api-client';
 
 export default function ContactsClient() {
   const [status, setStatus] = useState<PageStatus>('loading');
@@ -21,22 +16,15 @@ export default function ContactsClient() {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch('/api/user/contacts', { method: 'GET' });
+        const response = await fetch(API_ENDPOINTS.USER_CONTACTS, { method: 'GET' });
         if (!response.ok) {
           setStatus('error');
           setMessage('연락처를 불러오는 중 오류가 발생했습니다.');
           return;
         }
-        const data = await response.json();
-        setContacts(
-          (data.contacts ?? []).map((c: Contact) => ({
-            contact_id: c.contact_id,
-            user_id: c.user_id,
-            email: c.email ?? '',
-            phone: c.phone ?? '',
-          }))
-        );
-        setStatus('loaded');
+        const data: ContactsResponse = await response.json();
+        setContacts(mapContacts(data.contacts ?? []));
+        setStatus('idle');
       } catch (error) {
         setStatus('error');
         setMessage('연락처를 불러오는 중 오류가 발생했습니다.');
@@ -66,7 +54,7 @@ export default function ContactsClient() {
     setStatus('saving');
     setMessage('');
     try {
-      const response = await fetch('/api/user/contacts', {
+      const response = await fetch(API_ENDPOINTS.USER_CONTACTS, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -82,15 +70,8 @@ export default function ContactsClient() {
         return;
       }
 
-      const data = await response.json();
-      setContacts(
-        (data.contacts ?? []).map((c: Contact) => ({
-          contact_id: c.contact_id,
-          user_id: c.user_id,
-          email: c.email ?? '',
-          phone: c.phone ?? '',
-        }))
-      );
+      const data: ContactsResponse = await response.json();
+      setContacts(mapContacts(data.contacts ?? []));
       setStatus('success');
       setMessage('저장되었습니다.');
     } catch (error) {
@@ -109,17 +90,10 @@ export default function ContactsClient() {
         onRightAction={handleAddContact}
       />
 
-      {message && (
-        <div
-          className={`mx-4 mt-4 px-4 py-3 rounded-lg text-sm ${
-            status === 'success'
-              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
-              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
-          }`}
-        >
-          {message}
-        </div>
-      )}
+      <StatusMessage
+        message={message}
+        variant={status === 'success' ? 'success' : 'error'}
+      />
 
       {status === 'loading' && (
         <div className="flex items-center justify-center py-12">

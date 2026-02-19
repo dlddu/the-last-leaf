@@ -6,6 +6,7 @@ import CreateHeader from '@/components/CreateHeader';
 import DiaryTextarea from '@/components/DiaryTextarea';
 import BottomBar from '@/components/BottomBar';
 import ConfirmLeaveModal from '@/components/ConfirmLeaveModal';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
 
@@ -31,7 +32,7 @@ export default function DiaryCreatePage() {
     setSaveStatus('saving');
 
     try {
-      const response = await fetch('/api/diary', {
+      const response = await fetch(API_ENDPOINTS.DIARY, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

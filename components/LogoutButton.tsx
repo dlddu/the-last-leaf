@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export default function LogoutButton() {
     setIsLoading(true);
 
     try {
-      await fetch('/api/auth/logout', {
+      await fetch(API_ENDPOINTS.AUTH_LOGOUT, {
         method: 'POST',
       });
 
