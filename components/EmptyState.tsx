@@ -12,25 +12,22 @@ export default function EmptyState() {
         data-testid="empty-state-illustration"
         role="img"
         aria-label="일기가 없습니다"
-        className="mb-6"
+        className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6"
       >
         <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-          fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-indigo-400"
         >
-          <circle cx="60" cy="60" r="50" fill="#F3F4F6" />
-          <path
-            d="M45 40H75C77.2091 40 79 41.7909 79 44V76C79 78.2091 77.2091 80 75 80H45C42.7909 80 41 78.2091 41 76V44C41 41.7909 42.7909 40 45 40Z"
-            stroke="#9CA3AF"
-            strokeWidth="2"
-            fill="white"
-          />
-          <line x1="48" y1="50" x2="72" y2="50" stroke="#D1D5DB" strokeWidth="2" />
-          <line x1="48" y1="58" x2="72" y2="58" stroke="#D1D5DB" strokeWidth="2" />
-          <line x1="48" y1="66" x2="65" y2="66" stroke="#D1D5DB" strokeWidth="2" />
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
         </svg>
       </div>
       <p className="text-gray-600 mb-6 text-center">
@@ -40,7 +37,7 @@ export default function EmptyState() {
       <Link
         href="/diary/new"
         role="button"
-        className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-medium"
       >
         첫 일기 쓰기
       </Link>

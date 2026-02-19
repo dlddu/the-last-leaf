@@ -66,9 +66,20 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
           data-testid="loading-indicator"
           role="status"
           aria-live="polite"
-          className="flex justify-center py-4"
+          className="flex justify-center items-center gap-1 py-4"
         >
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          <span
+            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            style={{ animationDelay: '0s' }}
+          />
+          <span
+            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            style={{ animationDelay: '0.1s' }}
+          />
+          <span
+            className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"
+            style={{ animationDelay: '0.2s' }}
+          />
         </li>
       )}
     </ul>
