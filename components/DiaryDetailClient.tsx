@@ -65,12 +65,10 @@ export default function DiaryDetailClient({
   return (
     <div className="min-h-screen">
       <DetailHeader diaryId={diaryId} onDeleteClick={handleDeleteClick} />
-      <div className="max-w-2xl mx-auto p-6 pt-20">
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <DiaryMeta formattedDate={formattedDate} formattedTime={formattedTime} />
-          <DiaryContent content={content} />
-        </div>
-      </div>
+      <main className="px-5 py-6 pt-20">
+        <DiaryMeta formattedDate={formattedDate} formattedTime={formattedTime} />
+        <DiaryContent content={content} />
+      </main>
       {errorMessage && (
         <div role="alert" className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg">
           {errorMessage}

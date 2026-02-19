@@ -8,7 +8,7 @@ export default function DiaryContent({ content }: DiaryContentProps) {
   return (
     <p
       data-testid="diary-content"
-      className="whitespace-pre-wrap text-gray-800 leading-relaxed"
+      className="text-base text-gray-700 leading-relaxed whitespace-pre-wrap"
     >
       {content}
     </p>
