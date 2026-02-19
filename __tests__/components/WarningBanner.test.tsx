@@ -98,4 +98,98 @@ describe('WarningBanner Component', () => {
       expect(banner).toBeInTheDocument()
     })
   })
+
+  describe('Wireframe spec - DLD-410 redesign styles', () => {
+    it('should render with bg-amber-50 background class', () => {
+      // Arrange & Act
+      render(<WarningBanner message="경고 메시지" data-testid="warning-banner" />)
+
+      // Assert: 와이어프레임 스펙 - bg-amber-50
+      const banner = screen.getByTestId('warning-banner')
+      expect(banner.className).toContain('bg-amber-50')
+    })
+
+    it('should render with border-amber-200 border class', () => {
+      // Arrange & Act
+      render(<WarningBanner message="경고 메시지" data-testid="warning-banner" />)
+
+      // Assert: 와이어프레임 스펙 - border border-amber-200
+      const banner = screen.getByTestId('warning-banner')
+      expect(banner.className).toContain('border-amber-200')
+    })
+
+    it('should render with rounded-xl class', () => {
+      // Arrange & Act
+      render(<WarningBanner message="경고 메시지" data-testid="warning-banner" />)
+
+      // Assert: 와이어프레임 스펙 - rounded-xl
+      const banner = screen.getByTestId('warning-banner')
+      expect(banner.className).toContain('rounded-xl')
+    })
+
+    it('should render message text with text-amber-700 class', () => {
+      // Arrange & Act
+      render(
+        <WarningBanner
+          message="타이머가 중지된 동안에는 자서전 자동 생성이 실행되지 않습니다."
+          data-testid="warning-banner"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - text-amber-700 텍스트 컬러
+      const banner = screen.getByTestId('warning-banner')
+      // 메시지 텍스트를 감싸는 요소 또는 배너 자체에 text-amber-700이 있어야 함
+      const hasAmber700 =
+        banner.className.includes('text-amber-700') ||
+        banner.querySelector('[class*="text-amber-700"]') !== null
+      expect(hasAmber700).toBe(true)
+    })
+
+    it('should render message text with text-xs class', () => {
+      // Arrange & Act
+      render(
+        <WarningBanner
+          message="경고 메시지"
+          data-testid="warning-banner"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - text-xs 텍스트 크기
+      const banner = screen.getByTestId('warning-banner')
+      const hasTextXs =
+        banner.className.includes('text-xs') ||
+        banner.querySelector('[class*="text-xs"]') !== null
+      expect(hasTextXs).toBe(true)
+    })
+
+    it('should render with p-3 padding class', () => {
+      // Arrange & Act
+      render(<WarningBanner message="경고 메시지" data-testid="warning-banner" />)
+
+      // Assert: 와이어프레임 스펙 - p-3
+      const banner = screen.getByTestId('warning-banner')
+      expect(banner.className).toContain('p-3')
+    })
+
+    it('should maintain role=alert for accessibility after redesign', () => {
+      // Arrange & Act
+      render(<WarningBanner message="경고 메시지" data-testid="warning-banner" />)
+
+      // Assert: role="alert"가 유지되어야 함
+      const banner = screen.getByRole('alert')
+      expect(banner).toBeInTheDocument()
+    })
+
+    it('should display the exact wireframe warning message text', () => {
+      // Arrange
+      const wireframeMessage =
+        '⚠️ 타이머가 중지된 동안에는 자서전 자동 생성이 실행되지 않습니다.'
+
+      // Act
+      render(<WarningBanner message={wireframeMessage} data-testid="warning-banner" />)
+
+      // Assert: 와이어프레임 스펙 - 정확한 경고 메시지 텍스트
+      expect(screen.getByText(wireframeMessage)).toBeInTheDocument()
+    })
+  })
 })

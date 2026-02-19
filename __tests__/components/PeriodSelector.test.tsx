@@ -306,4 +306,180 @@ describe('PeriodSelector Component', () => {
       expect(mockOnChange).toHaveBeenCalledWith(5184000)
     })
   })
+
+  describe('Wireframe spec - DLD-410 redesign styles', () => {
+    it('should render selected button with bg-indigo-600 class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 선택 버튼 bg-indigo-600
+      const button30 = screen.getByRole('button', { name: /30일/ })
+      expect(button30.className).toContain('bg-indigo-600')
+    })
+
+    it('should render selected button with text-white class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={5184000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 선택 버튼 text-white
+      const button60 = screen.getByRole('button', { name: /60일/ })
+      expect(button60.className).toContain('text-white')
+    })
+
+    it('should render selected button with border-indigo-600 class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={7776000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 선택 버튼 border-indigo-600
+      const button90 = screen.getByRole('button', { name: /90일/ })
+      expect(button90.className).toContain('border-indigo-600')
+    })
+
+    it('should render unselected buttons with border-gray-200 class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 미선택 버튼 border-gray-200
+      const button60 = screen.getByRole('button', { name: /60일/ })
+      const button90 = screen.getByRole('button', { name: /90일/ })
+      const button180 = screen.getByRole('button', { name: /180일/ })
+      expect(button60.className).toContain('border-gray-200')
+      expect(button90.className).toContain('border-gray-200')
+      expect(button180.className).toContain('border-gray-200')
+    })
+
+    it('should render unselected buttons with text-gray-600 class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 미선택 버튼 text-gray-600
+      const button60 = screen.getByRole('button', { name: /60일/ })
+      expect(button60.className).toContain('text-gray-600')
+    })
+
+    it('should render container with flex and gap-2 classes', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+          data-testid="period-selector"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - flex gap-2 (4등분 레이아웃)
+      const container = screen.getByTestId('period-selector')
+      expect(container.className).toContain('flex')
+      expect(container.className).toContain('gap-2')
+    })
+
+    it('should render buttons with rounded-xl class', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - rounded-xl
+      const button30 = screen.getByRole('button', { name: /30일/ })
+      expect(button30.className).toContain('rounded-xl')
+    })
+
+    it('should render buttons with flex-1 class for equal width distribution', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - flex-1 (4등분)
+      const button30 = screen.getByRole('button', { name: /30일/ })
+      expect(button30.className).toContain('flex-1')
+    })
+
+    it('should render buttons with py-2.5 vertical padding', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - py-2.5
+      const button30 = screen.getByRole('button', { name: /30일/ })
+      expect(button30.className).toContain('py-2.5')
+    })
+
+    it('should render all period buttons with data-testid attributes', () => {
+      // Arrange & Act
+      render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: data-testid="idle-period-{30|60|90|180}" 유지
+      expect(screen.getByTestId('idle-period-30')).toBeInTheDocument()
+      expect(screen.getByTestId('idle-period-60')).toBeInTheDocument()
+      expect(screen.getByTestId('idle-period-90')).toBeInTheDocument()
+      expect(screen.getByTestId('idle-period-180')).toBeInTheDocument()
+    })
+
+    it('should switch button styles correctly when selection changes', () => {
+      // Arrange: 처음에 30일 선택
+      const { rerender } = render(
+        <PeriodSelector
+          selectedValue={2592000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Act: 60일로 변경
+      rerender(
+        <PeriodSelector
+          selectedValue={5184000}
+          onChange={jest.fn()}
+        />
+      )
+
+      // Assert: 60일 버튼이 indigo 스타일로 전환되고, 30일은 gray 스타일로 전환
+      const button30 = screen.getByRole('button', { name: /30일/ })
+      const button60 = screen.getByRole('button', { name: /60일/ })
+      expect(button60.className).toContain('bg-indigo-600')
+      expect(button60.className).toContain('text-white')
+      expect(button30.className).toContain('border-gray-200')
+      expect(button30.className).toContain('text-gray-600')
+    })
+  })
 })
