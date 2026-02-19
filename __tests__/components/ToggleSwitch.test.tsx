@@ -183,17 +183,17 @@ describe('ToggleSwitch Component', () => {
   })
 
   describe('Wireframe spec - DLD-410 custom slider', () => {
-    it('should render input[type=checkbox] with sr-only class for accessibility', () => {
+    it('should render input[type=checkbox] with opacity-0 class for visual hiding', () => {
       // Arrange & Act
       render(
         <ToggleSwitch checked={false} onChange={jest.fn()} data-testid="toggle-switch" />
       )
 
-      // Assert: sr-only peer 패턴 - input은 screen reader 전용으로 숨겨져 있어야 함
+      // Assert: opacity-0 패턴 - input은 시각적으로 숨겨져 있어야 함
       const input = screen.getByTestId('toggle-switch')
       expect(input.tagName).toBe('INPUT')
       expect(input).toHaveAttribute('type', 'checkbox')
-      expect(input.className).toContain('sr-only')
+      expect(input.className).toContain('opacity-0')
     })
 
     it('should render a visual slider div as sibling of the input', () => {

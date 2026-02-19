@@ -17,19 +17,19 @@ export default function ToggleSwitch({
 }: ToggleSwitchProps) {
   return (
     <label className="flex items-center gap-3 cursor-pointer">
-      <input
-        type="checkbox"
-        className="sr-only peer"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        disabled={disabled}
-        data-testid={testId}
-      />
       <div
         className={`relative w-12 h-7 rounded-full transition-colors ${
           checked ? 'bg-indigo-600' : 'bg-gray-200'
         }`}
       >
+        <input
+          type="checkbox"
+          className="absolute opacity-0 w-full h-full z-10 cursor-pointer peer"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          disabled={disabled}
+          data-testid={testId}
+        />
         <span
           className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
             checked ? 'translate-x-5' : 'translate-x-0'
