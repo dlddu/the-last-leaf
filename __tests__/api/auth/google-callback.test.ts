@@ -15,13 +15,14 @@ jest.mock('@/lib/prisma', () => ({
 // Mock fetch for Google OAuth API calls
 global.fetch = jest.fn()
 
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
-import { GET } from '@/app/api/auth/google/callback/route'
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import { NextRequest } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 
-// Conditionally skip tests that require database connection
-const describeWithDb = process.env.RUN_DB_TESTS === 'true' ? describe : describe.skip
+// Use require to load route module after jest.mock calls are registered
+// (importing jest from @jest/globals prevents SWC from hoisting jest.mock)
+const { GET } = require('@/app/api/auth/google/callback/route') as typeof import('@/app/api/auth/google/callback/route')
+
 
 describe('GET /api/auth/google/callback', () => {
   beforeEach(() => {
@@ -41,8 +42,7 @@ describe('GET /api/auth/google/callback', () => {
     mockUpsert.mockClear()
     ;(global.fetch as jest.Mock).mockClear()
   })
-
-  describeWithDb('successful OAuth flow - new user', () => {
+  describe('successful OAuth flow - new user', () => {
     it('should create new user when email does not exist', async () => {
       // Arrange
       const mockGoogleTokenResponse = {
@@ -91,8 +91,8 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
-      expect(response.headers.get('location')).toBe('/diary')
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/diary$/)
       expect(mockUpsert).toHaveBeenCalledWith({
         where: { email: mockGoogleUserInfo.email },
         create: expect.objectContaining({
@@ -155,7 +155,7 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
+      expect(response.status).toBe(307)
       expect(mockUpsert).toHaveBeenCalled()
     })
 
@@ -203,7 +203,7 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
+      expect(response.status).toBe(307)
       const cookie = response.cookies.get('auth-token')
       expect(cookie).toBeDefined()
       expect(cookie?.value).toBeDefined()
@@ -259,12 +259,12 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
-      expect(response.headers.get('location')).toBe('/diary')
+      expect(response.status).toBe(307)
+      expect(response.headers.get('location')).toMatch(/\/diary$/)
     })
   })
 
-  describeWithDb('successful OAuth flow - existing user', () => {
+  describe('successful OAuth flow - existing user', () => {
     it('should login existing user without creating duplicate', async () => {
       // Arrange
       const mockGoogleTokenResponse = {
@@ -310,7 +310,7 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
+      expect(response.status).toBe(307)
       expect(mockUpsert).toHaveBeenCalledWith({
         where: { email: mockGoogleUserInfo.email },
         create: expect.any(Object),
@@ -365,7 +365,7 @@ describe('GET /api/auth/google/callback', () => {
       const response = await GET(request)
 
       // Assert
-      expect(response.status).toBe(302)
+      expect(response.status).toBe(307)
       expect(mockUpsert).toHaveBeenCalledWith({
         where: { email: mockGoogleUserInfo.email },
         create: expect.any(Object),
@@ -481,7 +481,7 @@ describe('GET /api/auth/google/callback', () => {
     })
   })
 
-  describeWithDb('database error handling', () => {
+  describe('database error handling', () => {
     it('should return 500 when database upsert fails', async () => {
       // Arrange
       const mockGoogleTokenResponse = {
@@ -573,7 +573,7 @@ describe('GET /api/auth/google/callback', () => {
     })
   })
 
-  describeWithDb('cookie security settings', () => {
+  describe('cookie security settings', () => {
     it('should set SameSite=Lax on auth cookie', async () => {
       // Arrange
       const mockGoogleTokenResponse = {

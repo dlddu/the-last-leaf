@@ -12,15 +12,15 @@ jest.mock('@/lib/prisma', () => ({
   prisma: mockPrisma,
 }))
 
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
-import { POST } from '@/app/api/auth/login/route'
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import { NextRequest } from 'next/server'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
-// Conditionally skip tests that require database connection
-// Set RUN_DB_TESTS=true to run these tests (requires PostgreSQL at localhost:5433)
-const describeWithDb = process.env.RUN_DB_TESTS === 'true' ? describe : describe.skip
+// Use require to load route module after jest.mock calls are registered
+// (importing jest from @jest/globals prevents SWC from hoisting jest.mock)
+const { POST } = require('@/app/api/auth/login/route') as typeof import('@/app/api/auth/login/route')
+
 
 describe('POST /api/auth/login', () => {
   beforeEach(() => {
@@ -34,8 +34,7 @@ describe('POST /api/auth/login', () => {
     mockUpdate.mockClear()
   })
 
-  // Tests requiring Prisma database connection - run only in CI
-  describeWithDb('successful login', () => {
+  describe('successful login', () => {
     it('should return user data and set cookie when valid credentials', async () => {
       // Arrange
       const password = 'ValidPass123!'
@@ -169,8 +168,7 @@ describe('POST /api/auth/login', () => {
     })
   })
 
-  // Tests requiring Prisma database connection - run only in CI
-  describeWithDb('authentication failures', () => {
+  describe('authentication failures', () => {
     it('should return 401 when email does not exist', async () => {
       // Arrange
       const requestBody = {
@@ -417,8 +415,7 @@ describe('POST /api/auth/login', () => {
       expect(data.error).toMatch(/invalid json/i)
     })
 
-    // Tests requiring Prisma database connection - run only in CI
-    describeWithDb('database-dependent edge cases', () => {
+    describe('database-dependent edge cases', () => {
       it('should return 500 when database connection fails', async () => {
         // Arrange
         const requestBody = {
@@ -517,8 +514,7 @@ describe('POST /api/auth/login', () => {
   })
 
   describe('security', () => {
-    // Tests requiring Prisma database connection - run only in CI
-    describeWithDb('security checks', () => {
+    describe('security checks', () => {
       it('should not return password hash in response', async () => {
         // Arrange
         const password = 'SecurePass123!'

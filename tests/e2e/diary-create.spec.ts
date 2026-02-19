@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { authenticateAsTestUser } from '../helpers/auth';
 
-// TODO: Activate when DLD-370 is implemented (일기 작성 기능 구현 완료 후 skip 제거)
 test.describe('Diary Create Page - FAB Navigation', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -41,7 +40,6 @@ test.describe('Diary Create Page - FAB Navigation', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Form Display', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -91,7 +89,6 @@ test.describe('Diary Create Page - Form Display', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Character Count', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -149,7 +146,6 @@ test.describe('Diary Create Page - Character Count', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Save Success Flow', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -218,7 +214,6 @@ test.describe('Diary Create Page - Save Success Flow', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Validation Errors', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -274,7 +269,6 @@ test.describe('Diary Create Page - Validation Errors', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Unsaved Changes Warning', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -374,7 +368,6 @@ test.describe('Diary Create Page - Unsaved Changes Warning', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Authentication Guard', () => {
   test('should redirect to /login when unauthenticated user tries to access /diary/new', async ({ page }) => {
     // Arrange - Clear auth cookies
@@ -389,7 +382,6 @@ test.describe('Diary Create Page - Authentication Guard', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Responsive Design', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);
@@ -441,7 +433,6 @@ test.describe('Diary Create Page - Responsive Design', () => {
   });
 });
 
-// TODO: Activate when DLD-370 is implemented
 test.describe('Diary Create Page - Error Handling', () => {
   test.beforeEach(async ({ page }) => {
     await authenticateAsTestUser(page);

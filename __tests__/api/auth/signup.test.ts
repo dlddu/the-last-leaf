@@ -12,15 +12,15 @@ jest.mock('@/lib/prisma', () => ({
   prisma: mockPrisma,
 }))
 
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
-import { POST } from '@/app/api/auth/signup/route'
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import { NextRequest } from 'next/server'
 import { hashPassword } from '@/lib/password'
 import { verifyToken } from '@/lib/auth'
 
-// Conditionally skip tests that require database connection
-// Set RUN_DB_TESTS=true to run these tests (requires PostgreSQL at localhost:5433)
-const describeWithDb = process.env.RUN_DB_TESTS === 'true' ? describe : describe.skip
+// Use require to load route module after jest.mock calls are registered
+// (importing jest from @jest/globals prevents SWC from hoisting jest.mock)
+const { POST } = require('@/app/api/auth/signup/route') as typeof import('@/app/api/auth/signup/route')
+
 
 describe('POST /api/auth/signup', () => {
   beforeEach(() => {
@@ -34,8 +34,7 @@ describe('POST /api/auth/signup', () => {
     mockCreate.mockClear()
   })
 
-  // Tests requiring Prisma database connection - run only in CI
-  describeWithDb('successful signup', () => {
+  describe('successful signup', () => {
     it('should create a new user and return user data when valid input', async () => {
       // Arrange
       const requestBody = {
@@ -332,8 +331,7 @@ describe('POST /api/auth/signup', () => {
     })
   })
 
-  // Tests requiring Prisma database connection - run only in CI
-  describeWithDb('duplicate email handling', () => {
+  describe('duplicate email handling', () => {
     it('should return 409 when email already exists', async () => {
       // Arrange
       const requestBody = {
@@ -411,8 +409,7 @@ describe('POST /api/auth/signup', () => {
   })
 
   describe('edge cases', () => {
-    // Tests requiring Prisma database connection - run only in CI
-    describeWithDb('database-dependent edge cases', () => {
+    describe('database-dependent edge cases', () => {
       it('should handle special characters in nickname', async () => {
       // Arrange
       const requestBody = {
@@ -525,8 +522,7 @@ describe('POST /api/auth/signup', () => {
     })
   })
 
-  // Tests requiring Prisma database connection - run only in CI
-  describeWithDb('security', () => {
+  describe('security', () => {
     it('should not return password hash in response', async () => {
       // Arrange
       const requestBody = {
