@@ -205,4 +205,79 @@ describe('TimerPauseCard Component', () => {
       expect(mockOnToggle).not.toHaveBeenCalled()
     })
   })
+
+  describe('Wireframe spec - DLD-410 redesign styles', () => {
+    it('should render card container with rounded-2xl class', () => {
+      // Arrange & Act
+      render(
+        <TimerPauseCard
+          isPaused={false}
+          onToggle={jest.fn()}
+          data-testid="timer-pause-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - rounded-2xl
+      const card = screen.getByTestId('timer-pause-card')
+      expect(card.className).toContain('rounded-2xl')
+    })
+
+    it('should render card container with p-5 padding class', () => {
+      // Arrange & Act
+      render(
+        <TimerPauseCard
+          isPaused={false}
+          onToggle={jest.fn()}
+          data-testid="timer-pause-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - p-5
+      const card = screen.getByTestId('timer-pause-card')
+      expect(card.className).toContain('p-5')
+    })
+
+    it('should render card container with border-gray-100 class', () => {
+      // Arrange & Act
+      render(
+        <TimerPauseCard
+          isPaused={false}
+          onToggle={jest.fn()}
+          data-testid="timer-pause-card"
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - border border-gray-100
+      const card = screen.getByTestId('timer-pause-card')
+      expect(card.className).toContain('border-gray-100')
+    })
+
+    it('should render updated title text 타이머 일시 중지', () => {
+      // Arrange & Act
+      render(
+        <TimerPauseCard
+          isPaused={false}
+          onToggle={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 새로운 타이틀 텍스트
+      expect(screen.getByText('타이머 일시 중지')).toBeInTheDocument()
+    })
+
+    it('should render updated description text about inactive detection pause', () => {
+      // Arrange & Act
+      render(
+        <TimerPauseCard
+          isPaused={false}
+          onToggle={jest.fn()}
+        />
+      )
+
+      // Assert: 와이어프레임 스펙 - 새로운 설명 텍스트
+      expect(
+        screen.getByText('활성화하면 비활성 감지가 일시 중지됩니다')
+      ).toBeInTheDocument()
+    })
+  })
 })

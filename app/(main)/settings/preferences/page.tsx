@@ -43,7 +43,7 @@ export default function PreferencesPage() {
 
     const previousPreferences = { ...preferences };
     const newTimerStatus = isPaused ? 'paused' : 'inactive';
-    const apiTimerStatus = isPaused ? 'PAUSED' : 'INACTIVE';
+    const apiTimerStatus = isPaused ? 'PAUSED' : 'ACTIVE';
 
     // Optimistically update local state
     setPreferences({ ...preferences, timer_status: newTimerStatus });
