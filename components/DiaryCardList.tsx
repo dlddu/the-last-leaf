@@ -2,14 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import DiaryCard from './DiaryCard';
-
-interface Diary {
-  diary_id: string;
-  user_id: string;
-  content: string;
-  created_at: Date;
-  updated_at: Date;
-}
+import type { Diary } from '@/lib/types';
 
 interface DiaryCardListProps {
   diaries: Diary[];

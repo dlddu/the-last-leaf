@@ -7,6 +7,7 @@ import DateLabel from '@/components/DateLabel';
 import DiaryTextarea from '@/components/DiaryTextarea';
 import BottomBar from '@/components/BottomBar';
 import ConfirmLeaveModal from '@/components/ConfirmLeaveModal';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
 type ErrorState = 'not_found' | 'forbidden' | null;
@@ -42,7 +43,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
       setDiaryId(id);
 
       try {
-        const response = await fetch(`/api/diary/${id}`, {
+        const response = await fetch(API_ENDPOINTS.DIARY_BY_ID(id), {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -101,7 +102,7 @@ export default function DiaryEditPage({ params }: DiaryEditPageProps) {
     setSaveStatus('saving');
 
     try {
-      const response = await fetch(`/api/diary/${diaryId}`, {
+      const response = await fetch(API_ENDPOINTS.DIARY_BY_ID(diaryId), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

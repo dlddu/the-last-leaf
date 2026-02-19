@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { API_ENDPOINTS } from '@/lib/api-client';
 
 type WithdrawState = 'idle' | 'confirmed' | 'processing' | 'error';
 
@@ -121,7 +122,7 @@ export default function WithdrawCard() {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/user', {
+      const response = await fetch(API_ENDPOINTS.USER, {
         method: 'DELETE',
       });
 

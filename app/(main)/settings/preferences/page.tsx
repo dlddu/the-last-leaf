@@ -4,13 +4,10 @@ import { useState, useEffect } from 'react';
 import BackHeader from '@/components/BackHeader';
 import TimerPauseCard from '@/components/TimerPauseCard';
 import IdleThresholdCard from '@/components/IdleThresholdCard';
-
-type PageStatus = 'loading' | 'idle' | 'saving' | 'success' | 'error';
-
-interface Preferences {
-  timer_status: string;
-  timer_idle_threshold_sec: number;
-}
+import StatusMessage from '@/components/StatusMessage';
+import type { Preferences, PageStatus } from '@/lib/types';
+import { API_ENDPOINTS } from '@/lib/api-client';
+import type { PreferencesResponse } from '@/lib/api-client';
 
 export default function PreferencesPage() {
   const [status, setStatus] = useState<PageStatus>('loading');
@@ -20,7 +17,7 @@ export default function PreferencesPage() {
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
-        const response = await fetch('/api/user/preferences', { method: 'GET' });
+        const response = await fetch(API_ENDPOINTS.USER_PREFERENCES, { method: 'GET' });
         if (!response.ok) {
           setStatus('error');
           setMessage('설정을 불러오는 중 오류가 발생했습니다.');
@@ -51,7 +48,7 @@ export default function PreferencesPage() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/user/preferences', {
+      const response = await fetch(API_ENDPOINTS.USER_PREFERENCES, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +85,7 @@ export default function PreferencesPage() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/user/preferences', {
+      const response = await fetch(API_ENDPOINTS.USER_PREFERENCES, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -121,17 +118,10 @@ export default function PreferencesPage() {
     <main className="min-h-screen pt-16 pb-24 bg-gray-50 dark:bg-gray-950">
       <BackHeader title="환경설정" />
 
-      {message && (
-        <div
-          className={`mx-4 mt-4 px-4 py-3 rounded-lg text-sm ${
-            status === 'success'
-              ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
-              : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
-          }`}
-        >
-          {message}
-        </div>
-      )}
+      <StatusMessage
+        message={message}
+        variant={status === 'success' ? 'success' : 'error'}
+      />
 
       {status === 'loading' && (
         <div className="flex items-center justify-center py-12">
