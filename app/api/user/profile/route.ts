@@ -1,35 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
+import { authenticateRequest, parseJsonBody } from '@/lib/api-helpers';
 
 export async function GET(request: NextRequest) {
   try {
-    // Get auth token from cookie
-    const token = request.cookies.get('auth-token')?.value;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    // Verify token
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const userId = payload.userId as string;
-
-    // Fetch user profile
     const user = await prisma.user.findUnique({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
     });
 
     if (!user) {
@@ -39,8 +18,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Return user without password_hash
-    const { password_hash, ...userWithoutPassword } = user as any;
+    const { password_hash, ...userWithoutPassword } = user;
 
     return NextResponse.json({ user: userWithoutPassword });
   } catch (error) {
@@ -54,43 +32,14 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    // Get auth token from cookie
-    const token = request.cookies.get('auth-token')?.value;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const body = await parseJsonBody<{ nickname?: string; name?: string }>(request);
+    if (!body.success) return body.response;
 
-    // Verify token
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const { nickname, name } = body.data;
 
-    const userId = payload.userId as string;
-
-    // Parse request body
-    let body;
-    try {
-      body = await request.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      );
-    }
-
-    const { nickname, name } = body;
-
-    // Validate: at least nickname must be provided and non-empty
     if (nickname === undefined && name === undefined) {
       return NextResponse.json(
         { error: 'At least one field (nickname or name) must be provided' },
@@ -105,7 +54,6 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Build update data
     const updateData: Record<string, string> = {};
     if (nickname !== undefined) {
       updateData.nickname = nickname;
@@ -114,14 +62,12 @@ export async function PUT(request: NextRequest) {
       updateData.name = name;
     }
 
-    // Update user profile
     const updatedUser = await prisma.user.update({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
       data: updateData,
     });
 
-    // Return updated user without password_hash
-    const { password_hash, ...userWithoutPassword } = updatedUser as any;
+    const { password_hash, ...userWithoutPassword } = updatedUser;
 
     return NextResponse.json({ user: userWithoutPassword });
   } catch (error) {

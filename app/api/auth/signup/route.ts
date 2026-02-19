@@ -2,22 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/password';
 import { signToken } from '@/lib/auth';
-
-// Email validation regex
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { parseJsonBody, setAuthCookie } from '@/lib/api-helpers';
+import { EMAIL_REGEX, AUTH_TOKEN_EXPIRY } from '@/lib/constants';
 
 export async function POST(request: NextRequest) {
   try {
-    let body;
-    try {
-      body = await request.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid JSON' },
-        { status: 400 }
-      );
-    }
-    const { email, password, passwordConfirm, nickname } = body;
+    const body = await parseJsonBody<{
+      email?: string;
+      password?: string;
+      passwordConfirm?: string;
+      nickname?: string;
+    }>(request);
+    if (!body.success) return body.response;
+
+    const { email, password, passwordConfirm, nickname } = body.data;
 
     // Validate email
     if (!email) {
@@ -93,7 +91,7 @@ export async function POST(request: NextRequest) {
     const token = await signToken({
       userId: user.user_id,
       email: user.email,
-    }, '7d');
+    }, AUTH_TOKEN_EXPIRY);
 
     // Create response with user data (excluding password_hash)
     const response = NextResponse.json(
@@ -106,16 +104,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
 
-    // Set HTTP-only cookie
-    response.cookies.set({
-      name: 'auth-token',
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: '/',
-    });
+    setAuthCookie(response, token);
 
     return response;
   } catch (error) {

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { exchangeCodeForToken, getGoogleUserInfo } from '@/lib/google-oauth';
 import { prisma } from '@/lib/prisma';
 import { signToken } from '@/lib/auth';
+import { setAuthCookie } from '@/lib/api-helpers';
+import { AUTH_TOKEN_EXPIRY } from '@/lib/constants';
 
 export async function GET(request: NextRequest) {
   try {
@@ -52,7 +54,7 @@ export async function GET(request: NextRequest) {
       create: {
         email: userInfo.email,
         nickname: userInfo.name || userInfo.email.split('@')[0],
-        password_hash: null, // Social login users don't have password
+        password_hash: null,
       },
       update: {
         last_active_at: new Date(),
@@ -63,7 +65,7 @@ export async function GET(request: NextRequest) {
     const token = await signToken({
       userId: user.user_id,
       email: user.email,
-    }, '7d');
+    }, AUTH_TOKEN_EXPIRY);
 
     // Determine redirect URL (use state parameter if provided, otherwise /diary)
     let redirectPath = '/diary';
@@ -75,22 +77,12 @@ export async function GET(request: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || request.url;
     const response = NextResponse.redirect(new URL(redirectPath, baseUrl));
 
-    // Set HTTP-only cookie
-    response.cookies.set({
-      name: 'auth-token',
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: '/',
-    });
+    setAuthCookie(response, token);
 
     return response;
   } catch (error) {
     console.error('Google OAuth callback error:', error);
 
-    // Check if it's a configuration error
     if (error instanceof Error && error.message.includes('not configured')) {
       return NextResponse.json(
         { error: 'Google OAuth not configured' },
