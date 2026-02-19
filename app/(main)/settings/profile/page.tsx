@@ -99,7 +99,7 @@ export default function ProfilePage() {
 
       {message && (
         <div
-          className={`mx-4 mt-4 px-4 py-3 rounded-lg text-sm ${
+          className={`mx-4 mt-4 px-4 py-3 rounded-xl text-sm ${
             status === 'success'
               ? 'bg-green-50 text-green-800 border border-green-200'
               : 'bg-red-50 text-red-800 border border-red-200'
