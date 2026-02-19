@@ -1,37 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
+import { authenticateRequest, parseJsonBody } from '@/lib/api-helpers';
 
 const VALID_IDLE_THRESHOLDS = [2592000, 5184000, 7776000, 15552000];
 
 export async function GET(request: NextRequest) {
   try {
-    // Get auth token from cookie
-    const token = request.cookies.get('auth-token')?.value;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    // Verify token
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const userId = payload.userId as string;
-
-    // Fetch user preferences
     const user = await prisma.user.findUnique({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
     });
 
     if (!user) {
@@ -41,11 +20,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { timer_status, timer_idle_threshold_sec } = user as any;
-
     return NextResponse.json({
-      timer_status,
-      timer_idle_threshold_sec,
+      timer_status: user.timer_status,
+      timer_idle_threshold_sec: user.timer_idle_threshold_sec,
     });
   } catch (error) {
     console.error('Get preferences error:', error);
@@ -58,43 +35,14 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    // Get auth token from cookie
-    const token = request.cookies.get('auth-token')?.value;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const body = await parseJsonBody<{ timer_status?: string; timer_idle_threshold_sec?: number }>(request);
+    if (!body.success) return body.response;
 
-    // Verify token
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const { timer_status, timer_idle_threshold_sec } = body.data;
 
-    const userId = payload.userId as string;
-
-    // Parse request body
-    let body;
-    try {
-      body = await request.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      );
-    }
-
-    const { timer_status, timer_idle_threshold_sec } = body;
-
-    // Validate: at least one field must be provided
     if (timer_status === undefined && timer_idle_threshold_sec === undefined) {
       return NextResponse.json(
         { error: 'At least one field (timer_status or timer_idle_threshold_sec) must be provided' },
@@ -102,7 +50,6 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Validate timer_status
     if (timer_status !== undefined) {
       if (!['PAUSED', 'ACTIVE', 'INACTIVE'].includes(timer_status)) {
         return NextResponse.json(
@@ -112,7 +59,6 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    // Validate timer_idle_threshold_sec
     if (timer_idle_threshold_sec !== undefined) {
       if (typeof timer_idle_threshold_sec !== 'number') {
         return NextResponse.json(
@@ -128,10 +74,8 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    // Build update data
     const updateData: Record<string, unknown> = {};
     if (timer_status !== undefined) {
-      // Map API values to DB values
       if (timer_status === 'PAUSED') {
         updateData.timer_status = 'paused';
       } else if (timer_status === 'INACTIVE') {
@@ -144,17 +88,14 @@ export async function PUT(request: NextRequest) {
       updateData.timer_idle_threshold_sec = timer_idle_threshold_sec;
     }
 
-    // Update user preferences
     const updatedUser = await prisma.user.update({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
       data: updateData,
     });
 
-    const { timer_status: updatedStatus, timer_idle_threshold_sec: updatedThreshold } = updatedUser as any;
-
     return NextResponse.json({
-      timer_status: updatedStatus,
-      timer_idle_threshold_sec: updatedThreshold,
+      timer_status: updatedUser.timer_status,
+      timer_idle_threshold_sec: updatedUser.timer_idle_threshold_sec,
     });
   } catch (error) {
     console.error('Update preferences error:', error);

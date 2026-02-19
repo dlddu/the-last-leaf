@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyPassword } from '@/lib/password';
 import { signToken } from '@/lib/auth';
+import { setAuthCookie } from '@/lib/api-helpers';
+import { AUTH_TOKEN_EXPIRY } from '@/lib/constants';
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
     const token = await signToken({
       userId: user.user_id,
       email: user.email,
-    }, '7d');
+    }, AUTH_TOKEN_EXPIRY);
 
     // Update last active timestamp
     await prisma.user.update({
@@ -68,16 +70,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Set HTTP-only cookie
-    response.cookies.set({
-      name: 'auth-token',
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: '/',
-    });
+    setAuthCookie(response, token);
 
     return response;
   } catch (error) {

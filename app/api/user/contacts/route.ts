@@ -1,44 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function isValidEmail(email: unknown): boolean {
-  if (email === null || email === undefined || email === '') {
-    return true; // email is optional
-  }
-  if (typeof email !== 'string') {
-    return false;
-  }
-  return EMAIL_REGEX.test(email);
-}
+import { authenticateRequest, parseJsonBody } from '@/lib/api-helpers';
+import { isValidEmail } from '@/lib/validation';
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
-
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const userId = payload.userId as string;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
     const contacts = await prisma.contact.findMany({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
     });
 
     return NextResponse.json({ contacts });
@@ -53,45 +24,20 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
+    const auth = await authenticateRequest(request);
+    if (!auth.success) return auth.response;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    const body = await parseJsonBody<{ contacts?: unknown }>(request);
+    if (!body.success) return body.response;
 
-    let payload;
-    try {
-      payload = await verifyToken(token);
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const userId = payload.userId as string;
-
-    let body;
-    try {
-      body = await request.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      );
-    }
-
-    if (!Object.prototype.hasOwnProperty.call(body, 'contacts')) {
+    if (!Object.prototype.hasOwnProperty.call(body.data, 'contacts')) {
       return NextResponse.json(
         { error: 'contacts field is required' },
         { status: 400 }
       );
     }
 
-    const { contacts } = body;
+    const { contacts } = body.data;
 
     if (!Array.isArray(contacts)) {
       return NextResponse.json(
@@ -100,7 +46,6 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Validate email format for each contact
     for (const contact of contacts) {
       if (!isValidEmail(contact.email)) {
         return NextResponse.json(
@@ -110,15 +55,13 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    // Delete existing contacts for this user
     await prisma.contact.deleteMany({
-      where: { user_id: userId },
+      where: { user_id: auth.userId },
     });
 
-    // Create new contacts with user_id attached
     const contactsWithUserId = contacts.map(
       (contact: { email?: string | null; phone?: string | null }) => ({
-        user_id: userId,
+        user_id: auth.userId,
         email: contact.email ?? null,
         phone: contact.phone ?? null,
       })
