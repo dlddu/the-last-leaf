@@ -31,3 +31,5 @@ export interface Preferences {
 export type PageStatus = 'loading' | 'idle' | 'saving' | 'success' | 'error';
 
 export type ProfilePageStatus = PageStatus | 'dirty';
+
+export type SaveStatus = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';

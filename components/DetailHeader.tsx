@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import BackButton from '@/components/BackButton';
 
 interface DetailHeaderProps {
   diaryId: string;
@@ -24,26 +25,7 @@ export default function DetailHeader({ diaryId, onDeleteClick }: DetailHeaderPro
       className="fixed top-0 left-0 right-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800"
     >
       <div className="px-4 py-3 flex items-center justify-between">
-        <button
-          onClick={handleBack}
-          aria-label="뒤로 가기"
-          className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
+        <BackButton onClick={handleBack} ariaLabel="뒤로 가기" strokeWidth={1.5} />
 
         <div className="flex items-center gap-2">
           <button

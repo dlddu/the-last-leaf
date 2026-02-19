@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import DiaryCard from './DiaryCard';
+import LoadingDots from './LoadingDots';
 import type { Diary } from '@/lib/types';
 
 interface DiaryCardListProps {
@@ -59,20 +60,9 @@ export default function DiaryCardList({ diaries, onLoadMore, hasMore }: DiaryCar
           data-testid="loading-indicator"
           role="status"
           aria-live="polite"
-          className="flex justify-center items-center gap-1 py-4"
+          className="flex justify-center items-center py-4"
         >
-          <span
-            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
-            style={{ animationDelay: '0s' }}
-          />
-          <span
-            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
-            style={{ animationDelay: '0.1s' }}
-          />
-          <span
-            className="w-2 h-2 bg-gray-300 dark:bg-gray-600 rounded-full animate-bounce"
-            style={{ animationDelay: '0.2s' }}
-          />
+          <LoadingDots />
         </li>
       )}
     </ul>
