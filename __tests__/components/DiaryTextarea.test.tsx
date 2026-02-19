@@ -85,7 +85,7 @@ describe('DiaryTextarea Component', () => {
 
       // Assert
       const textarea = screen.getByRole('textbox')
-      expect(textarea.className).toMatch(/h-full|h-screen|min-h-screen/)
+      expect(textarea.className).toMatch(/h-full|h-screen|min-h-screen|min-h-\[/)
     })
 
     it('should occupy full width', () => {

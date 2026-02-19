@@ -15,7 +15,7 @@ export default function DiaryTextarea({ value, onChange, autoFocus }: DiaryTexta
       placeholder="오늘 하루는 어땠나요?"
       autoFocus={autoFocus}
       aria-label="일기 내용 입력"
-      className="w-full h-full resize-none text-base p-4 focus:outline-none border-none"
+      className="w-full min-h-[60vh] resize-none text-base px-5 py-6 focus:outline-none border-none leading-relaxed placeholder-gray-300"
       style={{ fontSize: '16px' }}
     />
   );

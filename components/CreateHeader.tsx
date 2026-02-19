@@ -30,9 +30,9 @@ export default function CreateHeader({ onSave, onBack, isSaving, disabled }: Cre
   return (
     <header
       role="banner"
-      className="fixed top-0 left-0 right-0 z-10 bg-white border-b border-gray-200"
+      className="fixed top-0 left-0 right-0 z-10 bg-white border-b border-gray-100"
     >
-      <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="px-5 py-3 flex items-center justify-between">
         <button
           onClick={handleBack}
           aria-label="뒤로 가기"
@@ -54,7 +54,7 @@ export default function CreateHeader({ onSave, onBack, isSaving, disabled }: Cre
           </svg>
         </button>
 
-        <div data-testid="diary-date" className="text-lg font-medium text-gray-800">
+        <div data-testid="diary-date" className="text-sm font-medium text-gray-800">
           {formattedDate}
         </div>
 
@@ -62,7 +62,7 @@ export default function CreateHeader({ onSave, onBack, isSaving, disabled }: Cre
           onClick={onSave}
           disabled={isSaving || disabled}
           aria-label={isSaving ? '저장 중...' : '저장'}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="text-indigo-600 font-semibold text-sm disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           {isSaving ? '저장 중...' : '저장'}
         </button>
