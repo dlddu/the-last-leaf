@@ -85,19 +85,17 @@ export function clearAuthCookie(response: NextResponse): void {
   });
 }
 
-type RouteHandler = (
-  request: NextRequest,
-  context?: { params: Promise<Record<string, string>> }
-) => Promise<NextResponse>;
+type AnyRouteHandler = (...args: any[]) => Promise<NextResponse>;
 
 /**
  * Wrap an API route handler with standardized error handling.
  * Catches unhandled errors and returns a 500 response with console logging.
+ * Preserves the original handler's type signature for Next.js route validation.
  */
-export function withErrorHandler(label: string, handler: RouteHandler): RouteHandler {
-  return async (request, context) => {
+export function withErrorHandler<T extends AnyRouteHandler>(label: string, handler: T): T {
+  return (async (...args: any[]) => {
     try {
-      return await handler(request, context);
+      return await handler(...args);
     } catch (error) {
       console.error(`${label}:`, error);
       return NextResponse.json(
@@ -105,7 +103,7 @@ export function withErrorHandler(label: string, handler: RouteHandler): RouteHan
         { status: 500 },
       );
     }
-  };
+  }) as T;
 }
 
 /**

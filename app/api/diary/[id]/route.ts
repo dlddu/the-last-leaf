@@ -4,12 +4,12 @@ import { authenticateRequest, parseJsonBody, withErrorHandler, updateLastActive,
 
 export const PUT = withErrorHandler('Update diary error', async (
   request: NextRequest,
-  context?: { params: Promise<Record<string, string>> }
+  context: { params: Promise<{ id: string }> }
 ) => {
   const auth = await authenticateRequest(request);
   if (!auth.success) return auth.response;
 
-  const { id } = await context!.params;
+  const { id } = await context.params;
 
   const body = await parseJsonBody<{ content?: string }>(request);
   if (!body.success) return body.response;
@@ -37,12 +37,12 @@ export const PUT = withErrorHandler('Update diary error', async (
 
 export const DELETE = withErrorHandler('Delete diary error', async (
   request: NextRequest,
-  context?: { params: Promise<Record<string, string>> }
+  context: { params: Promise<{ id: string }> }
 ) => {
   const auth = await authenticateRequest(request);
   if (!auth.success) return auth.response;
 
-  const { id } = await context!.params;
+  const { id } = await context.params;
 
   const ownership = await requireDiaryOwnership(id, auth.userId);
   if ('response' in ownership) return ownership.response;
@@ -59,12 +59,12 @@ export const DELETE = withErrorHandler('Delete diary error', async (
 
 export const GET = withErrorHandler('Get diary error', async (
   request: NextRequest,
-  context?: { params: Promise<Record<string, string>> }
+  context: { params: Promise<{ id: string }> }
 ) => {
   const auth = await authenticateRequest(request);
   if (!auth.success) return auth.response;
 
-  const { id } = await context!.params;
+  const { id } = await context.params;
 
   const diary = await prisma.diary.findUnique({
     where: {
