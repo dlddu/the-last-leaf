@@ -57,10 +57,7 @@ describe('SettingsClient - Settings Hub Redesign Integration Test', () => {
 
       // Assert
       await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith(
-          '/api/user/profile',
-          expect.objectContaining({ method: 'GET' })
-        )
+        expect(global.fetch).toHaveBeenCalledWith('/api/user/profile')
       })
     })
 

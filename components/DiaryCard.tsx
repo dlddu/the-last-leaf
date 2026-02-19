@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import type { Diary } from '@/lib/types';
+import { formatDate, formatTime } from '@/lib/date-utils';
 
 interface DiaryCardProps {
   diary: Diary;
@@ -9,26 +10,6 @@ interface DiaryCardProps {
 
 export default function DiaryCard({ diary }: DiaryCardProps) {
   const router = useRouter();
-
-  const formatDate = (date: Date) => {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    const weekday = weekdays[d.getDay()];
-    return `${year}년 ${month}월 ${day}일 ${weekday}`;
-  };
-
-  const formatTime = (date: Date) => {
-    const d = new Date(date);
-    const hours = d.getHours();
-    const minutes = d.getMinutes();
-    const period = hours >= 12 ? '오후' : '오전';
-    const displayHours = hours % 12 || 12;
-    const displayMinutes = minutes.toString().padStart(2, '0');
-    return `${period} ${displayHours}:${displayMinutes}`;
-  };
 
   const handleClick = () => {
     router.push(`/diary/${diary.diary_id}`);

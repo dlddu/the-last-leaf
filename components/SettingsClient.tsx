@@ -1,33 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import SettingsHeader from '@/components/SettingsHeader';
 import UserInfoCard from '@/components/UserInfoCard';
 import MenuGroup from '@/components/MenuGroup';
 import MenuItem from '@/components/MenuItem';
 import LogoutButton from '@/components/LogoutButton';
-import type { UserProfile } from '@/lib/types';
 import { API_ENDPOINTS } from '@/lib/api-client';
 import type { UserProfileResponse } from '@/lib/api-client';
+import { useFetch } from '@/hooks/useFetch';
 
 export default function SettingsClient() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch(API_ENDPOINTS.USER_PROFILE, { method: 'GET' });
-        if (response.ok) {
-          const data: UserProfileResponse = await response.json();
-          setProfile(data.user);
-        }
-      } catch (error) {
-        console.error('Failed to fetch profile:', error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+  const { data } = useFetch<UserProfileResponse>(API_ENDPOINTS.USER_PROFILE);
+  const profile = data?.user ?? null;
 
   return (
     <main className="min-h-screen pb-24 bg-gray-50 dark:bg-gray-950">
