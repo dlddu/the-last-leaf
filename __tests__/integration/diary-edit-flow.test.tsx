@@ -331,7 +331,7 @@ describe('Diary Edit Flow - Integration Test', () => {
       fireEvent.change(textarea, { target: { value: mockDiaryData.content + ' updated' } })
 
       const saveButton = screen.getByRole('button', { name: /저장|save/i })
-      user.click(saveButton)
+      await user.click(saveButton)
 
       // Assert - saving 상태가 될 때까지 기다림
       await waitFor(() => {
