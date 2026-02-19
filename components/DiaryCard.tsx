@@ -20,7 +20,9 @@ export default function DiaryCard({ diary }: DiaryCardProps) {
     const year = d.getFullYear();
     const month = d.getMonth() + 1;
     const day = d.getDate();
-    return `${year}년 ${month}월 ${day}일`;
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    const weekday = weekdays[d.getDay()];
+    return `${year}년 ${month}월 ${day}일 ${weekday}`;
   };
 
   const formatTime = (date: Date) => {
