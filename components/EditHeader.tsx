@@ -55,7 +55,7 @@ export default function EditHeader({ onSave, onBack, isSaving, disabled }: EditH
           onClick={onSave}
           disabled={isSaving || disabled}
           aria-label={isSaving ? '저장 중...' : '저장'}
-          className="text-indigo-600 font-semibold text-sm disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          className="text-indigo-600 font-semibold text-sm hover:bg-indigo-50 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           {isSaving ? '저장 중...' : '저장'}
         </button>
