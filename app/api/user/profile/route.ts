@@ -1,25 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { authenticateRequest, parseJsonBody, withErrorHandler } from '@/lib/api-helpers';
+import { authenticateRequest, parseJsonBody, withErrorHandler, requireUser } from '@/lib/api-helpers';
+import { validateProfileInput } from '@/lib/validation';
 
 export const GET = withErrorHandler('Get profile error', async (request: NextRequest) => {
   const auth = await authenticateRequest(request);
   if (!auth.success) return auth.response;
 
-  const user = await prisma.user.findUnique({
-    where: { user_id: auth.userId },
-  });
+  const result = await requireUser(auth.userId);
+  if ('response' in result) return result.response;
 
-  if (!user) {
-    return NextResponse.json(
-      { error: 'User not found' },
-      { status: 404 }
-    );
-  }
-
-  const { password_hash, ...userWithoutPassword } = user;
-
-  return NextResponse.json({ user: userWithoutPassword });
+  return NextResponse.json({ user: result.user });
 });
 
 export const PUT = withErrorHandler('Update profile error', async (request: NextRequest) => {
@@ -29,21 +20,10 @@ export const PUT = withErrorHandler('Update profile error', async (request: Next
   const body = await parseJsonBody<{ nickname?: string; name?: string }>(request);
   if (!body.success) return body.response;
 
+  const validationError = validateProfileInput(body.data);
+  if (validationError) return validationError;
+
   const { nickname, name } = body.data;
-
-  if (nickname === undefined && name === undefined) {
-    return NextResponse.json(
-      { error: 'At least one field (nickname or name) must be provided' },
-      { status: 400 }
-    );
-  }
-
-  if (nickname !== undefined && (typeof nickname !== 'string' || nickname.trim() === '')) {
-    return NextResponse.json(
-      { error: 'Nickname cannot be empty' },
-      { status: 400 }
-    );
-  }
 
   const updateData: Record<string, string> = {};
   if (nickname !== undefined) {

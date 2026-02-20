@@ -3,7 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/password';
 import { signToken } from '@/lib/auth';
 import { parseJsonBody, setAuthCookie, withErrorHandler } from '@/lib/api-helpers';
-import { EMAIL_REGEX, AUTH_TOKEN_EXPIRY, PASSWORD_MIN_LENGTH } from '@/lib/constants';
+import { AUTH_TOKEN_EXPIRY } from '@/lib/constants';
+import { validateSignupInput } from '@/lib/validation';
 
 export const POST = withErrorHandler('Signup error', async (request: NextRequest) => {
   const body = await parseJsonBody<{
@@ -14,49 +15,14 @@ export const POST = withErrorHandler('Signup error', async (request: NextRequest
   }>(request);
   if (!body.success) return body.response;
 
-  const { email, password, passwordConfirm, nickname } = body.data;
+  const validationError = validateSignupInput(body.data);
+  if (validationError) return validationError;
 
-  if (!email) {
-    return NextResponse.json(
-      { error: 'Email is required' },
-      { status: 400 }
-    );
-  }
-
-  if (!EMAIL_REGEX.test(email)) {
-    return NextResponse.json(
-      { error: 'Invalid email format' },
-      { status: 400 }
-    );
-  }
-
-  if (!password) {
-    return NextResponse.json(
-      { error: 'Password is required' },
-      { status: 400 }
-    );
-  }
-
-  if (password.length < PASSWORD_MIN_LENGTH) {
-    return NextResponse.json(
-      { error: `Password must be at least ${PASSWORD_MIN_LENGTH} characters long` },
-      { status: 400 }
-    );
-  }
-
-  if (password !== passwordConfirm) {
-    return NextResponse.json(
-      { error: 'Passwords do not match' },
-      { status: 400 }
-    );
-  }
-
-  if (!nickname || nickname.trim().length === 0) {
-    return NextResponse.json(
-      { error: 'Nickname is required' },
-      { status: 400 }
-    );
-  }
+  const { email, password, nickname } = body.data as {
+    email: string;
+    password: string;
+    nickname: string;
+  };
 
   const existingUser = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
