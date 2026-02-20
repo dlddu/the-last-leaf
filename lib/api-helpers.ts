@@ -86,7 +86,6 @@ export function clearAuthCookie(response: NextResponse): void {
 }
 
 // Next.js route handlers have varying signatures (request only, or request + context).
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RouteHandler = (...args: any[]) => Promise<NextResponse>;
 
 /**
